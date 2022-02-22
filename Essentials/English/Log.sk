@@ -1,0 +1,41 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+# |-> Essentials Update 1.19.9 RELEASE
+
+#  |-> PLUGIN CODE:
+
+on chat:
+	log "[Chat] - (Name of player: %player%) (Message: %message%)" to "Essentials/%player%/Chat.log"
+	stop
+
+on build:
+	log "[Block-Build] - (Name of player: %player%) (Name of block: %event-block%) (Location of block: %location of event-block%) (World of player: %player's world%)" to "Essentials/%player%/Block-Build.log"
+	stop
+
+on break:
+	log "[Block-Break] - (Name of player: %player%) (Name of block: %event-block%) (Location of block: %location of event-block%) (World of player: %player's world%)" to "Essentials/%player%/Block-Break.log"
+	stop
+
+on drop:
+	log "(Name of player: %player%) (Name of item: %event-item%) (Location of player: %location of player%) (World of player: %player's world%)" to "Essentials/%player%/Drop.log"
+	stop
+
+on death:
+	if victim = player:
+		log "[Death] - (Name of entity: %event-entity%) (Location of death: %location of event-entity%) (World of entity: %entity's world%)" to "Essentials/%player%/Death.log"
+		stop
+
+on command:
+	if sender = player:
+		log "[Command] - (Name of player: %player%) (Command: %full command%) (Location of player: %location of player%) (World of player: %player's world%)" to "Essentials/%player%/Command.log"
+		stop
+
+on join:
+	log "[Join] - (Name of player: %player%) (Location of player: %location of player%) (World of player: %player's world%)" to "Essentials/%player%/Join.log"
+	stop
+
+on quit:
+	log "[Quit] - (Name of player: %player%) (Location of player: %location of player%) (World of player: %player's world%)" to "Essentials/%player%/Quit.log"
+	stop

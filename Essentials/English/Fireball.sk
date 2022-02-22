@@ -1,0 +1,50 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+# |-> Essentials Update 1.19.9 RELEASE
+
+#  |-> PLUGIN CODE:
+
+function EssentialsFireballCmdNoArg(s: sender):
+	shoot a fireball from {_s}
+	send "&7[&cEssentials&7] &7You threw a fireball !" to {_s}
+	stop
+
+function EssentialsFireballCmdPlayer(s: sender, p: offline player):
+	if {_s} has permission "essentials.*" or "essentials.fireball.%{_p}%" or "essentials.fireball.*":
+		if {_p} is online:
+			if {_p} = "%{_s}%":
+				send "&4| &cYou cannot your opened fireball yourself !" to {_s}
+				stop
+			else:
+				shoot a fireball from {_p}
+				send "&7[&cEssentials&7] &6You have threw a fireball to the player target block &c%{Essentials.use.nickname.use.%{_p}%.use}% &6!" to {_s}
+				stop
+		else:
+			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+			stop
+	if {_s} doesn't have permission "essentials.*" or "essentials.fireball.%{_p}%" or "essentials.fireball.*":
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+command /fireball [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:fireball
+	description: &fEssentials command /fireball !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsFireballCmdNoArg(player)
+			else:
+				EssentialsFireballCmdPlayer(player, arg 1)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "fireball" or "essentials:fireball":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.fireball":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop

@@ -1,0 +1,50 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+# |-> Essentials Update 1.19.9 RELEASE
+
+#  |-> PLUGIN CODE:
+
+function EssentialsAntiochCmdNoArg(s: sender):
+	spawn 1 primed tnt at the targeted block of {_s}
+	send "&7[&cEssentials&7] &7You have spawn 1 primed tnt to the target block !" to {_s}
+	stop
+
+function EssentialsAntiochCmd(s: sender, p: offline player):
+	if {_s} has permission "essentials.*" or "essentials.antioch.%{_p}%" or "essentials.antioch.*":
+		if {_p} is online:
+			if {_p} = "%{_s}%":
+				send "&4| &cYou cannot spawn 1 primed tnt to your location yourself !" to {_s}
+				stop
+			else:
+				spawn 1 primed tnt at {_p}
+				send "&7[&cEssentials&7] &7You have spawn 1 primed tnt to the player &c%{Essentials.use.nickname.use.%{_p}%.use}% &7!" to {_s}
+				stop
+		else:
+			send "&4| &cYou cannot spawn 1 primed tnt to your location yourself !" to {_s}
+			stop
+	if {_s} doesn't have permission "essentials.*" or "essentials.antioch.%{_p}%" or "essentials.antioch.*":
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+command /antioch [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:antioch, grenade, essentials:grenade, tnt, essentials:tnt
+	description: &fEssentials command /antioch !
+	trigger:
+		if sender is a player:
+			if arg 1 isn't set:
+				EssentialsAntiochCmdNoArg(player)
+			else:
+				EssentialsAntiochCmd(player, arg 1)
+		if sender is console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "tnt" or "essentials:tnt" or "grenade" or "essentials:grenade" or "antioch" or "essentials:antioch":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.antioch":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop

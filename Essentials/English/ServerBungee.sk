@@ -1,0 +1,265 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+# |-> Essentials Update 1.19.9 RELEASE
+
+#  |-> PLUGIN CODE:
+
+function EssentialsServersCmd(s: sender):
+	if {Essentials.use.server.use::*} is set:
+		set {_result.servers} to 0
+		send "" to {_s}
+		send "&c| &6List of servers:" to {_s}
+		send "" to {_s}
+		loop {Essentials.use.server.use::*}:
+			add 1 to {_result.servers} 
+			send "&6Server &7%{_result.servers}%&7: &c%loop-value%" to {_s}
+		stop
+	else:
+		send "&4| &cYou have no server !" to {_s}
+		stop
+
+function EssentialsServerinfoCmd(s: sender, t: text):
+	if {_s} has permission "essentials.*" or "essentials.serverinfo.*" or "essentials.serverinfo.%{_t}%":
+		if {Essentials.use.server.use::%{_t}%} isn't set:
+			send "&4| &cThe server name &6%{_t}% &cdoes not exist !" to {_s}
+			stop
+		else:
+			send "" to {_s}
+			send "&c| &6Informations:&f%nl%%nl%&8| &7Name of server: &c%{Essentials.use.server.use::%{_t}%}%&f%nl%&8| &7Name of creator: &c%{Essentials.use.server.use.creator.use.%{_t}%.use}%&f%nl%&8| &7Date of server for creator: &c%{Essentials.use.server.use.now.use.%{_t}%.use}%" to {_s}
+			stop
+	if {_s} doesn't have permission "essentials.*" or "essentials.serverinfo.*" or "essentials.serverinfo.%{_t}%":
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+function EssentialsDelserverCmd(s: sender, t: text):
+	if {Essentials.use.server.use::%{_t}%} isn't set:
+		send "&4| &cThe server name &6%{_t}% &cdoes not exist !" to {_s}
+		stop
+	else:
+		delete {Essentials.use.server.use.creator.use.%{_t}%.use}
+		delete {Essentials.use.server.use.now.use.%{_t}%.use}
+		delete {Essentials.use.server.use::%{_t}%}
+		send "&7[&cEssentials&7] &7You have deleted to server name &6%{_t}% &7!" to {_s}
+		stop
+
+function EssentialsSetserverCmd(s: sender, t: text):
+	if {Essentials.use.server.use::%{_t}%} isn't set:
+		set {Essentials.use.server.use.creator.use.%{_t}%.use} to {_s}
+		set {Essentials.use.server.use::%{_t}%} to {_t}
+		set {Essentials.use.server.use.now.use.%{_t}%.use} to now
+		send "&7[&cEssentials&7] &7You have created to server name &6%{_t}% &7!" to {_s}
+		stop
+	else:
+		send "&4| &cThe server name &6%{_t}% &cis exist !" to {_s}
+		stop
+
+function EssentialsServerCmdNoArgPlayer(s: sender, t: text):
+	if {_s} has permission "essentials.*" or "essentials.server.*" or "essentials.server.%{_t}%":
+		if {Essentials.use.server.use::%{_t}%} isn't set:
+			send "&4| &cThe server &6%{_t}% &cdoes not exist !" to {_s}
+			stop
+		else:
+			send "&7[&cEssentials&7] &7Connection to the server &c%{_t}% &7in progress..." to {_s}
+			wait 1 tick
+			connect {_s} to {_t}
+			stop
+	if {_s} doesn't have permission "essentials.*" or "essentials.server.*" or "essentials.server.%{_t}%":
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+function EssentialsServerCmd(s: sender, t: text, p: offline player):
+	if {_s} = player:
+		if {_s} has permission "essentials.*" or "essentials.server.*" or "essentials.server.others.%{_p}%" or "essentials.server.others.*":
+			if {Essentials.use.server.use::%{_t}%} isn't set:
+				send "&4| &cThe server &6%{_t}% &cdoes not exist !" to {_s}
+				stop
+			else:
+				if {_p} != "%{_s}%":
+					if {_p} is online:
+						send "&7[&cEssentials&7] &6Connection to the server &c%{_t}% &6in progress by &c%{Essentials.use.nickname.use.%{_s}%.use}% &6!" to {_p}
+						send "&7[&cEssentials&7] &6You have teleported the player &c%{_p}% &6for the server &c%{_t}% &6!" to {_s}
+						wait 1 tick
+						connect {_p} to {_t}
+						stop
+					else:
+						send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+						stop
+				else:
+					send "&4| &cYou cannot your teleport to server yourself !" to {_s}
+					stop
+		if {_s} doesn't have permission "essentials.*" or "essentials.server.*" or "essentials.server.others.%{_p}%" or "essentials.server.others.*":
+			send "&4| &cYou do not have permission to use this command !" to {_s}
+			stop
+	if {_s} = console:
+		if {Essentials.use.server.use::%{_t}%} isn't set:
+			send "&4| &cThe server &6%{_t}% &cdoes not exist !" to {_s}
+			stop
+		else:
+			if {_p} is online:
+				send "&7[&cEssentials&7] &6Connection to the server &c%{_t}% &6in progress by &cConsole &6!" to {_p}
+				send "&7[&cEssentials&7] &6You have teleported the player &c%{_p}% &6for the server &c%{_t}% &6!" to {_s}
+				wait 1 tick
+				connect {_p} to {_t}
+				stop
+			else:
+				send "&4| &cYou cannot your teleport to server yourself !" to {_s}
+				stop
+
+function EssentialsServerHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/server &f[&cname of server&f] &6| &7Teleport to server type !" to {_s}
+	stop
+
+command /servers [<text>]:
+	executable by: player and console
+	aliases: essentials:servers
+	description: &fEssentials command /servers !
+	trigger:
+		if sender = player:
+			EssentialsServersCmd(player)
+		if sender = console:
+			EssentialsServersCmd(console)
+
+on command "servers" or "essentials:servers":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.servers":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /serverinfo [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:serverinfo
+	description: &fEssentials command /serverinfo !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&c| &6Help:" to player
+				send "" to player
+				send "&7| &f/serverinfo &f[&cname of server&f] &6| &7Seen information of server type !" to player
+				stop
+			else:
+				EssentialsServerinfoCmd(player, arg 1)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "serverinfo" or "essentials:serverinfo":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.serverinfo":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /delserver [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:delserver, deleteserver, essentials:deleteserver
+	description: &fEssentials command /delserver !
+	trigger:
+		if sender is a player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&c| &6Help:" to player
+				send "" to player
+				send "&7| &f/delserver &f[&cname of server&f] &6| &7Delete server type !" to player
+				stop
+			else:
+				EssentialsDelserverCmd(player, arg 1)
+		if sender is console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "delserver" or "essentials:delserver":
+	if sender is a player:
+		if player doesn't have permission "essentials.*" or "essentials.delserver":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /setserver [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:setserver, createserver, essentials:createserver
+	description: &fEssentials command /setserver !
+	trigger:
+		if sender is a player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&c| &6Help:" to player
+				send "" to player
+				send "&7| &f/setserver &f[&cname of server&f] &6| &7Create server !" to player
+				stop
+			else:
+				EssentialsSetserverCmd(player, arg 1)
+		if sender is console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "setserver" or "essentials:setserver":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.setserver":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /server [<text>] [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:server
+	description: &fEssentials command /server !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsServerHelpCmd(player)
+			else:
+				if arg 2 isn't set:
+					EssentialsServerCmdNoArgPlayer(player, arg 1)
+				else:
+					EssentialsServerCmd(player, arg 1, arg 2)
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsServerHelpCmd(console)
+			else:
+				if arg 2 isn't set:
+					EssentialsServerHelpCmd(console)
+				else:
+					EssentialsServerCmd(console, arg 1, arg 2)
+
+on command "server" or "essentials:server":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.server":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.server" or "essentials.*":
+		if line 1 = "[server]":
+			if line 2 = line 2:
+				set line 1 of block to ""
+				set line 2 of block to "&1[server]"
+				set line 3 of block to "&1%line 2%"
+				send "&7You have created sign !" to player
+				stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.server" or "essentials.*":
+		if line 2 of block = "&1[server]":
+			if line 3 of block = line 3:
+				EssentialsServerCmdNoArgPlayer(player, line 3)
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.servers" or "essentials.*":
+		if line 1 = "[servers]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[servers]"
+			send "&7[&cEssentials&7] &7You have created sign !" to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.servers" or "essentials.*":
+		if line 2 of block = "&1[servers]":
+			EssentialsServersCmd(player)

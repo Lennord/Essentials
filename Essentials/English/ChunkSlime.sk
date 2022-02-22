@@ -1,0 +1,56 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+# |-> Essentials Update 1.19.9 RELEASE
+
+#  |-> PLUGIN CODE:
+
+function EssentialsChunkslimeCmdNoArg(s: sender):
+	if chunk at {_s} is a slime chunk:
+		send "&7[&cEssentials&7] &7You chunk is chunk slime !" to {_s}
+		stop
+	else:
+		send "&4| &cYou chunk is not chunk slime !" to {_s}
+		stop
+
+function EssentialsChunkslimeCmd(s: sender, p: offline player):
+	if {_s} has permission "essentials.*" or "essentials.chunkslime.%{_p}%" or "essentials.chunkslime.*":
+		if {_p} is online:
+			if {_p} = "%{_s}%":
+				send "&4| &cYou cannot see your chunk slime yourself !" to {_s}
+				stop
+			else:
+				if chunk at {_p} is a slime chunk:
+					send "&7[&cEssentials&7] &6The chunk of the player &c%{Essentials.use.nickname.use.%{_p}%.use}% &6is not chunk slime !" to {_s}
+					stop
+				else:
+					send "&4| &cThe chunk of the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &cis not chunk slime !" to {_s}
+					stop
+		else:
+			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+			stop
+	if {_s} doesn't have permission "essentials.*" or "essentials.chunkslime.%{_p}%" or "essentials.chunkslime.*":
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+command /chunkslime [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:chunkslime
+	description: &fEssentials command /chunkslime !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsChunkslimeCmdNoArg(player)
+			else:
+				EssentialsChunkslimeCmd(player, arg 1)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "chunkslime" or "essentials:chunkslime":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.chunkslime":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop

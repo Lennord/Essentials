@@ -1,0 +1,121 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> Essentials Update 1.19.9 RELEASE
+
+#  |-> PLUGIN CODE:
+
+on load:
+	if {Essentials.use.trash.use.rows.use.numbers.use} isn't set:
+		set {Essentials.use.trash.use.rows.use.numbers.use} to 3
+		stop
+	if {Essentials.use.trash.use.name.use} isn't set:
+		set {Essentials.use.trash.use.name.use} to "&6» &eTrash"
+		stop
+
+function EssentialsTrashCmdOpenMenu(s: sender):
+	set metadata tag "Trash" of {_s} to chest inventory with {Essentials.use.trash.use.rows.use.numbers.use} rows named "%{Essentials.use.trash.use.name.use}%"
+	open (metadata tag "Trash" of {_s}) to {_s}
+
+function EssentialsTrashCmdModifyrows(s: sender, n: number):
+	set {Essentials.use.trash.use.rows.use.numbers.use} to {_n}
+	send "&7[&cEssentials&7] &7You have modifiy rows to the trash" to {_s}
+	stop
+
+function EssentialsTrashCmdModifyname(s: sender, t: text):
+	set {Essentials.use.trash.use.name.use} to {_t}
+	send "&7[&cEssentials&7] &7You have modifiy name to the trash" to {_s}
+	stop
+
+command /trash [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:trash, bin, essentials:bin
+	description: &fEssentials command /trash !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsTrashCmdOpenMenu(player)
+			else:
+				if arg 1 != "modifyrows" or "modifyname" or "resetrows" or "resetname":
+					EssentialsTrashCmdOpenMenu(player)
+				else:
+					if arg 1 = "modifyrows":
+						if player has permission "essentials.*" or "essentials.trash.modifyrows":
+							if arg 2 isn't set:
+								send "" to player
+								send "&c| &6Help:" to player
+								send "" to player
+								send "&7| &f/trash &bmodifyrows &7[&c1 - 6&7] &6| &7Modify rows to the trash !" to player
+								stop
+							else:
+								if arg 2 != "1" or "2" or "3" or "4" or "5" or "6":
+									send "&4| &cYou must enter a number between 1 and 6 !" to player
+									stop
+								else:
+									if arg 2 = "1":
+										EssentialsTrashCmdModifyrows(player, 1)
+									if arg 2 = "2":
+										EssentialsTrashCmdModifyrows(player, 2)
+									if arg 2 = "3":
+										EssentialsTrashCmdModifyrows(player, 3)
+									if arg 2 = "4":
+										EssentialsTrashCmdModifyrows(player, 4)
+									if arg 2 = "5":
+										EssentialsTrashCmdModifyrows(player, 5)
+									if arg 2 = "6":
+										EssentialsTrashCmdModifyrows(player, 6)
+						else:
+							EssentialsTrashCmdOpenMenu(player)
+					if arg 1 = "modifyname":
+						if player has permission "essentials.*" or "essentials.trash.modifyname":
+							if arg 2 isn't set:
+								send "" to player
+								send "&c| &6Help:" to player
+								send "" to player
+								send "&7| &f/trash &bmodifyname &7[&cname&7] &6| &7Modify name to the trash !" to player
+								stop
+							else:	
+								set {_result} to length of arg 2
+								if {_result} >= 40:
+									send "&4| &cYou must enter a maximum of 40 characters !" to player
+									stop
+								else:
+									EssentialsTrashCmdModifyname(player, colored arg 2)
+					if arg 1 = "resetrows":
+						if player has permission "essentials.*" or "essentials.trash.resetrows":
+							set {Essentials.use.trash.use.rows.use.numbers.use} to 3
+							send "&7[&cEssentials&7] &7You have reset rows to the trash" to player
+							stop
+						else:
+							EssentialsTrashCmdOpenMenu(player)
+					if arg 1 = "resetname":
+						if player has permission "essentials.*" or "essentials.trash.resetname":
+							set {Essentials.use.trash.use.name.use} to "&6» &eTrash"
+							send "&7[&cEssentials&7] &7You have reset name to the trash" to player
+							stop
+						else:
+							EssentialsTrashCmdOpenMenu(player)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "bin" or "essentials:bin" or "trash" or "essentials:trash":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.trash":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.trash" or "essentials.*":
+		if line 1 = "[trash]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[trash]"
+			send "&7[&cEssentials&7] &7You have created sign !" to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.trash" or "essentials.*":
+		if line 2 of block = "&1[trash]":
+			EssentialsTrashCmdOpenMenu(player)

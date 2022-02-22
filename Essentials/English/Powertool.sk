@@ -1,0 +1,47 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+# |-> Essentials Update 1.19.9 RELEASE
+
+#  |-> PLUGIN CODE:
+
+command /powertool [<text>]:
+	executable by: player and console
+	aliases: essentials:powertool
+	description: &fEssentials command /powertool !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				if player's tool != air:
+					delete {Essentials.use.powertool.use.%player's uuid%.use::%player's tool%}
+					set tool of player to 1 of player's tool
+					send "&7[&cEssentials&7] &7You have clear all commands for tool !" to player
+					stop
+				else:
+					send "&4| &cYou cannot powertool air !" to player
+					stop
+			else:
+				if player's tool != air:
+					set {Essentials.use.powertool.use.%player's uuid%.use::%player's tool%} to arg 1
+					send "&7[&cEssentials&7] &7You have clear all commands for tool !" to player
+					stop
+				else:
+					send "&4| &cYou cannot powertool air !" to player
+					stop
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "powertool" or "essentials:powertool":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.powertool":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on right click:
+	if {Essentials.use.powertool.use.%player's uuid%.use::%player's tool%} is set:
+		cancel event
+		make player execute command "%{Essentials.use.powertool.use.%player's uuid%.use::%player's tool%}%"
+		stop

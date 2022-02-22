@@ -1,0 +1,15 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+# |-> Essentials Update 1.19.9 RELEASE
+
+#  |-> PLUGIN CODE:
+
+on load:
+	send "&7[&cEssentials&7] &6| &2Enabled" to console
+	stop
+
+on unload:
+	send "&7[&cEssentials&7] &6| &4Disabled" to console
+	stop

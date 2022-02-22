@@ -1,0 +1,63 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+# |-> Essentials Update 1.19.9 RELEASE
+
+#  |-> PLUGIN CODE:
+
+function EssentialsEnderchestCmdPlayerNoArg(s: sender):
+	send "&7[&cEssentials&7] &7You have open your enderchest !" to {_s}
+	open the ender chest of {_s} for {_s}
+	stop
+
+function EssentialsEnderchestCmd(s: sender, p: offline player):
+	if {_s} has permission "essentials.*" or "essentials.enderchest.%{_p}%" or "essentials.enderchest.*":
+		if {_p} is online:
+			if {_p} = "%{_s}%":
+				send "&4| &cYou cannot see your encherchest yourself !" to {_s}
+				stop
+			else:
+				open the ender chest of {_p} for {_s}
+				send "&7[&cEssentials&7] &6You have open enderchest to the player &c%{Essentials.use.nickname.use.%{_p}%.use}% &6!" to {_s}
+				stop
+		else:
+			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+			stop
+	if {_s} doesn't have permission "essentials.*" or "essentials.enderchest.%{_p}%" or "essentials.enderchest.*":
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+command /enderchest [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:enderchest, ec, essentials:ec
+	description: &fEssentials command /enderchest !
+	trigger:
+		if sender = player:
+			if arg 1 is not set:
+				EssentialsEnderchestCmdPlayerNoArg(player)
+			else:
+				EssentialsEnderchestCmd(player, arg 1)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "ec" or "essentials:ec" or "enderchest" or "essentials:enderchest":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.enderchest":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.enderchest" or "essentials.*":
+		if line 1 = "[enderchest]" or "[ec]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[enderchest]"
+			send "&7[&cEssentials&7] &7You have created sign !" to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.enderchest" or "essentials.*":
+		if line 2 of block = "&1[enderchest]":
+			EssentialsEnderchestCmdPlayerNoArg(player)

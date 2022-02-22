@@ -1,0 +1,53 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+# |-> Essentials Update 1.19.9 RELEASE
+
+#  |-> PLUGIN CODE:
+
+function EssentialsRepairCmdNoArg(s: sender):
+	if {_s}'s tool = air:
+		send "&4| &cYou cannot repair air !" to {_s}
+		stop
+	else:
+		repair {_s}'s tool
+		send "&7[&cEssentials&7] &7You have repair your tool !" to {_s}
+		stop
+
+function EssentialsRepairCmdAll(sender: sender):
+	set {Essentials.use.repair.use.all.use.%{_s}'s uuid%.use} to 0
+	repair slot 0 of {_s}
+	repair helmet slot of {_s}		
+	repair chestplate slot of {_s}
+	repair leggings slot of {_s}
+	repair boots slot of {_s}
+	loop 40 times:
+		add 1 to {Essentials.use.repair.use.all.use.%{_s}'s uuid%.use}
+		repair slot {Essentials.use.repair.use.all.use.%{_s}'s uuid%.use} of {_s}
+	send "&7[&cEssentials&7] &7You have repair your all tools !" to {_s}
+	stop
+
+command /repair [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:repair
+	description: &fEssentials command /repair !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsRepairCmdNoArg(player)
+			else:
+				if arg 1 != "all":
+					EssentialsRepairCmdNoArg(player)
+				if arg 1 = "all":
+					EssentialsRepairCmdAll(player)	
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "repair" or "essentials:repair":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.repair":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop

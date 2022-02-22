@@ -1,0 +1,119 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+# |-> Essentials Update 1.19.9 RELEASE
+
+#  |-> PLUGIN CODE:
+
+function EssentialsEditSignCmdClearall(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.clearall":
+		set line 1 of targeted block of {_s} to ""
+		set line 2 of targeted block of {_s} to ""
+		set line 3 of targeted block of {_s} to ""
+		set line 4 of targeted block of {_s} to ""
+		send "&7[&cEssentials&7] &7You have clear the text of all line of the sign !" to {_s}
+		stop
+	if {_s} doesn't have permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.clearall":
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+function EssentialsEditSignHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/editsign &b1&f/&b2&f/&b3&f/&b4 &f[&cmessage&f] &6| &cEdit type line to sign of targeted !" to {_s}
+	send "&7| &f/editsign &bclearall &6| &cClear all lines to sign of targeted !" to {_s}
+	stop
+
+command /editsign [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:editsign
+	description: &fEssentials command /editsign !
+	trigger:
+		if sender = player:
+			if targeted block != sign:
+				send "&4| &cYou targeted no sign !" to player
+				stop
+			else:
+				if arg 1 isn't set:
+					EssentialsEditSignHelpCmd(player)
+				else:
+					if arg 1 != "1" or "2" or "3" or "4" or "clearall":
+						EssentialsEditSignHelpCmd(player)
+					if arg 1 = "1":
+						if player has permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.1" or "essentials.editsign.line.*":
+							if arg 2 isn't set:
+								EssentialsEditSignHelpCmd(player)
+							else:
+								if player has permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.1.color" or "essentials.editsign.line.*":
+									set line 1 of targeted block to colored arg 2
+									send "&7[&cEssentials&7] &7You have modified the text of line 1 of the sign !" to player
+									stop
+								if player doesn't have permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.1.color" or "essentials.editsign.line.*":
+									set line 1 of targeted block to arg 2
+									send "&7[&cEssentials&7] &7You have modified the text of line 1 of the sign !" to player
+									stop
+						if player doesn't have permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.1" or "essentials.editsign.line.*":
+							send "&4| &cYou do not have permission to use this command !" to player
+							stop
+					if arg 1 = "2":
+						if player has permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.2" or "essentials.editsign.line.*":
+							if arg 2 isn't set:
+								EssentialsEditSignHelpCmd(player)
+							else:
+								if player has permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.2.color" or "essentials.editsign.line.*":
+									set line 2 of targeted block to colored arg 2
+									send "&7[&cEssentials&7] &7You have modified the text of line 2 of the sign !" to player
+									stop
+								if player doesn't have permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.2.color" or "essentials.editsign.line.*":
+									set line 2 of targeted block to arg 2
+									send "&7[&cEssentials&7] &7You have modified the text of line 2 of the sign !" to player
+									stop
+						if player doesn't have permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.2" or "essentials.editsign.line.*":
+							send "&4| &cYou do not have permission to use this command !" to player
+							stop
+					if arg 1 = "3":
+						if player has permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.3" or "essentials.editsign.line.*":
+							if arg 2 isn't set:
+								EssentialsEditSignHelpCmd(player)
+							else:
+								if player has permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.3.color" or "essentials.editsign.line.*":
+									set line 3 of targeted block to colored arg 2
+									send "&7[&cEssentials&7] &7You have modified the text of line 3 of the sign !" to player
+									stop
+								if player doesn't have permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.3.color" or "essentials.editsign.line.*":
+									set line 3 of targeted block to arg 2
+									send "&7[&cEssentials&7] &7You have modified the text of line 3 of the sign !" to player
+									stop
+						if player doesn't have permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.3" or "essentials.editsign.line.*":
+							send "&4| &cYou do not have permission to use this command !" to player
+							stop
+					if arg 1 = "4":
+						if player has permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.4" or "essentials.editsign.line.*":
+							if arg 2 isn't set:
+								EssentialsEditSignHelpCmd(player)
+							else:
+								if player has permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.4.color" or "essentials.editsign.line.*":
+									set line 4 of targeted block to colored arg 2
+									send "&7[&cEssentials&7] &7You have modified the text of line 4 of the sign !" to player
+									stop
+								if player doesn't have permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.4.color" or "essentials.editsign.line.*":
+									set line 4 of targeted block to arg 2
+									send "&7[&cEssentials&7] &7You have modified the text of line 4 of the sign !" to player
+									stop
+						if player doesn't have permission "essentials.*" or "essentials.editsign.*" or "essentials.editsign.line.4" or "essentials.editsign.line.*":
+							send "&4| &cYou do not have permission to use this command !" to player
+							stop
+					if arg 1 = "clearall":
+						EssentialsEditSignCmdClearall(player)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "editsign" or "essentials:editsign":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.editsign":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop

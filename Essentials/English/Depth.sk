@@ -1,0 +1,75 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+# |-> Essentials Update 1.19.9 RELEASE
+
+#  |-> PLUGIN CODE:
+
+function EssentialsDepthCmdPlayerNoArg(s: sender):
+	send "&7[&cEssentials&7] &7You are &c%altitude of {_s}% &7above the bedrock !" to {_s}
+	stop
+
+function EssentialsDepthCmd(s: sender, p: offline player):
+	if {_s} = player:
+		if {_s} has permission "essentials.*" or "essentials.depth.%{_p}%" or "essentials.depth.*":
+			if {_p} is online:
+				if {_p} = "%{_s}%":
+					send "&4| &cYou cannot see your altitude yourself !" to {_s}
+					stop
+				else:
+					send "&7[&cEssentials&7] &7The player &c%{Essentials.use.nickname.use.%{_p}%.use}% &7is &c%altitude of {_p}% &7above the bedrock !" to {_s}
+					stop
+			else:
+				send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+				stop
+		else:
+			send "&4| &cYou do not have permission to use this command !" to {_s}
+			stop
+	if {_s} = console:
+		if {_p} is online:
+			send "&7[&cEssentials&7] &7The player &c%{Essentials.use.nickname.use.%{_p}%.use}% &7is &c%altitude of {_p}% &7above the bedrock !" to {_s}
+			stop
+		else:
+			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+			stop
+
+command /depth [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:depth, height, essentials:height
+	description: &fEssentials command /depth !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsDepthCmdPlayerNoArg(player)
+			else:
+				EssentialsDepthCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				send "" to console
+				send "&c| &6Help:" to console
+				send "" to console
+				send "&7| &f/back &f[&cname of player&f] &6| &7Seen altitude of player !" to console
+				stop
+			else:
+				EssentialsDepthCmd(console, arg 1)
+
+on command "height" or "essentials:height" or "depth" or "essentials:depth":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.depth":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.depth" or "essentials.*":
+		if line 1 = "[depth]" or "[height]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[depth]"
+			send "&7[&cEssentials&7] &7You have created sign !" to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.depth" or "essentials.*":
+		if line 2 of block = "&1[depth]":
+			EssentialsDepthCmdPlayerNoArg(player)
