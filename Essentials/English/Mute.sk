@@ -6,10 +6,16 @@
 
 function EssentialsMutelistCmd(s: sender):
 	if {Essentials.use.mute.use.list.use::*} is set:
-		send "&6List of mute: &c%{Essentials.use.mute.use.list.use::*}% &c!" to {_s}
+		set {_result.mute} to 0
+		send "" to {_s}
+		send "&c| &6List of mutes:" to {_s}
+		send "" to {_s}
+		loop {Essentials.use.mute.use.list.use::*}:
+			add 1 to {_result.mute} 
+			send "&6Player &7%{_result.mute}%&7: &c%loop-value%" to {_s}
 		stop
 	else:
-		send "&6List of mute: &cNone !" to {_s}
+		send "&4| &cYou have no player mute !" to {_s}
 		stop
 
 function EssentialsUnmuteCmd(s: sender, p: offline player):
@@ -40,6 +46,8 @@ function EssentialsTempmuteCmd(s: sender, p: offline player, t: text, arg3: time
 	if {_s} = player:
 		if {Essentials.use.mute.use.list.use::%{_p}%} isn't set:
 			send "&7[&cEssentials&7] &cYou have tempmute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			play sound "entity.experience_orb.pickup" with volume 0.5 to {_p}
+			send title "&c&lWARNING !" with subtitle "&cYou have been muted" to {_p} for 5 seconds
 			send "&7[&cEssentials&7] &cYou have mute by &6%{Essentials.use.nickname.use.%{_s}%.use}% &c!" to {_p}
 			set {Essentials.use.mute.use.list.use::%{_p}'s uuid%} to {_p}
 			set {Essentials.use.mute.use.now.use.%{_p}'s uuid%.use} to now
@@ -51,6 +59,8 @@ function EssentialsTempmuteCmd(s: sender, p: offline player, t: text, arg3: time
 	if {_s} = console:
 		if {Essentials.use.mute.use.list.use::%{_p}'s uuid%} isn't set:
 			send "&7[&cEssentials&7] &cYou have tempmute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			play sound "entity.experience_orb.pickup" with volume 0.5 to {_p}
+			send title "&c&lWARNING !" with subtitle "&cYou have been muted" to {_p} for 5 seconds
 			send "&7[&cEssentials&7] &cYou have mute by &6Console &c!" to {_p}
 			set {Essentials.use.mute.use.list.use::%{_p}'s uuid%} to {_p}
 			set {Essentials.use.mute.use.now.use.%{_p}'s uuid%.use} to now
@@ -69,6 +79,8 @@ function EssentialsMuteCmd(s: sender, p: offline player, t: text):
 			else:
 				if {Essentials.use.mute.use.list.use::%{_p}'s uuid%} isn't set:
 					send "&cYou have mute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+					play sound "entity.experience_orb.pickup" with volume 0.5 to {_p}
+					send title "&c&lWARNING !" with subtitle "&cYou have been muted" to {_p} for 5 seconds
 					send "&7[&cEssentials&7] &cYou have mute by &6%{Essentials.use.nickname.use.%{_s}%.use}% &c!" to {_p}
 					set {Essentials.use.mute.use.list.use::%{_p}'s uuid%} to {_p}
 					delete {Essentials.use.mute.use.now.use.%{_p}'s uuid%.use}
@@ -84,6 +96,8 @@ function EssentialsMuteCmd(s: sender, p: offline player, t: text):
 		if {_p} is online:
 			if {Essentials.use.mute.use.list.use::%{_p}'s uuid%} isn't set:
 				send "&cYou have mute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+				play sound "entity.experience_orb.pickup" with volume 0.5 to {_p}
+				send title "&c&lWARNING !" with subtitle "&cYou have been muted" to {_p} for 5 seconds
 				send "&7[&cEssentials&7] &cYou have mute by &6Console &c!" to {_p}
 				set {Essentials.use.mute.use.list.use::%{_p}'s uuid%} to {_p}
 				delete {Essentials.use.mute.use.now.use.%{_p}'s uuid%.use}
@@ -96,26 +110,19 @@ function EssentialsMuteCmd(s: sender, p: offline player, t: text):
 			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
 			stop
 
-function EssentialsUmuteHelpCmd(s: sender):
+function EssentialsMuteSystemHelpCmd(s: sender, typemute: text):
 	send "" to {_s}
 	send "&c| &6Help:" to {_s}
 	send "" to {_s}
-	send "&7| &f/unmute &f[&cname of player&f] &6| &7Unmute player !" to {_s}
-	stop
-
-function EssentialsTempmuteHelpCmd(s: sender):
-	send "" to {_s}
-	send "&c| &6Help:" to {_s}
-	send "" to {_s}
-	send "&7| &f/tempmute &f[&cname of player&f] &f[&creason&f] &f[&cnumber of time for mute&f] &6| &7Mute temporarily player !" to {_s}
-	stop
-
-function EssentialsMuteHelpCmd(s: sender):
-	send "" to {_s}
-	send "&c| &6Help:" to {_s}
-	send "" to {_s}
-	send "&7| &f/mute &f[&cname of player&f] &f[&creason&f] &6| &7Mute player !" to {_s}
-	stop
+	if {_typemute} = "Unmute":
+		send "&7| &f/unmute &f[&cname of player&f] &6| &7Unmute player !" to {_s}
+		stop
+	if {_typemute} = "Tempmute":
+		send "&7| &f/tempmute &f[&cname of player&f] &f[&creason&f] &f[&cnumber of time for mute&f] &6| &7Mute temporarily player !" to {_s}
+		stop
+	if {_typemute} = "Mute":
+		send "&7| &f/mute &f[&cname of player&f] &f[&creason&f] &6| &7Mute player !" to {_s}
+		stop
 
 command /mutelist [<text>]:
 	executable by: player and console
@@ -141,12 +148,12 @@ command /unmute [<offline player>] [<text>]:
 	trigger:
 		if sender = player:
 			if arg 1 isn't set:
-				EssentialsUmuteHelpCmd(player)
+				EssentialsMuteSystemHelpCmd(player, "Unmute")
 			else:
 				EssentialsUnmuteCmd(player, arg 1)
 		if sender = console:
 			if arg 1 isn't set:
-				EssentialsUmuteHelpCmd(console)
+				EssentialsMuteSystemHelpCmd(console, "Unmute")
 			else:
 				EssentialsUnmuteCmd(console, arg 1)
 
@@ -164,7 +171,7 @@ command /tempmute [<offline player>] [<text>] [<timespan>]:
 	trigger:
 		if sender = player:
 			if arg 1 isn't set:
-				EssentialsTempmuteHelpCmd(player)
+				EssentialsMuteSystemHelpCmd(player, "Tempmute")
 			else:
 				if arg 1 is online:
 					if arg 1 = "%player%":
@@ -172,10 +179,10 @@ command /tempmute [<offline player>] [<text>] [<timespan>]:
 						stop
 					else:
 						if arg 2 isn't set:
-							EssentialsTempmuteHelpCmd(player)
+							EssentialsMuteSystemHelpCmd(player, "Tempmute")
 						else:
 							if arg 3 isn't set:
-								EssentialsTempmuteHelpCmd(player)
+								EssentialsMuteSystemHelpCmd(player, "Tempmute")
 							else:
 								EssentialsTempmuteCmd(player, arg 1, arg 2, arg 3)
 				else:
@@ -183,14 +190,14 @@ command /tempmute [<offline player>] [<text>] [<timespan>]:
 					stop
 		if sender = console:
 			if arg 1 isn't set:
-				EssentialsTempmuteHelpCmd(console)
+				EssentialsMuteSystemHelpCmd(console, "Tempmute")
 			else:
 				if arg 1 is online:
 					if arg 2 isn't set:
-						EssentialsTempmuteHelpCmd(console)
+						EssentialsMuteSystemHelpCmd(console, "Tempmute")
 					else:
 						if arg 3 isn't set:
-							EssentialsTempmuteHelpCmd(console)
+							EssentialsMuteSystemHelpCmd(console, "Tempmute")
 						else:
 							EssentialsTempmuteCmd(console, arg 1, arg 2, arg 3)
 				else:
@@ -211,18 +218,18 @@ command /mute [<offline player>] [<text>]:
 	trigger:
 		if sender = player:
 			if arg 1 isn't set:
-				EssentialsMuteHelpCmd(player)
+				EssentialsMuteSystemHelpCmd(player, "mute")
 			else:
 				if arg 2 isn't set:
-					EssentialsMuteHelpCmd(player)
+					EssentialsMuteSystemHelpCmd(player, "mute")
 				else:
 					EssentialsMuteCmd(player, arg 1, arg 2)
 		if sender = console:
 			if arg 1 isn't set:
-				EssentialsMuteHelpCmd(console)
+				EssentialsMuteSystemHelpCmd(console, "mute")
 			else:
 				if arg 2 isn't set:
-					EssentialsMuteHelpCmd(console)
+					EssentialsMuteSystemHelpCmd(console, "mute")
 				else:
 					EssentialsMuteCmd(console, arg 1, arg 2)
 
