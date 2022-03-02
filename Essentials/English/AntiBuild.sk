@@ -6,14 +6,14 @@
 
 on build:
 	if player doesn't have permission "essentials.*" or "essentials.antibuild.bypass":
-		if block is tnt or lava:
+		if block = tnt or lava:
 			cancel event
 			send "&4| &cYou cannot place a block !" to player
 			stop
 
 on break:
 	if player doesn't have permission "essentials.*" or "essentials.antibuild.bypass":
-		if block is tnt or lava:
+		if block = tnt or lava:
 			cancel event
 			send "&4| &cYou cannot destroy a block !" to player
 			stop
