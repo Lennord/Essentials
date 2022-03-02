@@ -66,6 +66,7 @@ function EssentialsChatHelpCmd(s: sender):
 	send "&7| &f/chat &bclear &6| &7Clear Chat !" to {_s}
 	send "&7| &f/chat &benable&f/&bon &6| &7Enable Chat !" to {_s}
 	send "&7| &f/chat &bdisable&f/&boff &6| &7Disable Chat !" to {_s}
+	send "&7| &f/chat &btoggle &6| &7Enable or Disable Chat !" to {_s}
 	stop
 
 command /chat [<text>] [<text>]:
