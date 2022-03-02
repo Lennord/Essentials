@@ -8,10 +8,12 @@ function EssentialsMaintenanceCmdEnable(s: sender):
 	if {_s} = player:
 		if {_s} has permission "essentials.*" or "essentials.maintenance.*" or "essentials.maintenance.enable":
 			if {Essentials.use.maintenance.use} isn't set:
-				kick all players because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server !%nl%%nl%&7Reason: &cMaintenance%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
-				send "&7[&cEssentials&7] &6You have enabled the maintenance to server !" to {_s}
-				set {Essentials.use.maintenance.use} to true
-				stop
+				loop all players:
+					if loop-player doesn't have permission "essentials.*" or "essentials.maintenance.bypass":
+						kick loop-player because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server !%nl%%nl%&7Reason: &cMaintenance%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
+						send "&7[&cEssentials&7] &6You have enabled the maintenance to server !" to {_s}
+						set {Essentials.use.maintenance.use} to true
+						stop
 			else:
 				send "&4| &cYou have already enabled the maintenance to server !" to {_s}
 				stop
@@ -20,7 +22,9 @@ function EssentialsMaintenanceCmdEnable(s: sender):
 			stop
 	if {_s} = console:
 		if {Essentials.use.maintenance.use} isn't set:
-			kick all players because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server !%nl%%nl%&7Reason: &cMaintenance%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
+			loop all players:
+				if loop-player doesn't have permission "essentials.*" or "essentials.maintenance.bypass":
+					kick loop-player because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server !%nl%%nl%&7Reason: &cMaintenance%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
 			send "&7[&cEssentials&7] &6You have enabled the maintenance to server !" to {_s}
 			set {Essentials.use.maintenance.use} to true
 			stop
@@ -50,12 +54,43 @@ function EssentialsMaintenanceCmdDisable(s: sender):
 			delete {Essentials.use.maintenance.use}
 			stop
 
+function EssentialsMaintenanceCmdToggle(s: sender):
+	if {_s} = player:
+		if {_s} has permission "essentials.*" or "essentials.maintenance.*" or "essentials.maintenance.disable":
+			if {Essentials.use.maintenance.use} isn't set:
+				loop all players:
+					if loop-player doesn't have permission "essentials.*" or "essentials.maintenance.bypass":
+						kick loop-player because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server !%nl%%nl%&7Reason: &cMaintenance%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
+				send "&7[&cEssentials&7] &6You have enabled the maintenance to server !" to {_s}
+				set {Essentials.use.maintenance.use} to true
+				stop
+			else:
+				send "&7[&cEssentials&7] &6You have disabled the maintenance to server !" to {_s}
+				delete {Essentials.use.maintenance.use}
+				stop
+		else:
+			send "&4| &cYou do not have permission to use this command !" to {_s}
+			stop
+	if {_s} = console:
+		if {Essentials.use.maintenance.use} isn't set:
+			loop all players:
+				if loop-player doesn't have permission "essentials.*" or "essentials.maintenance.bypass":
+					kick loop-player because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server !%nl%%nl%&7Reason: &cMaintenance%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
+					send "&7[&cEssentials&7] &6You have enabled the maintenance to server !" to {_s}
+					set {Essentials.use.maintenance.use} to true
+					stop
+		else:
+			send "&7[&cEssentials&7] &6You have disabled the maintenance to server !" to {_s}
+			delete {Essentials.use.maintenance.use}
+			stop
+
 function EssentialsMaintenanceHelpCmd(s: sender):
 	send "" to {_s}
 	send "&c| &6Help:" to {_s}
 	send "" to {_s}
 	send "&7| &f/maintenance &bEnable&f/&bon &6| &7Enable maintenance !" to {_s}
 	send "&7| &f/maintenance &bDisable&f/&boff &6| &7Disable maintenance !" to {_s}
+	send "&7| &f/maintenance &bToggle &6| &7Enable or Disable maintenance !" to {_s}
 	stop
 
 command /maintenance [<text>] [<text>]:
@@ -67,22 +102,26 @@ command /maintenance [<text>] [<text>]:
 			if arg 1 isn't set:
 				EssentialsMaintenanceHelpCmd(player)
 			else:
-				if arg 1 != "enable" or "disable" or "on" or "off":
+				if arg 1 != "enable" or "disable" or "on" or "off" or "toggle":
 					EssentialsMaintenanceHelpCmd(player)
 				if arg 1 = "enable" or "on":
 					EssentialsMaintenanceCmdEnable(player)
 				if arg 1 = "disable" or "off":
 					EssentialsMaintenanceCmdDisable(player)
+				if arg 1 = "toggle":
+					EssentialsMaintenanceCmdToggle(player)
 		if sender is console:
 			if arg 1 isn't set:
 				EssentialsMaintenanceHelpCmd(player)
 			else:
-				if arg 1 != "enable" or "disable" or "on" or "off":
+				if arg 1 != "enable" or "disable" or "on" or "off" or "toggle":
 					EssentialsMaintenanceHelpCmd(console)
 				if arg 1 = "enable" or "on":
 					EssentialsMaintenanceCmdEnable(console)
 				if arg 1 = "disable" or "off":
 					EssentialsMaintenanceCmdDisable(console)
+				if arg 1 = "toggle":
+					EssentialsMaintenanceCmdToggle(console)
 
 on command "maintenance" or "essentials:maintenance":
 	if sender = player:
