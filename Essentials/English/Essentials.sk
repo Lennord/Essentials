@@ -11,7 +11,7 @@ function EssentialsEssentialsCmdReload(s: sender):
 
 function EssentialsEssentialsCmdInfo(s: sender):
 	send "" to {_s}
-	send "&c| &6Informations:&f%nl%%nl%&8| &7Name of plugin&6: &cEssentials &7(&cSkript&7)&f%nl%&8| &7Creator of plugin&6: &cAlexisl315 &7(Aliases: &cLennord&7)&f%nl%&8| &7Version of plugin&6: &c1.19.9 RELEASE&f%nl%&8| &7Support version&6: &c1.18.1&f%nl%&8| &7Plugins required&6: &cSkript &7and &cSkungee &7(for &cBungeecord&7)" to {_s}
+	send "&c| &6Informations:&f%nl%%nl%&8| &7Name of plugin&6: &cEssentials &7(&cSkript&7)&f%nl%&8| &7Description of plugin&6: &cEssentials is a skript plugin that allows you to redo the Java plugin from A to Z but in script with improvements and new features.&f%nl%&8| &7Creator of plugin&6: &cAlexisl315 &7(Aliases: &cLennord&7)&f%nl%&8| &7Version of plugin&6: &c1.19.9 RELEASE&f%nl%&8| &7Support version&6: &c1.18.1&f%nl%&8| &7Plugins required&6: &cSkript &7and &cSkungee &7(for &cBungeecord&7)" to {_s}
 	stop
 
 function EssentialsEssentialsHelpCmd(s: sender):
@@ -36,13 +36,13 @@ command /essentials [<text>] [<text>]:
 				if arg 1 = "reload":
 					if player has permission "essentials.*" or "essentials.essentials.reload" or "essentials.essentials.*":
 						EssentialsEssentialsCmdReload(player)
-					if player doesn't have permission "essentials.*" or "essentials.essentials.reload" or "essentials.essentials.*":
+					else:
 						send "&4| &cYou do not have permission to use this command !" to player
 						stop
 				if arg 1 = "info":
 					if player has permission "essentials.*" or "essentials.essentials.info" or "essentials.essentials.*":
 						EssentialsEssentialsCmdInfo(player)
-					if player doesn't have permission "essentials.*" or "essentials.essentials.info" or "essentials.essentials.*":
+					else:
 						send "&4| &cYou do not have permission to use this command !" to player
 						stop
 		if sender = console:
