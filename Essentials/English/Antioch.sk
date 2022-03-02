@@ -22,7 +22,7 @@ function EssentialsAntiochCmd(s: sender, p: offline player):
 		else:
 			send "&4| &cYou cannot spawn 1 primed tnt to your location yourself !" to {_s}
 			stop
-	if {_s} doesn't have permission "essentials.*" or "essentials.antioch.%{_p}%" or "essentials.antioch.*":
+	else:
 		send "&4| &cYou do not have permission to use this command !" to {_s}
 		stop
 
@@ -31,12 +31,12 @@ command /antioch [<offline player>] [<text>]:
 	aliases: essentials:antioch, grenade, essentials:grenade, tnt, essentials:tnt
 	description: &fEssentials command /antioch !
 	trigger:
-		if sender is a player:
+		if sender = player:
 			if arg 1 isn't set:
 				EssentialsAntiochCmdNoArg(player)
 			else:
 				EssentialsAntiochCmd(player, arg 1)
-		if sender is console:
+		if sender = console:
 			send "&4| &cYou must be a player to use this command !" to console
 			stop
 
