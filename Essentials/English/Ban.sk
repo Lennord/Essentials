@@ -14,10 +14,16 @@ function EssentialsBaniplistCmd(s: sender):
 
 function EssentialsBanlistCmd(s: sender):
 	if {Essentials.use.ban.use.list.use::*} is set:
-		send "&6List of ban: &c%{Essentials.use.ban.use.list.use::*}% &c!" to {_s}
+		set {_result.ban} to 0
+		send "" to {_s}
+		send "&c| &6List of ban:" to {_s}
+		send "" to {_s}
+		loop {Essentials.use.ban.use.list.use::*}:
+			add 1 to {_result.ban} 
+			send "&6Player &7%{_result.ban}%&7: &c%loop-value%" to {_s}
 		stop
 	else:
-		send "&6List of ban: &cNone !" to {_s}
+		send "&4| &cYou have no player's banned !" to {_s}
 		stop
 
 function EssentialsTempbanCmd(s: sender, p: offline player, r: text, t: timespan):
@@ -82,7 +88,7 @@ function EssentialsUnbanCmd(s: sender, p: offline player):
 		delete {Essentials.use.ban.use.%{_p}'s uuid%.use.reason.use}
 		delete {Essentials.use.ban.use.list.use::%{_p}'s uuid%}
 		wait 1 tick
-		send "&7[&cEssentials&7] &6You haveun ban the player &c%{_p}% &6!" to {_s}
+		send "&7[&cEssentials&7] &6You have unban the player &c%{_p}% &6!" to {_s}
 		stop
 	if {Essentials.use.ban.use.%{_p}'s uuid%.use} and {Essentials.use.tempban.use.%{_p}'s uuid%.use} isn't set:
 		send "&4| &cYou have already unban the player &6%{_p}% &c!" to {_s}
@@ -366,13 +372,13 @@ on join:
 on join:
 	if {Essentials.use.banip.use.%player's uuid%.use} is set:
 		wait 1 tick
-		kick player due to " &c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been ban life from the server !%nl%%nl%&7Reason: &c%{Essentials.use.banip.use.%{_p}'s uuid%.use.reason.use}%%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
+		kick player due to " &c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been ban life from the server !%nl%%nl%&7Reason: &c%{Essentials.use.banip.use.%player's uuid%.use.reason.use}%%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
 		stop
 
 on join:
 	if {Essentials.use.ban.use.%player's uuid%.use} is set:
 		wait 1 tick
-		kick player due to "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been ban from the server !%nl%%nl%&7Reason: &c%{Essentials.use.ban.use.%{_p}'s uuid%.use.reason.use}%%nl%%nl%&c-_-_-_-_- &fServer Infos "
+		kick player due to "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been ban from the server !%nl%%nl%&7Reason: &c%{Essentials.use.ban.use.%player's uuid%.use.reason.use}%%nl%%nl%&c-_-_-_-_- &fServer Infos "
 		stop
 
 on connect:
