@@ -37,6 +37,24 @@ function EssentialsChatCmdDisable(s: sender):
 			broadcast "&7[&cEssentials&7] &6The chat has been disable by &cConsole &6!"
 		stop
 
+function EssentialsChatCmdToggle(s: sender):
+	if {Essentials.use.chat.use.allplayers.use} is not set:
+		set {Essentials.use.chat.use.allplayers.use} to true
+		send "&6You have enable to chat !" to {_s}
+		if {_s} = player:
+			broadcast "&7[&cEssentials&7] &6The chat has been enable by &c%{Essentials.use.nickname.use.%{_s}%.use}% &6!"
+		if {_s} = console:
+			broadcast "&7[&cEssentials&7] &6The chat has been enable by &cConsole &6!"
+		stop
+	else:
+		delete {Essentials.use.chat.use.allplayers.use}
+		send "&6You have disable to chat !" to {_s}
+		if {_s} = player:
+			broadcast "&7[&cEssentials&7] &6The chat has been disable by &c%{Essentials.use.nickname.use.%{_s}%.use}% &6!"
+		if {_s} = console:
+			broadcast "&7[&cEssentials&7] &6The chat has been disable by &cConsole &6!"
+		stop
+
 on load:
 	delete {Essentials.use.chat.use.allplayers.use}
 	stop
@@ -59,7 +77,7 @@ command /chat [<text>] [<text>]:
 			if arg 1 isn't set:
 				EssentialsChatHelpCmd(player)
 			else:
-				if arg 1 != "clear" or "enable" or "disable" or "on" or "off":
+				if arg 1 != "clear" or "enable" or "disable" or "on" or "off" or "toggle":
 					EssentialsChatHelpCmd(player)
 				if arg 1 = "clear":
 					if player has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.clear":
@@ -79,11 +97,17 @@ command /chat [<text>] [<text>]:
 					if player doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.disable":
 						send "&4| &cYou do not have permission to use this command !" to player
 						stop
+				if arg 1 = "toggle":
+					if player has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.toggle":
+						EssentialsChatCmdToggle(player)
+					if player doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.toggle":
+						send "&4| &cYou do not have permission to use this command !" to player
+						stop
 		if sender = console:
 			if arg 1 isn't set:
 				EssentialsChatHelpCmd(console)
 			else:
-				if arg 1 != "clear" or "enable" or "disable" or "on" or "off":
+				if arg 1 != "clear" or "enable" or "disable" or "on" or "off" or "toggle":
 					EssentialsChatHelpCmd(console)
 				if arg 1 = "clear":
 					EssentialsChatCmdClear(console)
@@ -91,6 +115,8 @@ command /chat [<text>] [<text>]:
 					EssentialsChatCmdDisable(console)
 				if arg 1 = "enable" or "on":
 					EssentialsChatCmdEnable(console)
+				if arg 1 = "toggle":
+					EssentialsChatCmdToggle(console)
 
 on command "chat" or "essentials:chat":
 	if sender = player:
