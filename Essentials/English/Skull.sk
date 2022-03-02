@@ -1,0 +1,39 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsSkullCmd(s: sender, p: offline player):
+	if {_s} has permission "essentials.*" or "essentials.skull.%{_p}%" or "essentials.skull.*":
+		give skull of {_p} to {_s}
+		send "&7[&cEssentials&7] &7You have give head of &c%{_p}% &7!" to {_s}
+		stop
+	else:
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+command /skull [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:skull, head, essentials:head, playerhead, essentials:playerhead
+	description: &fEssentials command /skull !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&c| &6Help:" to player
+				send "" to player
+				send "&7| &f/skull &f[&cname of player type&f] &6| &7Give of player skull !" to player
+				stop
+			else:
+				EssentialsSkullCmd(player, arg 1)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "head" or "essentials:head" or "playerhead" or "essentials:playerhead" or "skull" or "essentials:skull":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.skull":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop

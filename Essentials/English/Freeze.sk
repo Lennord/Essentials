@@ -1,0 +1,183 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsFreezeCmd(s: sender, p: offline player, r: text):
+	if {Essentials.use.freeze.use.%{_p}'s uuid%.use} isn't set:
+		set {Essentials.use.freeze.use.%{_p}'s uuid%.use} to true
+		set {Essentials.use.freeze.use.list.use::%{_p}'s uuid%} to {_p}
+		send "&7[&cEssentials&7] &6You have enabled freeze mode to the player &c%{Essentials.use.nickname.use.%{_p}%.use}% &6for &c%{_r}% &6!" to {_s}
+		if {_s} is a player:
+			send "&7[&cEssentials&7] &6You freeze mode enabled by &c%{Essentials.use.nickname.use.%{_s}%.use}% &6for &c%{_r}% &6!" to {_p}
+		if {_s} is console:
+			send "&7[&cEssentials&7] &6You freeze mode enabled by &cConsole &6for &c%{_r}% &6!" to {_p}
+		stop
+	else:
+		delete {Essentials.use.freeze.use.%{_p}'s uuid%.use}
+		delete {Essentials.use.freeze.use.list.use::%{_p}'s uuid%}
+		send "&7[&cEssentials&7] &6You have disabled freeze mode to the player &c%{Essentials.use.nickname.use.%{_p}%.use}% &6!" to {_s}
+		if {_s} is a player:
+			send "&7[&cEssentials&7] &6You freeze mode disable by &c%{Essentials.use.nickname.use.%{_s}%.use}% &6!" to {_p}
+		if {_s} is console:
+			send "&7[&cEssentials&7] &6You freeze mode disable by &cConsole &6!" to {_p}
+		stop
+
+function EssentialsFreezelistCmd(s: sender):
+	if {Essentials.use.freeze.use.list.use::*} is set:
+		send "&6List of freeze: &c%{Essentials.use.freeze.use.list.use::*}% &c!" to {_s}
+		stop
+		set {_result.freezelist} to 0
+		send "" to {_s}
+		send "&c| &6List of freezelist:" to {_s}
+		send "" to {_s}
+		loop {Essentials.use.freeze.use.list.use::*}:
+			add 1 to {_result.freezelist} 
+			send "&6Player &7%{_result.freezelist}%&7: &c%loop-value%" to {_s}
+		stop
+	else:
+		send "&4| &cYou have no player freeze !" to {_s}
+		stop
+
+function EssentialsFreezeHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/freeze &f[&cname of player&f] &f[&creason&f] &6| &7Freeze/Unfreeze player !" to {_s}
+	stop
+
+command /freezelist [<text>]:
+	executable by: player and console
+	aliases: essentials:freezelist
+	description: &fEssentials command /freezelist !
+	trigger:
+		if sender is a player:
+			EssentialsFreezelistCmd(player)
+		if sender is console:
+			EssentialsFreezelistCmd(console)
+
+on command "freezelist" or "essentials:freezelist":
+	if sender is a player:
+		if player doesn't have permission "essentials.*" or "essentials.freezelist":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /freeze [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:freeze
+	description: &fEssentials command /freeze !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsFreezeHelpCmd(player)
+			else:
+				if arg 1 is online:
+					if arg 1 = "%player%":
+						send "&4| &cYou cannot freeze yourself !" to player
+						stop
+					else:
+						if arg 2 isn't set:
+							EssentialsFreezeHelpCmd(player)
+						else:
+							EssentialsFreezeCmd(player, arg 1, arg 2)
+				else:
+					send "&4| &cYou must put the name of a player connected to the server !" to player
+					stop
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsFreezeHelpCmd(console)
+			else:
+				if arg 1 is online:
+					if arg 2 isn't set:
+						EssentialsFreezeHelpCmd(console)
+					else:
+						EssentialsFreezeCmd(console, arg 1, arg 2)
+				else:
+					send "&4| &cYou must put the name of a player connected to the server !" to console
+					stop
+
+on command "freeze" or "essentials:freeze":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.freeze":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on build:
+	if player has permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			delete {Essentials.use.freeze.use.%player's uuid%.use}
+			stop
+	if player doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			cancel event
+			stop
+
+on inventory click:
+	if player has permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			delete {Essentials.use.freeze.use.%player's uuid%.use}
+			stop
+	if player doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			cancel event
+			stop
+
+on player move:
+	if player has permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			delete {Essentials.use.freeze.use.%player's uuid%.use}
+			stop
+	if player doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			cancel event
+			stop
+
+on break:
+	if player has permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			delete {Essentials.use.freeze.use.%player's uuid%.use}
+			stop
+	if player doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			cancel event
+			stop
+
+on drop:
+	if player has permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			delete {Essentials.use.freeze.use.%player's uuid%.use}
+			stop
+	if player doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			cancel event
+			stop
+
+on damage:
+	if victim is a player:
+		if victim has permission "essentials.*" or "essentials.freeze.bypass":
+			if {Essentials.use.freeze.use.%victim's uuid%.use} is set:
+				delete {Essentials.use.freeze.use.%victim's uuid%.use}
+				stop
+		if victim doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+			if {Essentials.use.freeze.use.%victim's uuid%.use} is set:
+				cancel event
+				stop
+
+on click:
+	if player has permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			delete {Essentials.use.freeze.use.%player's uuid%.use}
+			stop
+	if player doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			cancel event
+			stop
+
+on join:
+	if player has permission "essentials.*" or "essentials.freeze.bypass":
+		if {Essentials.use.freeze.use.%player's uuid%.use} is set:
+			delete {Essentials.use.freeze.use.%player's uuid%.use}
+			stop

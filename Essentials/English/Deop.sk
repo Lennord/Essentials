@@ -1,0 +1,48 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsDeopCmd(s: sender, p: offline player):
+	if {_p} = op:
+		send "&7[&cEssentials&7] &6You have deop the player &c%{Essentials.use.nickname.use.%{_p}%.use}% &6!" to {_s}
+		if {_s} = player:
+			send "&7[&cEssentials&7] &6You have been deop by &c%{Essentials.use.nickname.use.%{_s}%.use}% &6!" to {_p}
+		if {_s} = console:
+			send "&7[&cEssentials&7] &6You have been deop by &cConsole &6!" to {_p}
+		deop {_p}
+		stop
+	else:
+		send "&4| &cYou have already deop the player &6%{_p}% &c!" to {_s}
+		stop
+
+function EssentialsDeopHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/deop &f[&cname of player&f] &6| &7Deop player !" to {_s}
+	stop
+
+command /deop [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:deop, deoperator, essentials:deoperator
+	description: &fEssentials command /deop !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsDeopHelpCmd(player)
+			else:
+				EssentialsDeopCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsDeopHelpCmd(console)
+			else:
+				EssentialsDeopCmd(console, arg 1)
+
+on command "deoperator" or "essentials:deoperator" or "deop" or "essentials:deop":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.deop":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop

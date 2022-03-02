@@ -1,0 +1,316 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsAdminhomeCmdDelhome(s: sender, p: offline player, h: text):
+	if {Essentials.use.homes.use.list.use.%{_p}'s uuid%.use::%{_h}%} isn't set:
+		send "&4| &cYou have no home of &6%{_h}% &cto the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+		stop
+	else:
+		delete {Essentials.use.homes.use.list.use.%{_p}'s uuid%.use::%{_h}%}
+		delete {Essentials.use.sethome.use.location.use.%{_p}'s uuid%.use::%{_h}%}
+		send "&7[&cEssentials&7] &6You have deleted home of &c%{_h}% &6to the player &c%{Essentials.use.nickname.use.%{_p}%.use}% &6!" to {_s}
+		stop
+
+function EssentialsAdminhomeCmdReset(s: sender, p: offline player):
+	delete {Essentials.use.homes.use.list.use.%{_p}'s uuid%.use::*}
+	delete {Essentials.use.sethome.use.location.use.%{_p}'s uuid%.use::*}
+	send "&7[&cEssentials&7] &6You have reset homes to the player &c%{_p}% &6!" to {_s}
+	stop
+
+function EssentialsAdminhomeCmdHome(s: sender, p: offline player, h: text):
+	if {Essentials.use.homes.use.list.use.%{_p}'s uuid%.use::%{_h}%} isn't set:
+		send "&4| &cYou have no home of &6%{_h}% &cto the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+		stop
+	else:
+		set {Essentials.use.backpoint.use.%{_s}'s uuid%.use} to location of {_s}
+		wait 1 tick
+		teleport {_s} to {Essentials.use.sethome.use.location.use.%{_p}'s uuid%.use::%{_h}%}
+		send "&7[&cEssentials&7] &6You have been teleported home of &c%{_h}% &6to the player &c%{Essentials.use.nickname.use.%{_p}%.use}% &6!" to {_s}
+		stop
+
+function EssentialsAdminhomeCmdHomes(s: sender, p: offline player):
+	if {Essentials.use.homes.use.list.use.%{_p}'s uuid%.use::*} is set:
+		set {_result.adminhomes} to 0
+		send "" to {_s}
+		send "&c| &6List of homes of &c%{_p}%&6:" to {_s}
+		send "" to {_s}
+		loop {Essentials.use.homes.use.list.use.%{_p}'s uuid%.use::*}:
+			add 1 to {_result.adminhomes} 
+			send "&6Homes &7%{_result.adminhomes}%&7: &c%loop-value%" to {_s}
+		stop
+	else:
+		send "&4| &cThe player &6%{_p}% &chave no home !" to {_s}
+		stop
+
+function EssentialsAdminhomeCmdSethome(s: sender, p: offline player, h: text):
+	if {Essentials.use.homes.use.list.use.%{_p}'s uuid%.use::%{_h}%} is set:
+		send "&4| &cYou have already home of &6%{_h}% &cto the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+		stop
+	else:
+		set {Essentials.use.homes.use.list.use.%{_p}'s uuid%.use::%{_h}%} to {_h}
+		set {Essentials.use.sethome.use.location.use.%{_p}'s uuid%.use::%{_h}%} to location of {_s}
+		send "&7[&cEssentials&7] &6You have created home &c%{_h}% &6to the player &c%{Essentials.use.nickname.use.%{_p}%.use}% &6!" to {_s}
+		stop
+
+function EssentialsHomeCmd(s: sender, h: text):
+	if {_s} has permission "essentials.*" or "essentials.home.bypass":
+		if {Essentials.use.homes.use.list.use.%{_s}'s uuid%.use::%{_h}%} isn't set:
+			send "&4| &cYou have no home to &6%{_h}% &c!" to {_s}
+			stop
+		else:
+			set {Essentials.use.backpoint.use.%{_s}'s uuid%.use} to location of {_s}
+			wait 1 tick
+			teleport {_s} to {Essentials.use.sethome.use.location.use.%{_s}'s uuid%.use::%{_h}%}
+			send "&7[&cEssentials&7] &7You have been teleported to home &c%{_h}% &7!" to {_s}
+			stop
+	if {_s} doesn't have permission "essentials.*" or "essentials.home.bypass":
+		if {Essentials.use.home.use.teleportation.use.already.use.%{_s}'s uuid%.use} isn't set:
+			if {Essentials.use.homes.use.list.use.%{_s}'s uuid%.use::%{_h}%} isn't set:
+				send "&4| &cYou have no home to &6%{_h}% &c!" to {_s}
+				stop
+			else:
+				set {Essentials.use.home.use.teleportation.use.already.use.%{_s}'s uuid%.use} to true
+				send "&7[&cEssentials&7] &7You must wait &c5 &7seconds to be able to teleport to the home &c%{_h}% &7!" to {_s}
+				wait 5 seconds
+				set {Essentials.use.backpoint.use.%{_s}'s uuid%.use} to location of {_s}
+				wait 1 tick
+				teleport {_s} to {Essentials.use.sethome.use.location.use.%{_s}'s uuid%.use::%{_h}%}
+				wait 1 tick
+				delete {Essentials.use.home.use.teleportation.use.already.use.%{_s}'s uuid%.use}
+				send "&7[&cEssentials&7] &7You have been teleported to home &c%{_h}% &7!" to {_s}
+				stop
+		else:
+			send "&4| &cYou already have a teleportation in progress !" to {_s}
+			stop
+
+function EssentialsDelhomeCmd(s: sender, h: text):
+	if {Essentials.use.homes.use.list.use.%{_s}'s uuid%.use::%{_h}%} isn't set:
+		send "&4| &cYou have no home to &6%{_h}% &c!" to {_s}
+		stop
+	else:
+		delete {Essentials.use.sethome.use.location.use.%{_s}'s uuid%.use::%{_h}%}
+		delete {Essentials.use.homes.use.list.use.%{_s}'s uuid%.use::%{_h}%}
+		wait 1 tick
+		send "&7[&cEssentials&7]  &7You have delete home to &c%{_h}% &7!" to {_s}
+		stop
+
+function EssentialsSethomeCmd(s: sender, h: text):
+	if {Essentials.use.homes.use.list.use.%{_s}'s uuid%.use::%{_h}%} isn't set:
+		set {Essentials.use.sethome.use.location.use.%{_s}'s uuid%.use::%{_h}%} to location of {_s}
+		set {Essentials.use.homes.use.list.use.%{_s}'s uuid%.use::%{_h}%} to {_h}
+		wait 1 tick
+		send "&7[&cEssentials&7]  &7You have create home to &c%{_h}% &7!" to {_s}
+		stop
+	else:
+		send "&4| &cYou have already create home to &6%{_h}% &c!" to {_s}
+		stop
+
+function EssentialsHomesCmd(s: sender):
+	if {Essentials.use.homes.use.list.use.%{_s}'s uuid%.use::*} is set:
+		set {_result.homes} to 0
+		send "" to {_s}
+		send "&c| &6List of homes:" to {_s}
+		send "" to {_s}
+		loop {Essentials.use.homes.use.list.use.%{_s}'s uuid%.use::*}:
+			add 1 to {_result.homes} 
+			send "&6Homes &7%{_result.homes}%&7: &c%loop-value%" to {_s}
+		stop
+	else:
+		send "&4| &cYou have no home !" to {_s}
+		stop
+
+function EssentialsAdminhomeHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/adminhome &bsethome&f/&bcreatehome &f[&cname of player&f] &f[&cname of home&f] &6| &7Create home of player !" to {_s}
+	send "&7| &f/adminhome &bdelhome&f/&bdeletehome &f[&cname of player&f] &f[&cname of home&f] &6| &7Delete home of player !" to {_s}
+	send "&7| &f/adminhome &bhome &f[&cname of player&f] &f[&cname of home&f] &6| &7Teleport player at home of player !" to {_s}
+	send "&7| &f/adminhome &breset &f[&cname of player&f] &6| &7Reset all home of player !" to {_s}
+	send "&7| &f/adminhome &bhomes &f[&cname of player&f] &6| &7Seen all home of player !" to {_s}
+	stop
+
+command /adminhome [<text>] [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:adminhome
+	description: &fEssentials command /adminhome !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsAdminhomeHelpCmd(player)
+			else:
+				if arg 1 != "delhome" or "reset" or "home" or "homes" or "sethome":
+					EssentialsAdminhomeHelpCmd(player)
+				if arg 1 = "delhome" or "deletehome":
+					if arg 2 isn't set:
+						EssentialsAdminhomeHelpCmd(player)
+					else:
+						if arg 2 is online:
+							if arg 3 isn't set:
+								EssentialsAdminhomeHelpCmd(player)
+							else:
+								EssentialsAdminhomeCmdDelhome(player, arg 2, arg 3)
+						else:
+							send "&4| &cYou must put the name of a player connected to the server !" to player
+							stop
+				if arg 1 = "reset":
+					if arg 2 isn't set:
+						EssentialsAdminhomeHelpCmd(player)
+					else:
+						if arg 2 is online:
+							EssentialsAdminhomeCmdReset(player, arg 2)
+						else:
+							send "&4| &cYou must put the name of a player connected to the server !" to player
+							stop
+				if arg 1 = "home":
+					if arg 2 isn't set:
+						EssentialsAdminhomeHelpCmd(player)
+					else:
+						if arg 2 is online:
+							if arg 3 isn't set:
+								EssentialsAdminhomeHelpCmd(player)
+							else:
+								EssentialsAdminhomeCmdHome(player, arg 2, arg 3)
+						else:
+							send "&4| &cYou must put the name of a player connected to the server !" to player
+							stop
+				if arg 1 = "homes":
+					if arg 2 isn't set:
+						EssentialsAdminhomeHelpCmd(player)
+					else:
+						if arg 2 is online:
+							EssentialsAdminhomeCmdHomes(player, arg 2)
+						else:
+							send "&4| &cYou must put the name of a player connected to the server !" to player
+							stop
+				if arg 1 = "sethome" or "createhome":
+					if arg 2 isn't set:
+						EssentialsAdminhomeHelpCmd(player)
+					else:
+						if arg 2 is online:
+							if arg 3 isn't set:
+								EssentialsAdminhomeHelpCmd(player)
+							else:
+								EssentialsAdminhomeCmdSethome(player, arg 2, arg 3)
+						else:
+							send "&4| &cYou must put the name of a player connected to the server !" to player
+							stop
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "adminhome" or "essentials:adminhome":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.adminhome":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /home [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:home
+	description: &fEssentials command /home !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&c| &6Help:" to player
+				send "" to player
+				send "&7| &f/home &f[&cname of home&f] &6| &7Teleport me of home type !" to player
+				stop
+			else:
+				EssentialsHomeCmd(player, arg 1)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "home" or "essentials:home":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.home":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /delhome [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:delhome, deletehome, essentials:deletehome
+	description: &fEssentials command /delhome !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&c| &6Help:" to player
+				send "" to player
+				send "&7| &f/delhome &f[&cname of home&f] &6| &7Delete home type of me !" to player
+				stop
+			else:
+				EssentialsDelhomeCmd(player, arg 1)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "deletehome" or "essentials:deletehome" or "delhome" or "essentials:delhome":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.delhome":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /sethome [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:sethome, createhome, essentials:createhome
+	description: &fEssentials command /sethome !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&c| &6Help:" to player
+				send "" to player
+				send "&7| &f/sethome &f[&cname of home&f] &6| &7Create home at location of me !" to player
+				stop
+			else:
+				EssentialsSethomeCmd(player, arg 1)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "createhome" or "essentials:createhome" or "sethome" or "essentials:sethome":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.sethome":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /homes [<text>]:
+	executable by: player and console
+	aliases: essentials:homes, homelist, essentials:homelist
+	description: &fEssentials command /homes !
+	trigger:
+		if sender = player:
+			EssentialsHomesCmd(player)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "homes" or "essentials:homes" or "homelist" or "essentials:homelist":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.homes":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.homes" or "essentials.*":
+		if line 1 = "[homes]" or "[homelist]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[homes]"
+			send "&7[&cEssentials&7] &7You have created sign !" to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.homes" or "essentials.*":
+		if line 2 of block = "&1[homes]":
+			EssentialsHomesCmd(player)

@@ -1,0 +1,84 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsSeenCmd(s: sender, p: offline player):
+	if {_s} has permission "essentials.*" or "essentials.seen.%{_p}%" or "essentials.seen.*":
+		if {_p} is online:
+			if {Essentials.use.tempban.use.%{_p}'s uuid%.use} or {Essentials.use.banip.use.%{_p}'s uuid%.use} or {Essentials.use.ban.use.%{_p}'s uuid%.use} isn't set:
+				set {Essentials.use.seen.use.ban.use.%{_p}'s uuid%.use} to "&cNo"
+			else:	
+				set {Essentials.use.seen.use.ban.use.%{_p}'s uuid%.use} to "&cYes"
+			if {Essentials.use.mute.use.list.use::%{_p}'s uuid%} isn't set:
+				set {Essentials.use.seen.use.mute.use.%{_p}'s uuid%.use} to "&cNo"
+			else:	
+				set {Essentials.use.seen.use.mute.use.%{_p}'s uuid%.use} to "&cYes"
+			if {Essentials.use.freeze.use.list.use::%{_p}'s uuid%} isn't set:
+				set {Essentials.use.seen.use.freeze.use.%{_p}'s uuid%.use} to "&cNo"
+			else:	
+				set {Essentials.use.seen.use.freeze.use.%{_p}'s uuid%.use} to "&cYes"
+			if {Essentials.use.afk.use.%{_p}'s uuid%.use} isn't set:
+				set {Essentials.use.seen.use.afk.use.%{_p}'s uuid%.use} to "&cNo"
+			else:	
+				set {Essentials.use.seen.use.afk.use.%{_p}'s uuid%.use} to "&cYes"
+			if {Essentials.use.fly.use.%{_p}'s uuid%.use} isn't set:
+				set {Essentials.use.seen.use.fly.use.%{_p}'s uuid%.use} to "&cNo"
+			else:	
+				set {Essentials.use.seen.use.fly.use.%{_p}'s uuid%.use} to "&cYes"
+			send "" to {_s}
+			send "&c| &6Informations:&f%nl%%nl%&8| &7Name of player&6: &c%{Essentials.use.nickname.use.%{_p}%.use}%&f%nl%&8| &7UUID of player&6: &c%uuid of {_p}%&f%nl%&8| &7Gamemode of player&6: &c%gamemode of {_p}%&f%nl%&8| &7Fly of player&6: &c%{Essentials.use.seen.use.fly.use.%{_p}'s uuid%.use}%&f%nl%&8| &7IP of player&6: &c%{Essentials.use.ip.use.%{_p}'s uuid%.use}%&f%nl%&8| &7Location of player&6: &c%location of {_p}%&f%nl%&8| &7Altitude of player&6: &c%altitude of {_p}% &cabove the bedrock &c(%{_p}'s world%&c)&f%nl%&8| &7Health of player&6: &c%health of {_p}%&f%nl%&8| &7Feed of player&6: &c%food of {_p}%&f%nl%&8| &7Tool hand of player&6: &c%tool of {_p}%&f%nl%&8| &7Ban of player: &c%{Essentials.use.seen.use.ban.use.%{_p}'s uuid%.use}%%nl%&8| &7Mute of player: &c%{Essentials.use.seen.use.mute.use.%{_p}'s uuid%.use}%%nl%&8| &7Freeze of player: &c%{Essentials.use.seen.use.freeze.use.%{_p}'s uuid%.use}%%nl%&8| &7AFK of player: &c%{Essentials.use.seen.use.afk.use.%{_p}'s uuid%.use}%&f%nl%&8| &7First join of player&6: &c%{Essentials.use.firstjoinconnect.use.%{_p}'s uuid%.use}%&f%nl%&8| &7Last join of player&6: &c%{Essentials.use.lastjoinconnect.use.%{_p}'s uuid%.use}% &c(Times: %{Essentials.use.lastjoinconnect.use.%{_p}'s uuid%.use.times.use}%&c)" to {_s}
+			stop
+		else:
+			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+			stop
+	else:
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+function EssentialsSeenHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/seen &f[&cname of player&f] &6| &7Seen information of player !" to {_s}
+	stop
+
+command /seen [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:seen, whois, essentials:whois
+	description: &fEssentials command /seen !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsSeenHelpCmd(player)
+			else:
+				EssentialsSeenCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsSeenHelpCmd(console)
+			else:
+				EssentialsSeenCmd(console, arg 1)
+
+on command "seen" or "essentials:seen" or "whois" or "essentials:whois":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.seen":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on first join:
+	set {Essentials.use.firstjoinconnect.use.%player's uuid%.use} to now
+	stop
+
+on join:
+	set {Essentials.use.lastjoinconnect.use.%player's uuid%.use} to now
+	wait 1 tick
+	set {Essentials.use.lastjoinconnect.use.%player's uuid%.use.times.use} to difference between now and {Essentials.use.lastjoinconnect.use.%player's uuid%.use}
+	stop
+
+every 1 second:
+	loop all players:
+		if {Essentials.use.lastjoinconnect.use.%loop-player's uuid%.use} is set:
+			set {Essentials.use.lastjoinconnect.use.%loop-player's uuid%.use.times.use} to difference between now and {Essentials.use.lastjoinconnect.use.%loop-player's uuid%.use}
+			stop

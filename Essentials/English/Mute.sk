@@ -1,0 +1,244 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsMutelistCmd(s: sender):
+	if {Essentials.use.mute.use.list.use::*} is set:
+		send "&6List of mute: &c%{Essentials.use.mute.use.list.use::*}% &c!" to {_s}
+		stop
+	else:
+		send "&6List of mute: &cNone !" to {_s}
+		stop
+
+function EssentialsUnmuteCmd(s: sender, p: offline player):
+	if {_s} = player:
+		if {Essentials.use.mute.use.list.use::%{_p}'s uuid%} isn't set:
+			send "&4| &cYou have already unmute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			stop
+		else:
+			send "&7[&cEssentials&7] &cYou have unmute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			send "&7[&cEssentials&7] &cYou have unmute by &6%{Essentials.use.nickname.use.%{_s}%.use}% &c!" to {_p}
+			delete {Essentials.use.mute.use.times.use.%{_p}'s uuid%.use}
+			delete {Essentials.use.mute.use.now.use.%{_p}'s uuid%.use}
+			delete {Essentials.use.mute.use.list.use::%{_p}'s uuid%}
+			stop
+	if {_s} = console:
+		if {Essentials.use.mute.use.list.use::%{_p}'s uuid%} isn't set:
+			send "&4| &cYou have already unmute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			stop
+		else:
+			send "&7[&cEssentials&7] &cYou have unmute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			send "&7[&cEssentials&7] &cYou have unmute by &6Console &c!" to {_p}
+			delete {Essentials.use.mute.use.times.use.%{_p}'s uuid%.use}
+			delete {Essentials.use.mute.use.now.use.%{_p}'s uuid%.use}
+			delete {Essentials.use.mute.use.list.use::%{_p}'s uuid%}
+			stop
+
+function EssentialsTempmuteCmd(s: sender, p: offline player, t: text, arg3: timespan):
+	if {_s} = player:
+		if {Essentials.use.mute.use.list.use::%{_p}%} isn't set:
+			send "&7[&cEssentials&7] &cYou have tempmute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			send "&7[&cEssentials&7] &cYou have mute by &6%{Essentials.use.nickname.use.%{_s}%.use}% &c!" to {_p}
+			set {Essentials.use.mute.use.list.use::%{_p}'s uuid%} to {_p}
+			set {Essentials.use.mute.use.now.use.%{_p}'s uuid%.use} to now
+			set {Essentials.use.mute.use.times.use.%{_p}'s uuid%.use} to {_arg3}
+			stop
+		else:
+			send "&4| &cYou have already mute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			stop
+	if {_s} = console:
+		if {Essentials.use.mute.use.list.use::%{_p}'s uuid%} isn't set:
+			send "&7[&cEssentials&7] &cYou have tempmute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			send "&7[&cEssentials&7] &cYou have mute by &6Console &c!" to {_p}
+			set {Essentials.use.mute.use.list.use::%{_p}'s uuid%} to {_p}
+			set {Essentials.use.mute.use.now.use.%{_p}'s uuid%.use} to now
+			set {Essentials.use.mute.use.times.use.%{_p}'s uuid%.use} to {_arg3}
+			stop
+		else:
+			send "&4| &cYou have already mute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			stop
+
+function EssentialsMuteCmd(s: sender, p: offline player, t: text):
+	if {_s} = player:
+		if {_p} is online:
+			if {_p} = "%{_s}%":
+				send "&4| &cYou cannot your mute yourself !" to {_s}
+				stop
+			else:
+				if {Essentials.use.mute.use.list.use::%{_p}'s uuid%} isn't set:
+					send "&cYou have mute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+					send "&7[&cEssentials&7] &cYou have mute by &6%{Essentials.use.nickname.use.%{_s}%.use}% &c!" to {_p}
+					set {Essentials.use.mute.use.list.use::%{_p}'s uuid%} to {_p}
+					delete {Essentials.use.mute.use.now.use.%{_p}'s uuid%.use}
+					delete {Essentials.use.mute.use.times.use.%{_p}'s uuid%.use}
+					stop
+				else:
+					send "&4| &cYou have already mute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+					stop
+		else:
+			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+			stop
+	if {_s} = console:
+		if {_p} is online:
+			if {Essentials.use.mute.use.list.use::%{_p}'s uuid%} isn't set:
+				send "&cYou have mute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+				send "&7[&cEssentials&7] &cYou have mute by &6Console &c!" to {_p}
+				set {Essentials.use.mute.use.list.use::%{_p}'s uuid%} to {_p}
+				delete {Essentials.use.mute.use.now.use.%{_p}'s uuid%.use}
+				delete {Essentials.use.mute.use.times.use.%{_p}'s uuid%.use}
+				stop
+			else:
+				send "&4| &cYou have already mute the player &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+				stop
+		else:
+			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+			stop
+
+function EssentialsUmuteHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/unmute &f[&cname of player&f] &6| &7Unmute player !" to {_s}
+	stop
+
+function EssentialsTempmuteHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/tempmute &f[&cname of player&f] &f[&creason&f] &f[&cnumber of time for mute&f] &6| &7Mute temporarily player !" to {_s}
+	stop
+
+function EssentialsMuteHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/mute &f[&cname of player&f] &f[&creason&f] &6| &7Mute player !" to {_s}
+	stop
+
+command /mutelist [<text>]:
+	executable by: player and console
+	aliases: essentials:mutelist
+	description: &fEssentials command /mutelist !
+	trigger:
+		if sender = player:
+			EssentialsMutelistCmd(player)
+		if sender = console:
+			EssentialsMutelistCmd(console)
+
+on command "mutelist" or "essentials:mutelist":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.mutelist":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /unmute [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:unmute
+	description: &fEssentials command /unmute !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsUmuteHelpCmd(player)
+			else:
+				EssentialsUnmuteCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsUmuteHelpCmd(console)
+			else:
+				EssentialsUnmuteCmd(console, arg 1)
+
+on command "unmute" or "essentials:unmute":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.unmute":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /tempmute [<offline player>] [<text>] [<timespan>]:
+	executable by: player and console
+	aliases: essentials:tempmute
+	description: &fEssentials command /tempmute !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsTempmuteHelpCmd(player)
+			else:
+				if arg 1 is online:
+					if arg 1 = "%player%":
+						send "&4| &cYou cannot your mute yourself !" to player
+						stop
+					else:
+						if arg 2 isn't set:
+							EssentialsTempmuteHelpCmd(player)
+						else:
+							if arg 3 isn't set:
+								EssentialsTempmuteHelpCmd(player)
+							else:
+								EssentialsTempmuteCmd(player, arg 1, arg 2, arg 3)
+				else:
+					send "&4| &cYou must put the name of a player connected to the server !" to player
+					stop
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsTempmuteHelpCmd(console)
+			else:
+				if arg 1 is online:
+					if arg 2 isn't set:
+						EssentialsTempmuteHelpCmd(console)
+					else:
+						if arg 3 isn't set:
+							EssentialsTempmuteHelpCmd(console)
+						else:
+							EssentialsTempmuteCmd(console, arg 1, arg 2, arg 3)
+				else:
+					send "&4| &cYou must put the name of a player connected to the server !" to console
+					stop
+
+on command "tempmute" or "essentials:tempmute":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.tempmute":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /mute [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:mute
+	description: &fEssentials command /mute !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsMuteHelpCmd(player)
+			else:
+				if arg 2 isn't set:
+					EssentialsMuteHelpCmd(player)
+				else:
+					EssentialsMuteCmd(player, arg 1, arg 2)
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsMuteHelpCmd(console)
+			else:
+				if arg 2 isn't set:
+					EssentialsMuteHelpCmd(console)
+				else:
+					EssentialsMuteCmd(console, arg 1, arg 2)
+
+on command "mute" or "essentials:mute":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.mute":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+every 1 second:
+	loop all players:
+		if {Essentials.use.mute.use.list.use::%loop-player%} is set:
+			if {Essentials.use.mute.use.times.use.%loop-player's uuid%.use} is set:
+				if difference between now and {Essentials.use.mute.use.now.use.%loop-player's uuid%.use} is bigger than {Essentials.use.mute.use.times.use.%loop-player's uuid%.use}:
+					delete {Essentials.use.mute.use.times.use.%loop-player's uuid%.use}
+					delete {Essentials.use.mute.use.list.use::%loop-player%}
+					delete {Essentials.use.mute.use.now.use.%loop-player's uuid%.use}
+					stop

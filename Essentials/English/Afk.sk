@@ -1,0 +1,107 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsAfkCmdNoArg(s: sender):
+	if {Essentials.use.afk.use.%{_s}'s uuid%.use} isn't set:
+		send "&7[&cEssentials&7] &7You have enabled your afk mode !" to {_s}
+		set {Essentials.use.afk.use.%{_s}'s uuid%.use} to true
+		set {Essentials.use.afk.use.%{_s}'s uuid%.use.location.use} to location of {_s}
+		broadcast "&7[&cAFK&7] &6| &f%{Essentials.use.nickname.use.%{_s}%.use}%"
+		stop
+	else:
+		send "&7[&cEssentials&7] &7You have disabled your afk mode !" to {_s}
+		delete {Essentials.use.afk.use.%{_s}'s uuid%.use}
+		delete {Essentials.use.afk.use.%{_s}'s uuid%.use.location.use}
+		broadcast "&7[&cNO-AFK&7] &6| &f%{Essentials.use.nickname.use.%{_s}%.use}%"
+		stop
+
+function EssentialsAfkCmd(s: sender, p: offline player):
+	if {_s} has permission "essentials.*" or "essentials.afk.%{_p}%" or "essentials.afk.*":
+		if {_p} is online:
+			if {_p} = "%{_s}%":
+				send "&4| &cYou cannot enable and disable your afk mode yourself !" to {_s}
+				stop
+			else:
+				if {Essentials.use.afk.use.%{_p}'s uuid%.use} isn't set:
+					send "&7[&cEssentials&7] &6You have enabled afk mode to the player &c%{Essentials.use.nickname.use.%{_p}%.use}% &6!" to {_s}
+					send "&7[&cEssentials&7] &6You have been enabled afk mode by &c%{Essentials.use.nickname.use.%{_s}%.use}% &6!" to {_p}
+					broadcast "&7[&cAFK&7] &6| &f%{Essentials.use.nickname.use.%{_s}%.use}%"
+					set {Essentials.use.afk.use.%{_p}'s uuid%.use} to true
+					stop
+				else:
+					send "&7[&cEssentials&7] &6You have disabled afk mode to the player &c%{Essentials.use.nickname.use.%{_p}%.use}% &6!" to {_s}
+					send "&7[&cEssentials&7] &6You have been disabled afk mode by &c%{Essentials.use.nickname.use.%{_s}%.use}% &6!" to {_p}
+					broadcast "&7[&cNO-AFK&7] &6| &f%{Essentials.use.nickname.use.%{_s}%.use}%"
+					delete {Essentials.use.afk.use.%{_p}'s uuid%.use}
+					stop
+		else:
+			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+			stop
+	if {_s} doesn't have permission "essentials.*" or "essentials.afk.%{_p}%" or "essentials.afk.*":
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+function EssentialsAfkCmdSystem(s: sender):
+	if {Essentials.use.afk.use.%{_s}'s uuid%.use} is set:
+		broadcast "&7[&cNO-AFK&7] &6| &f%{Essentials.use.nickname.use.%{_s}%.use}%"
+		delete {Essentials.use.afk.use.%{_s}'s uuid%.use}
+		stop
+
+command /afk [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:afk
+	description: &fEssentials command /afk !
+	trigger:
+		if sender is a player:
+			if arg 1 isn't set:
+				EssentialsAfkCmdNoArg(player)
+			else:
+				EssentialsAfkCmd(player, arg 1)
+		if sender is console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "afk" or "essentials:afk":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.afk":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on quit:
+	EssentialsAfkCmdSystem(player)
+
+on break:
+	EssentialsAfkCmdSystem(player)
+
+on build:
+	EssentialsAfkCmdSystem(player)
+
+on player move:
+	if location of player != {Essentials.use.afk.use.%player's uuid%.use.location.use}:
+		EssentialsAfkCmdSystem(player)
+
+on flight toggle:
+	EssentialsAfkCmdSystem(player)
+
+on chat:
+	EssentialsAfkCmdSystem(player)
+
+on command:
+	EssentialsAfkCmdSystem(player)
+
+on click:
+	EssentialsAfkCmdSystem(player)
+
+on inventory click:
+	EssentialsAfkCmdSystem(player)
+
+every 5 seconds:
+	loop all players:
+		if {Essentials.use.afk.use.%loop-player's uuid%.use} is set:
+			if loop-player doesn't have permission "essentials.afk.kick.bypass":
+				kick loop-player because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server !%nl%%nl%&7Reason: &cAFK%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
+				stop

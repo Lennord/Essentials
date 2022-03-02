@@ -1,0 +1,201 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsChatCmdClear(s: sender):
+	loop 100 times:
+		broadcast "" to all worlds
+	broadcast "&7[&cEssentials&7] &6The chat has been clear by &cConsole &6!" to all worlds
+	send "&6You have clear to chat !" to {_s}
+	stop
+
+function EssentialsChatCmdEnable(s: sender):
+	if {Essentials.use.chat.use.allplayers.use} is not set:
+		set {Essentials.use.chat.use.allplayers.use} to true
+		send "&6You have enable to chat !" to {_s}
+		if {_s} = player:
+			broadcast "&7[&cEssentials&7] &6The chat has been enable by &c%{Essentials.use.nickname.use.%{_s}%.use}% &6!"
+		if {_s} = console:
+			broadcast "&7[&cEssentials&7] &6The chat has been enable by &cConsole &6!"
+		stop
+	else:
+		send "&4| &cYou have already enable to chat !" to {_s}
+		stop
+
+function EssentialsChatCmdDisable(s: sender):
+	if {Essentials.use.chat.use.allplayers.use} is not set:
+		send "&4| &cYou have already disable to chat !" to {_s}
+		stop
+	else:
+		delete {Essentials.use.chat.use.allplayers.use}
+		send "&6You have disable to chat !" to {_s}
+		if {_s} = player:
+			broadcast "&7[&cEssentials&7] &6The chat has been disable by &c%{Essentials.use.nickname.use.%{_s}%.use}% &6!"
+		if {_s} = console:
+			broadcast "&7[&cEssentials&7] &6The chat has been disable by &cConsole &6!"
+		stop
+
+on load:
+	delete {Essentials.use.chat.use.allplayers.use}
+	stop
+
+function EssentialsChatHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/chat &bclear &6| &7Clear Chat !" to {_s}
+	send "&7| &f/chat &benable&f/&bon &6| &7Enable Chat !" to {_s}
+	send "&7| &f/chat &bdisable&f/&boff &6| &7Disable Chat !" to {_s}
+	stop
+
+command /chat [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:chat
+	description: &fEssentials command /chat !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsChatHelpCmd(player)
+			else:
+				if arg 1 != "clear" or "enable" or "disable" or "on" or "off":
+					EssentialsChatHelpCmd(player)
+				if arg 1 = "clear":
+					if player has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.clear":
+						EssentialsChatCmdClear(player)
+					if player doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.clear":
+						send "&4| &cYou do not have permission to use this command !" to player
+						stop
+				if arg 1 = "enable" or "on":
+					if player has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.enable":
+						EssentialsChatCmdEnable(player)
+					if player doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.enable":
+						send "&4| &cYou do not have permission to use this command !" to player
+						stop
+				if arg 1 = "disable" or "off":
+					if player has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.disable":
+						EssentialsChatCmdDisable(player)
+					if player doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.disable":
+						send "&4| &cYou do not have permission to use this command !" to player
+						stop
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsChatHelpCmd(console)
+			else:
+				if arg 1 != "clear" or "enable" or "disable" or "on" or "off":
+					EssentialsChatHelpCmd(console)
+				if arg 1 = "clear":
+					EssentialsChatCmdClear(console)
+				if arg 1 = "disable" or "off":
+					EssentialsChatCmdDisable(console)
+				if arg 1 = "enable" or "on":
+					EssentialsChatCmdEnable(console)
+
+on command "chat" or "essentials:chat":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.chat":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on chat:
+	if sender has permission "essentials.*" or "essentials.chatformat":
+		if sender doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.bypass":
+			if {Essentials.use.chat.use.allplayers.use} is set:
+				if sender doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.color":
+					if {Essentials.use.mute.use.list.use::%player%} is set:
+						cancel event
+						send "&4| &cYou have been silenced !" to player
+						stop
+					else:
+						if message contains "shit" or "bitch" or "fuck":
+							cancel event
+							send "&4| &cYou have not use all your words in this server !" to player
+							stop
+						else:
+							cancel event
+							broadcast "&7%{Essentials.use.nickname.use.%player%.use}%: &f%message%"
+							stop
+				if sender has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.color":
+					if {Essentials.use.mute.use.list.use::%player%} is set:
+						cancel event
+						send "&4| &cYou have been silenced !" to player
+						stop
+					else:
+						if message contains "shit" or "bitch" or "fuck":
+							cancel event
+							send "&4| &cYou have not use all your words in this server !" to player
+							stop
+						else:
+							cancel event
+							broadcast "&7%{Essentials.use.nickname.use.%player%.use}%: &f%colored message%"
+							stop
+			if {Essentials.use.chat.use.allplayers.use} is not set:
+				if sender doesn't have permission "essentials.chat.color" or "essentials.*" or "essentials.chat.*":
+					cancel event
+					send "&4| &cThe chat has been disable !" to player
+					stop
+				else:
+					cancel event
+					send "&4| &cThe chat has been disable !" to player
+					stop
+		if sender has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.bypass":
+			if {Essentials.use.chat.use.allplayers.use} is set:
+				if sender doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.color":
+					if {Essentials.use.mute.use.list.use::%player%} is set:
+						cancel event
+						send "&4| &cYou have been silenced !" to player
+						stop
+					else:
+						if message contains "shit" or "bitch" or "fuck":
+							cancel event
+							send "&4| &cYou have not use all your words in this server !" to player
+							stop
+						else:
+							cancel event
+							broadcast "&7%{Essentials.use.nickname.use.%player%.use}%: &f%message%"
+							stop
+				else:
+					if {Essentials.use.mute.use.list.use::%player%} is set:
+						cancel event
+						send "&4| &cYou have been silenced !" to player
+						stop
+					else:
+						if message contains "shit" or "bitch" or "fuck":
+							cancel event
+							send "&4| &cYou have not use all your words in this server !" to player
+							stop
+						else:
+							cancel event
+							broadcast "&7%{Essentials.use.nickname.use.%player%.use}%: &f%colored message%"
+							stop
+			else:
+				if sender doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.color":
+					if {Essentials.use.mute.use.list.use::%player%} is set:
+						cancel event
+						send "&4| &cYou have been silenced !" to player
+						stop
+					else:
+						if message contains "shit" or "bitch" or "fuck":
+							cancel event
+							send "&4| &cYou have not use all your words in this server !" to player
+							stop
+						else:
+							cancel event
+							broadcast "&7%{Essentials.use.nickname.use.%player%.use}%: &f%message%"
+							stop
+				if sender has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.color":
+					if {Essentials.use.mute.use.list.use::%player%} is set:
+						cancel event
+						send "&4| &cYou have been silenced !" to player
+						stop
+					else:
+						if message contains "shit" or "bitch" or "fuck":
+							cancel event
+							send "&4| &cYou have not use all your words in this server !" to player
+							stop
+						else:
+							cancel event
+							broadcast "&7%{Essentials.use.nickname.use.%player%.use}%: &f%colored message%"
+							stop

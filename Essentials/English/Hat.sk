@@ -1,0 +1,43 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsHatCmd(s: sender):
+	if {Essentials.use.hat.use.%{_s}'s uuid%.use} isn't set:
+		if {_s}'s tool != air:
+			set {_s}'s helmet to {_s}'s tool
+			wait 1 tick
+			remove {_s}'s tool from {_s}'s inventory
+			set {Essentials.use.hat.use.%{_s}'s uuid%.use} to true
+			send "&7[&cEssentials&7] &7You have enabled your hat mode !" to {_s}
+			stop
+		else:
+			send "&4| &cYou have nothing in your hand !" to {_s}
+			stop
+	else:
+		give {_s}'s helmet to {_s}
+		wait 1 tick
+		set {_s}'s helmet to air
+		delete {Essentials.use.hat.use.%{_s}'s uuid%.use}
+		send "&7[&cEssentials&7] &7You have disabled your hat mode !" to {_s}
+		stop
+
+command /hat [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:hat
+	description: &fEssentials command /hat !
+	trigger:
+		if sender = player:
+			EssentialsHatCmd(player)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "hat" or "essentials:hat":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.hat":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop

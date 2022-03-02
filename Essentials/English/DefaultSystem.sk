@@ -1,0 +1,57 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+on swap hand item:
+	if player doesn't have permission "essentials.*" or "essentials.antiswapitem.bypass":
+		cancel event
+		stop
+
+on drop:
+	if player doesn't have permission "essentials.*" or "essentials.antidrop.bypass":
+		cancel event
+		stop
+
+on portal create:
+	if player doesn't have permission "essentials.*" or "essentials.createportal":
+		cancel event
+		stop
+
+on first join:
+	if player has permission "essentials.*" or "essentials.sendmessage.firstjoin" or "essentials.sendmessage.*":
+		broadcast "&6The player &c%{Essentials.use.nickname.use.%player%.use}% &6connected to the server for the first time !"
+		stop
+
+on join:
+	if player has permission "essentials.*" or "essentials.sendmessage.join" or "essentials.sendmessage.*":
+		set join message to "&7[&2+&7] &6| &f%{Essentials.use.nickname.use.%player%.use}%"
+		stop
+
+on quit:
+	if player has permission "essentials.*" or "essentials.sendmessage.quit" or "essentials.sendmessage.*":
+		set quit message to "&7[&c-&7] &6| &f%{Essentials.use.nickname.use.%player%.use}%"
+		stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.color" or "essentials.*":
+		replace "&" with "§" in line 1
+		replace "&" with "§" in line 2
+		replace "&" with "§" in line 3
+		replace "&" with "§" in line 4
+		stop
+
+on death:
+	if player has permission "essentials.*" or "essentials.sendmessage.death" or "essentials.sendmessage.*":
+		set {Essentials.use.backpoint.use.%player' uuid%.use} to location of player
+		set death message to "&6The player &c%{Essentials.use.nickname.use.%player%.use}% &6just died !"
+		stop
+	if player has permission "essentials.*" or "essentials.forcerespawn":
+		force player to respawn
+		stop
+
+on enchant prepare:
+	if player has permission "essentials.*" or "essentials.enchanteditem":
+		cancel event
+		stop
