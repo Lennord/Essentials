@@ -14,7 +14,7 @@ function EssentialsBackCmdNoArg(s: sender):
 			wait 1 tick
 			send "&7[&cEssentials&7] &7You have been teleported to back point !" to {_s}
 			stop
-		if {_s} doesn't have permission "essentials.*" or "essentials.back.bypass":
+		else:
 			if {Essentials.use.back.use.teleportation.use.already.use.%{_s}'s uuid%.use} isn't set:
 				set {Essentials.use.back.use.teleportation.use.already.use.%{_s}'s uuid%.use} to true
 				send "&7[&cEssentials&7] &7You must wait &c5 &7seconds to be able to teleport to the back point !" to {_s}
