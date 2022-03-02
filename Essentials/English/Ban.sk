@@ -6,10 +6,16 @@
 
 function EssentialsBaniplistCmd(s: sender):
 	if {Essentials.use.banip.use.list.use::*} is set:
-		send "&6List of banip: &c%{Essentials.use.banip.use.list.use::*}% &c!" to {_s}
+		set {_result.banip} to 0
+		send "" to {_s}
+		send "&c| &6List of banip:" to {_s}
+		send "" to {_s}
+		loop {Essentials.use.banip.use.list.use::*}:
+			add 1 to {_result.banip} 
+			send "&6Player &7%{_result.banip}%&7: &c%loop-value%" to {_s}
 		stop
 	else:
-		send "&6List of banip: &cNone !" to {_s}
+		send "&4| &cYou have no player's banned ip !" to {_s}
 		stop
 
 function EssentialsBanlistCmd(s: sender):
