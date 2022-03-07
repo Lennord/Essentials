@@ -5,8 +5,6 @@
 #  |-> PLUGIN CODE:
 
 function EssentialsStopCmd(s: sender):
-	broadcast "&4| &cThe server will close soon !"
-	wait 15 seconds
 	send "&7[&cEssentials&7] &6You have stopped the server !" to {_s}
 	kick all players because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server !%nl%%nl%&7Reason: &cClose the server%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
 	wait 2 tick
