@@ -83,25 +83,25 @@ command /chat [<text>] [<text>]:
 				if arg 1 = "clear":
 					if player has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.clear":
 						EssentialsChatCmdClear(player)
-					if player doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.clear":
+					else:
 						send "&4| &cYou do not have permission to use this command !" to player
 						stop
 				if arg 1 = "enable" or "on":
 					if player has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.enable":
 						EssentialsChatCmdEnable(player)
-					if player doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.enable":
+					else:
 						send "&4| &cYou do not have permission to use this command !" to player
 						stop
 				if arg 1 = "disable" or "off":
 					if player has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.disable":
 						EssentialsChatCmdDisable(player)
-					if player doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.disable":
+					else:
 						send "&4| &cYou do not have permission to use this command !" to player
 						stop
 				if arg 1 = "toggle":
 					if player has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.toggle":
 						EssentialsChatCmdToggle(player)
-					if player doesn't have permission "essentials.*" or "essentials.chat.*" or "essentials.chat.toggle":
+					else:
 						send "&4| &cYou do not have permission to use this command !" to player
 						stop
 		if sender = console:
@@ -144,7 +144,7 @@ on chat:
 							cancel event
 							broadcast "&7%{Essentials.use.nickname.use.%player%.use}%: &f%message%"
 							stop
-				if sender has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.color":
+				else:
 					if {Essentials.use.mute.use.list.use::%player%} is set:
 						cancel event
 						send "&4| &cYou have been silenced !" to player
@@ -158,7 +158,7 @@ on chat:
 							cancel event
 							broadcast "&7%{Essentials.use.nickname.use.%player%.use}%: &f%colored message%"
 							stop
-			if {Essentials.use.chat.use.allplayers.use} is not set:
+			else:
 				if sender doesn't have permission "essentials.chat.color" or "essentials.*" or "essentials.chat.*":
 					cancel event
 					send "&4| &cThe chat has been disable !" to player
@@ -212,7 +212,7 @@ on chat:
 							cancel event
 							broadcast "&7%{Essentials.use.nickname.use.%player%.use}%: &f%message%"
 							stop
-				if sender has permission "essentials.*" or "essentials.chat.*" or "essentials.chat.color":
+				else:
 					if {Essentials.use.mute.use.list.use::%player%} is set:
 						cancel event
 						send "&4| &cYou have been silenced !" to player
