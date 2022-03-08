@@ -13,6 +13,8 @@ function EssentialsMaintenanceCmdEnable(s: sender):
 						kick loop-player because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server !%nl%%nl%&7Reason: &cMaintenance%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
 						send "&7[&cEssentials&7] &6You have enabled the maintenance to server !" to {_s}
 						set {Essentials.use.maintenance.use} to true
+						set {Essentials.use.maintenance.use.now.use} to now
+						set {Essentials.use.maintenance.use.author.use} to {_s}
 						stop
 			else:
 				send "&4| &cYou have already enabled the maintenance to server !" to {_s}
@@ -27,6 +29,8 @@ function EssentialsMaintenanceCmdEnable(s: sender):
 					kick loop-player because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server !%nl%%nl%&7Reason: &cMaintenance%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
 			send "&7[&cEssentials&7] &6You have enabled the maintenance to server !" to {_s}
 			set {Essentials.use.maintenance.use} to true
+			set {Essentials.use.maintenance.use.now.use} to now
+			set {Essentials.use.maintenance.use.author.use} to "Console"
 			stop
 		else:
 			send "&4| &cYou have already enabled the maintenance to server !" to {_s}
@@ -41,6 +45,8 @@ function EssentialsMaintenanceCmdDisable(s: sender):
 			else:
 				send "&7[&cEssentials&7] &6You have disabled the maintenance to server !" to {_s}
 				delete {Essentials.use.maintenance.use}
+				set {Essentials.use.maintenance.use.now.use} to now
+				set {Essentials.use.maintenance.use.author.use} to {_s}
 				stop
 		else:
 			send "&4| &cYou do not have permission to use this command !" to {_s}
@@ -52,6 +58,8 @@ function EssentialsMaintenanceCmdDisable(s: sender):
 		else:
 			send "&7[&cEssentials&7] &6You have disabled the maintenance to server !" to {_s}
 			delete {Essentials.use.maintenance.use}
+			set {Essentials.use.maintenance.use.now.use} to now
+			set {Essentials.use.maintenance.use.author.use} to "Console"
 			stop
 
 function EssentialsMaintenanceCmdToggle(s: sender):
@@ -63,10 +71,14 @@ function EssentialsMaintenanceCmdToggle(s: sender):
 						kick loop-player because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server !%nl%%nl%&7Reason: &cMaintenance%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
 				send "&7[&cEssentials&7] &6You have enabled the maintenance to server !" to {_s}
 				set {Essentials.use.maintenance.use} to true
+				set {Essentials.use.maintenance.use.now.use} to now
+				set {Essentials.use.maintenance.use.author.use} to {_s}
 				stop
 			else:
 				send "&7[&cEssentials&7] &6You have disabled the maintenance to server !" to {_s}
 				delete {Essentials.use.maintenance.use}
+				set {Essentials.use.maintenance.use.now.use} to now
+				set {Essentials.use.maintenance.use.author.use} to {_s}
 				stop
 		else:
 			send "&4| &cYou do not have permission to use this command !" to {_s}
@@ -78,11 +90,31 @@ function EssentialsMaintenanceCmdToggle(s: sender):
 					kick loop-player because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server !%nl%%nl%&7Reason: &cMaintenance%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
 					send "&7[&cEssentials&7] &6You have enabled the maintenance to server !" to {_s}
 					set {Essentials.use.maintenance.use} to true
+					set {Essentials.use.maintenance.use.now.use} to now
+					set {Essentials.use.maintenance.use.author.use} to "Console"
 					stop
 		else:
 			send "&7[&cEssentials&7] &6You have disabled the maintenance to server !" to {_s}
 			delete {Essentials.use.maintenance.use}
+			set {Essentials.use.maintenance.use.now.use} to now
+			set {Essentials.use.maintenance.use.author.use} to "Console"
 			stop
+
+function EssentialsMaintenanceCmdInfo(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.maintenance.*" or "essentials.maintenance.info":
+		send "" to {_s}
+		send "&c| &6Informations of maintenance:" to {_s}
+		send "" to {_s}
+		if {Essentials.use.maintenance.use} isn't set:	
+			send "&8| &7State: &cDisabled" to {_s}
+		else:
+			send "&8| &7State: &2Enabled" to {_s}
+		send "&8| &7Date: &c%{Essentials.use.maintenance.use.now.use}%" to {_s}
+		send "&8| &7Author: &c%{Essentials.use.maintenance.use.author.use}%" to {_s}
+		stop
+	else:
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
 
 function EssentialsMaintenanceHelpCmd(s: sender):
 	send "" to {_s}
@@ -102,7 +134,7 @@ command /maintenance [<text>] [<text>]:
 			if arg 1 isn't set:
 				EssentialsMaintenanceHelpCmd(player)
 			else:
-				if arg 1 != "enable" or "disable" or "on" or "off" or "toggle":
+				if arg 1 != "enable" or "disable" or "on" or "off" or "toggle" or "info":
 					EssentialsMaintenanceHelpCmd(player)
 				if arg 1 = "enable" or "on":
 					EssentialsMaintenanceCmdEnable(player)
@@ -110,11 +142,13 @@ command /maintenance [<text>] [<text>]:
 					EssentialsMaintenanceCmdDisable(player)
 				if arg 1 = "toggle":
 					EssentialsMaintenanceCmdToggle(player)
+				if arg 1 = "info":
+					EssentialsMaintenanceCmdInfo(player)
 		if sender is console:
 			if arg 1 isn't set:
 				EssentialsMaintenanceHelpCmd(player)
 			else:
-				if arg 1 != "enable" or "disable" or "on" or "off" or "toggle":
+				if arg 1 != "enable" or "disable" or "on" or "off" or "toggle" or "info":
 					EssentialsMaintenanceHelpCmd(console)
 				if arg 1 = "enable" or "on":
 					EssentialsMaintenanceCmdEnable(console)
@@ -122,6 +156,8 @@ command /maintenance [<text>] [<text>]:
 					EssentialsMaintenanceCmdDisable(console)
 				if arg 1 = "toggle":
 					EssentialsMaintenanceCmdToggle(console)
+				if arg 1 = "info":
+					EssentialsMaintenanceCmdInfo(console)
 
 on command "maintenance" or "essentials:maintenance":
 	if sender = player:
@@ -133,6 +169,8 @@ on command "maintenance" or "essentials:maintenance":
 on load:
 	if {Essentials.use.maintenance.use} isn't set:
 		set {Essentials.use.maintenance.use} to true
+		set {Essentials.use.maintenance.use.now.use} to now
+		set {Essentials.use.maintenance.use.author.use} to "Console"
 		stop
 
 on every 1 tick:
