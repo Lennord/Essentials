@@ -10,11 +10,13 @@ function EssentialsPvpCmdEnable(s: sender):
 			send "&7[&cEssentials&7] &7You have enabled pvp to the world !" to {_s}
 			enable pvp in {_s}'s world
 			set {Essentials.use.pvp.use.%{_s}'s world%.use} to true
+			set {Essentials.use.pvp.use.%{_s}'s world%.use.now.use} to now
+			set {Essentials.use.pvp.use.%{_s}'s world%.use.author.use} to {_s}
 			stop
 		else:
 			send "&4| &cYou have already enabled pvp to the world !" to {_s}
 			stop
-	if {_s} doesn't have permission "essentials.*" or "essentials.pvp.*" or "essentials.pvp.enable":
+	else:
 		send "&4| &cYou do not have permission to use this command !" to {_s}
 		stop
 
@@ -27,8 +29,38 @@ function EssentialsPvpCmdDisable(s: sender):
 			send "&7[&cEssentials&7] &7You have disabled pvp to the world !" to {_s}
 			disable pvp in {_s}'s world
 			delete {Essentials.use.pvp.use.%{_s}'s world%.use}
+			set {Essentials.use.pvp.use.%{_s}'s world%.use.now.use} to now
+			set {Essentials.use.pvp.use.%{_s}'s world%.use.author.use} to {_s}
 			stop
-	if {_s} doesn't have permission "essentials.*" or "essentials.pvp.*" or "essentials.pvp.disable":
+	else:
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+on load:
+	loop all worlds:
+		if {Essentials.use.pvp.use.%loop-value%.use} isn't set:
+			set {Essentials.use.pvp.use.%loop-value%.use.now.use} to now
+			set {Essentials.use.pvp.use.%loop-value%.use.author.use} to "Console"
+		else:
+			set {Essentials.use.pvp.use.%loop-value%.use.now.use} to now
+			set {Essentials.use.pvp.use.%loop-value%.use.author.use} to "Console"
+	stop
+
+
+function EssentialsPvpCmdInfo(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.pvp.*" or "essentials.pvp.info":
+		send "" to {_s}
+		send "&c| &6Informations of pvp:" to {_s}
+		send "" to {_s}
+		send "&8| &7World: &c%{_s}'s world%" to {_s}
+		if {Essentials.use.pvp.use.%{_s}'s world%.use} isn't set:
+			send "&8| &7State: &cDisabled" to {_s}
+		else:
+			send "&8| &7State: &2Enabled" to {_s}
+		send "&8| &7Date: &c%{Essentials.use.pvp.use.%{_s}'s world%.use.now.use}%" to {_s}
+		send "&8| &7Author: &c%{Essentials.use.pvp.use.%{_s}'s world%.use.author.use}%" to {_s}
+		stop
+	else:
 		send "&4| &cYou do not have permission to use this command !" to {_s}
 		stop
 
@@ -38,6 +70,7 @@ function EssentialsPvpHelpCmd(s: sender):
 	send "" to {_s}
 	send "&7| &f/pvp &benable&f/&7on &6| &7Enable pvp in world player !" to {_s}
 	send "&7| &f/pvp &bdisable&f/&7off &6| &7Disable pvp in world player !" to {_s}
+	send "&7| &f/pvp &binfo &6| &7Seen informations of pvp in world player !" to {_s}
 	stop
 
 command /pvp [<text>] [<text>]:
@@ -49,12 +82,14 @@ command /pvp [<text>] [<text>]:
 			if arg 1 isn't set:
 				EssentialsPvpHelpCmd(player)
 			else:
-				if arg 1 != "enable" or "disable" or "on" or "off":
+				if arg 1 != "enable" or "disable" or "on" or "off" or "info":
 					EssentialsPvpHelpCmd(player)
 				if arg 1 = "enable" or "on":
 					EssentialsPvpCmdEnable(player)
 				if arg 1 = "disable" or "off":
 					EssentialsPvpCmdDisable(player)
+				if arg 1 = "info":
+					EssentialsPvpCmdInfo(player)
 		if sender = console:
 			send "&4| &cYou must be a player to use this command !" to console
 			stop
