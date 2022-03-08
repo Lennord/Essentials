@@ -120,9 +120,10 @@ function EssentialsMaintenanceHelpCmd(s: sender):
 	send "" to {_s}
 	send "&c| &6Help:" to {_s}
 	send "" to {_s}
-	send "&7| &f/maintenance &bEnable&f/&bon &6| &7Enable maintenance !" to {_s}
-	send "&7| &f/maintenance &bDisable&f/&boff &6| &7Disable maintenance !" to {_s}
-	send "&7| &f/maintenance &bToggle &6| &7Enable or Disable maintenance !" to {_s}
+	send "&7| &f/maintenance &benable&f/&bon &6| &7Enable maintenance !" to {_s}
+	send "&7| &f/maintenance &bdisable&f/&boff &6| &7Disable maintenance !" to {_s}
+	send "&7| &f/maintenance &btoggle &6| &7Enable or Disable maintenance !" to {_s}
+	send "&7| &f/maintenance &binfo &6| &7Seen informations of maintenance !" to {_s}
 	stop
 
 command /maintenance [<text>] [<text>]:
