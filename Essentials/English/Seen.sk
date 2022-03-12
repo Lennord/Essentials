@@ -67,11 +67,9 @@ on command "seen" or "essentials:seen" or "whois" or "essentials:whois":
 			send "&4| &cYou do not have permission to use this command !" to player
 			stop
 
-on first join:
-	set {Essentials.use.firstjoinconnect.use.%player's uuid%.use} to now
-	stop
-
 on join:
+	if {Essentials.use.firstjoinconnect.use.%player's uuid%.use} isn't set:
+		set {Essentials.use.firstjoinconnect.use.%player's uuid%.use} to now
 	set {Essentials.use.lastjoinconnect.use.%player's uuid%.use} to now
 	wait 1 tick
 	set {Essentials.use.lastjoinconnect.use.%player's uuid%.use.times.use} to difference between now and {Essentials.use.lastjoinconnect.use.%player's uuid%.use}
