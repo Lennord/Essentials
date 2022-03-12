@@ -1,0 +1,69 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsBedteleportCmdNoArg(s: sender):
+	if bed of {_s} exists:
+		teleport {_s} to bed of {_s}
+		send "&7[&cEssentials&7] &7You have been teleported to your bed &7!" to {_s}
+		stop
+	else:
+		send "&4| &cYou bed does not exist !" to {_s}
+		stop
+
+function EssentialsBedteleportCmd(s: sender, p: offline player):
+	if {_s} has permission "essentials.*" or "essentials.bedteleport.%{_p}%" or "essentials.bedteleport.*":
+		if {_p} is online:
+			if {_p} = "%{_s}%":
+				send "&4| &cYou cannot teleport your bed yourself !" to {_s}
+				stop
+			else:
+				if bed of {_p} exists:
+					teleport {_s} to bed of {_p}
+					send "&7[&cEssentials&7] &6You have been teleported to the bed of the player &c%{Essentials::nicname::%{_p}'s uuid%}% &6!" to {_s}
+					stop
+				else:
+					send "&4| &cThe bed of the player &6%{Essentials::nicname::%{_p}'s uuid%}% &cdoes not exist !" to {_s}
+					stop
+		else:
+			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+			stop
+	else:
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+command /bedteleport [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:bedteleport, bt, essentials:bt
+	description: &fEssentials command /bedteleport !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsBedteleportCmdNoArg(player)
+			else:
+				EssentialsBedteleportCmd(player, arg 1)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "bt" or "essentials:bt" or "bedteleport" or "essentials:bedteleport":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.bedteleport":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.bedteleport" or "essentials.*":
+		if line 1 = "[bedteleport]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[bedteleport]"
+			send "&7[&cEssentials&7] &7You have created sign !" to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.bedteleport" or "essentials.*":
+		if line 2 of block = "&1[bedteleport]":
+			EssentialsBedteleportCmdNoArg(player)

@@ -1,0 +1,108 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsGodCmdNoArg(s: sender):
+	if {Essentials::god::%{_s}'s uuid%} is not set:
+		set {Essentials::god::%{_s}'s uuid%} to true
+		send "&7[&cEssentials&7] &7You have enabled your god mode !" to {_s}
+		stop
+	else:
+		delete {Essentials::god::%{_s}'s uuid%}
+		send "&7[&cEssentials&7] &7You have disabled your god mode !" to {_s}
+		stop
+
+function EssentialsGodCmd(s: sender, p: offline player):
+	if {_s} = player:
+		if {_s} has permission "essentials.*" or "essentials.god.%{_p}%" or "essentials.god.*":
+			if {_p} is online:
+				if {_p} = "%{_s}%":
+					send "&4| &cYou cannot enable and disable your god mode yourself !" to {_s}
+					stop
+				else:
+					if {Essentials::god::%{_p}'s uuid%} is not set:
+						set {Essentials::god::%{_p}'s uuid%} to true
+						send "&7[&cEssentials&7] &6You god mode enabled by &c%{Essentials::nickname::%{_s}'s uuid%}% &6!" to {_p}
+						send "&7[&cEssentials&7] &6You have enabled god mode to the player &c%{Essentials::nickname::%{_p}'s uuid%}% &6!" to {_s}
+						stop
+					else:
+						delete {Essentials::god::%{_p}'s uuid%}
+						send "&7[&cEssentials&7] &6You god mode disable by &c%{Essentials::nickname::%{_s}'s uuid%}% &6!" to {_p}
+						send "&7[&cEssentials&7] &6You have disabled god mode to the player &c%{Essentials::nickname::%{_p}'s uuid%}% &6!" to {_s}
+						stop
+			else:
+				send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+				stop
+		else:
+			send "&4| &cYou do not have permission to use this command !" to {_s}
+			stop
+	if {_s} = console:
+		if {_p} is online:
+			if {Essentials::god::%{_p}'s uuid%} is not set:
+				set {Essentials::god::%{_p}'s uuid%} to true
+				send "&7[&cEssentials&7] &6You god mode enabled by &cConsole &6!" to {_p}
+				send "&7[&cEssentials&7] &6You have enabled god mode to the player &c%{Essentials::nickname::%{_p}'s uuid%}% &6!" to {_s}
+				stop
+			else:
+				delete {Essentials::god::%{_p}'s uuid%}
+				send "&7[&cEssentials&7] &6You god mode disable by &cConsole &6!" to {_p}
+				send "&7[&cEssentials&7] &6You have disabled god mode to the player &c%{Essentials::nickname::%{_p}'s uuid%}% &6!" to {_s}
+				stop
+		else:
+			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+			stop
+
+command /god [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:god
+	description: &fEssentials command /god !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsGodCmdNoArg(player)
+			else:
+				EssentialsGodCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				send "" to console
+				send "&c| &6Help:" to console
+				send "" to console
+				send "&7| &f/god &f[&cname of player&f] &6| &7Enable/Disable god mode of player !" to console
+				stop
+			else:					
+				EssentialsGodCmd(console, arg 1)
+
+on command "god" or "essentials:god":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.god":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on join:
+	if gamemode of player = survival or adventure:
+		delete {Essentials::god::%player's uuid%}
+		stop
+	if gamemode of player = creative or spectator:
+		set {Essentials::god::%player's uuid%} to true
+		stop
+
+on damage:
+	if {Essentials::god::%victim's uuid%} is true:
+		cancel event
+		stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.god" or "essentials.*":
+		if line 1 = "[god]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[god]"
+			send "&7[&cEssentials&7] &7You have created sign !" to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.god" or "essentials.*":
+		if line 2 of block = "&1[god]":
+			EssentialsGodCmdNoArg(player)

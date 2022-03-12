@@ -1,0 +1,219 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsKitsCmd(s: sender):
+	if {Essentials::kitname::*} is set:
+		set {_result.kits} to 0
+		send "" to {_s}
+		send "&c| &6List of kits:" to {_s}
+		send "" to {_s}
+		loop {Essentials::kitname::*}:
+			add 1 to {_result.kits} 
+			send "&6Kit &7%{_result.kits}%&7: &c%loop-value%" to {_s}
+		stop
+	else:
+		send "&4| &cYou have no kit !" to {_s}
+		stop
+
+function EssentialsCreatekitCmd(s: sender, k: text):
+	if {Essentials::kitname::%{_k}%} isn't set:
+		set {_result.kitcount} to 0
+		loop 108 times:
+			set {Essentials.use.inv.use.%{_result.kitcount}%.use.%{_k}%.use} to slot {_result.kitcount} of {_s}'s inventory
+			add 1 to {_result.kitcount}
+			set {Essentials::kit::helmet::%{_k}%} to {_s}'s helmet
+			set {Essentials::kit::chestplate::%{_k}%} to {_s}'s chestplate
+			set {Essentials::kit::leggings::%{_k}%} to {_s}'s legs
+			set {Essentials::kit::boot::%{_k}%} to {_s}'s boot
+		send "&7[&cEssentials&7] &7You have created to kit &6%{_k}% &7!" to {_s}
+		set {Essentials::kit::creator::%{_k}%} to {_s}
+		set {Essentials::kitname::%{_k}%} to {_k}
+		stop
+	else:
+		send "&4| &cThe kit &6%{_k}% &cis exist !" to {_s}
+		stop
+
+function EssentialsDeletekitCmd(s: sender, k: text):
+	if {Essentials::kitname::%{_k}%} is set:
+		delete {Essentials::kitname::%{_k}%}
+		delete {Essentials.use.inv.use.%{_result.kitcount}%.use.%{_k}%.use}
+		delete {Essentials::kit::helmet::%{_k}%}
+		delete {Essentials::kit::chestplate::%{_k}%}
+		delete {Essentials::kit::leggings::%{_k}%}
+		delete {Essentials::kit::boot::%{_k}%}
+		send "&7[&cEssentials&7] &7You have deleted to kit &6%{_k}% &7!" to {_s}
+		stop
+	else:
+		send "&4| &cThe kit &6%{_k}% &cdoes not exist !" to {_s}
+		stop
+
+function EssentialsKitCmd(s: sender, k: text):
+	if {_s} has permission "essentials.*" or "essentials.kit.%{_k}%" or "essentials.kit.*":
+		if {_s} has permission "essentials.*" or "essentials.kit.bypass" or "essentials.kit.*":
+			if {Essentials::kitname::%{_k}%} is set:
+				set {_result.kitcount} to 0
+				loop 108 times:
+					set slot {_result.kitcount} of {_s}'s inventory to {Essentials.use.inv.use.%{_result.kitcount}%.use.%{_k}%.use}
+					add 1 to {_result.kitcount}
+					set {_s}'s helmet to {Essentials::kit::helmet::%{_k}%}
+					set {_s}'s chestplate to {Essentials::kit::helmet::%{_k}%}
+					set {_s}'s leggings to {Essentials.use.kit.use.legging.use.%{_k}%.use}
+					set {_s}'s boots to {Essentials::kit::boot::%{_k}%}
+				send "&7[&cEssentials&7] &7You have give to kit &c%{_k}% &7!" to {_s}
+				stop
+			else:
+				send "&4| &cThe kit &6%{_k}% &cdoes not exist !" to {_s}
+				stop
+		else:
+			if {Essentials::kitname::%{_k}%} is set:
+				set {_result.kitcount} to 0
+				loop 108 times:
+					send "&7[&cEssentials&7] &7You must wait &c5 &7seconds to give the kit &c%{_k}% &7!" to {_s}
+					wait 5 seconds
+					set slot {_result.kitcount} of {_s}'s inventory to {Essentials.use.inv.use.%{_result.kitcount}%.use.%{_k}%.use}
+					add 1 to {_result.kitcount}
+					set {_s}'s helmet to {Essentials::kit::helmet::%{_k}%}
+					set {_s}'s chestplate to {Essentials::kit::helmet::%{_k}%}
+					set {_s}'s leggings to {Essentials.use.kit.use.legging.use.%{_k}%.use}
+					set {_s}'s boots to {Essentials::kit::boot::%{_k}%}
+				send "&7[&cEssentials&7] &7You have give to kit &c%{_k}% &7!" to {_s}
+				stop
+			else:
+				send "&4| &cThe kit &6%{_k}% &cdoes not exist !" to {_s}
+				stop
+	else:
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+function EssentialsKitinfoCmd(s: sender, k: text):
+	if {_s} has permission "essentials.*" or "essentials.kitinfo.*" or "essentials.kitinfo.%{_k}%":
+		if {Essentials::kitname::%{_k}%} isn't set:
+			send "&4| &cThe kit &6%{_k}% &cdoes not exist !" to {_s}
+			stop
+		else:
+			send "" to {_s}
+			send "&c| &6Informations:&f%nl%%nl%&8| &7Name of kit: &c%{Essentials::kitname::%{_k}%}%&f%nl%&8| &7Name of creator: &c%{Essentials::kit::creator::%{_k}%}%" to {_s}
+			stop
+	else:
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+command /kits [<text>]:
+	executable by: player and console
+	aliases: essentials:kits, kitlist, essentials:kitlist
+	description: &fEssentials command /kits !
+	trigger:
+		if sender = player:
+			EssentialsKitsCmd(player)
+		if sender = console:
+			EssentialsKitsCmd(console)
+
+on command "kits" or "essentials:kits" or "kitlist" or "essentials:kitlist":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.kits":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /createkit [<text>]:
+	executable by: player and console
+	aliases: essentials:createkit, setkit, essentials:setkit
+	description: &fEssentials command /setkit !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&c| &6Help:" to player
+				send "" to player
+				send "&7| &f/setkit &f[&cname of kit&f] &6| &7Create kit !" to player
+				stop
+			else:
+				EssentialsCreatekitCmd(player, arg 1)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "setkit" or "essentials:setkit" or "createkit" or "essentials:createkit":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.setkit":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /deletekit [<text>]:
+	executable by: player and console
+	aliases: essentials:deletekit, delkit, essentials:delkit
+	description: &fEssentials command /delkit !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&c| &6Help:" to player
+				send "" to player
+				send "&7| &f/delkit &f[&cname of kit&f] &6| &7Delete kit type !" to player
+				stop
+			else:
+				EssentialsDeletekitCmd(player, arg 1)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "delkit" or "essentials:delkit" or "deletekit" or "essentials:deletekit":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.delkit":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /kit [<text>]:
+	executable by: player and console
+	aliases: essentials:kit
+	description: &fEssentials command /kit !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&c| &6Help:" to player
+				send "" to player
+				send "&7| &f/kit &f[&cname of kit&f] &6| &7Give kit type !" to player
+				stop
+			else:
+				EssentialsKitCmd(player, arg 1)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "kit" or "essentials:kit":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.kit":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+command /kitinfo [<text>]:
+	executable by: player and console
+	aliases: essentials:kitinfo
+	description: &fEssentials command /kitinfo !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&c| &6Help:" to player
+				send "" to player
+				send "&7| &f/kitinfo &f[&cname of kit&f] &6| &7Seen information of kit type !" to player
+				stop
+			else:
+				EssentialsKitinfoCmd(player, arg 1)
+		if sender is console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "kitinfo" or "essentials:kitinfo":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.kitinfo":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop

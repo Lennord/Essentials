@@ -1,0 +1,54 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsBroadcastCmd(s: sender, w: world, t: text):
+	if {_s} has permission "essentials.*" or "essentials.broadcast.color" or "essentials.broadcast.*":
+		broadcast "&7[&cAnnouncement&7] &6|-> &f%colored {_t}%" to world "%{_w}%"
+		stop
+	else:
+		broadcast "&7[&cAnnouncement&7] &6|-> &f%{_t}%" to world "%{_w}%"
+		stop
+
+function EssentialsBroadcastCMDHelp(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/broadcast &f[&cname of world&f] &f[&ctext&f] &6| &7Send broadcast to all players !" to {_s}
+	stop
+
+command /broadcast [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:broadcast, bc, essentials:bc
+	description: &fEssentials command /broadcast !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsBroadcastCMDHelp(player)
+			else:
+				if (arg 1 parsed as world) is set:
+					if player has permission "essentials.*" or "essentials.broadcast.%arg 1 parsed as world%" or "essentials.broadcast.*":
+						if arg 2 isn't set:
+							EssentialsBroadcastCMDHelp(player)
+						else:
+							EssentialsBroadcastCmd(player, arg 1 parsed as world, arg 2)
+							send "&7[&cEssentials&7] &6You have send broadcast to world &c%arg 1 parsed as world% &6!" to player
+							stop
+					else:
+						send "&4| &cYou do not have permission to use this command !" to player
+						stop
+				else:
+					send "&4| &cThe world &6%arg 1% &cis not exist !" to player
+					stop
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "broadcast" or "essentials:broadcast" or "bc" or "essentials:bc":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.broadcast":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop

@@ -1,0 +1,78 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsExtinguishCmdNoArg(s: sender):
+	set {_s} on fire for 0 seconds
+	send "&7[&cEssentials&7] &7You have been extinguish !" to {_s}
+	stop
+
+function EssentialsExtinguishCmd(s: sender, arg1: offline player):
+	if {_s} = player:
+		if {_s} has permission "essentials.*" or "essentials.extinguish.%{_p}%" or "essentials.extinguish.*":
+			if {_p} is online:
+				if {_p} = "%{_s}%":
+					send "&4| &cYou cannot your extinguish yourself !" to {_s}
+					stop
+				else:
+					set {_p} on fire for 0 seconds
+					send "&7[&cEssentials&7] &6You have extinguish to the player &c%{Essentials::nickname::%{_p}'s uuid%}% &6!" to {_s}
+					send "&7[&cEssentials&7] &6You have been extinguish by &c%{Essentials::nickname::%{_s}'s uuid%}% &6!" to {_p}
+					stop
+			else:
+				send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+				stop
+		if {_s} doesn't have permission "essentials.*" or "essentials.extinguish.%{_p}%" or "essentials.extinguish.*":
+			send "&4| &cYou must be a player to use this command !" to {_s}
+			stop
+	if {_s} = console:
+		if {_p} is online:
+			set {_p} on fire for 0 seconds
+			send "&7[&cEssentials&7] &6You have extinguish to the player &c%{Essentials::nickname::%{_p}'s uuid%}% &6!" to {_s}
+			send "&7[&cEssentials&7] &6You have been extinguish by &cConsole &6!" to {_p}
+			stop
+		else:
+			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+			stop
+
+command /extinguish [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:extinguish, ext, essentials:ext
+	description: &fEssentials command /extinguish !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsExtinguishCmdNoArg(player)
+			else:
+				EssentialsExtinguishCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				send "" to console
+				send "&c| &6Help:" to console
+				send "" to console
+				send "&7| &f/extinguish &f[&cname of player&f] &6| &7Extinguish player !" to console
+				stop
+			else:
+				EssentialsExtinguishCmd(console, arg 1)
+
+on command "extinguish" or "essentials:extinguish" or "ext" or "essentials:ext":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.extinguish":
+			cancel event
+			send "&4| &cYou must be a player to use this command !" to player
+			stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.extinguish" or "essentials.*":
+		if line 1 = "[extinguish]" or "[ext]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[extinguish]"
+			send "&7[&cEssentials&7] &7You have created sign !" to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.extinguish" or "essentials.*":
+		if line 2 of block = "&1[extinguish]":
+			EssentialsExtinguishCmdNoArg(player)

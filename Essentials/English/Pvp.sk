@@ -1,0 +1,102 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsPvpCmdEnable(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.pvp.*" or "essentials.pvp.enable":
+		if {Essentials::pvp::%{_s}'s world%} is not set:
+			send "&7[&cEssentials&7] &7You have enabled pvp to the world !" to {_s}
+			enable pvp in {_s}'s world
+			set {Essentials::pvp::%{_s}'s world%} to true
+			set {Essentials::pvpnow::%{_s}'s world%} to now
+			set {Essentials::pvpauthor::%{_s}'s world%} to {_s}
+			stop
+		else:
+			send "&4| &cYou have already enabled pvp to the world !" to {_s}
+			stop
+	else:
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+function EssentialsPvpCmdDisable(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.pvp.*" or "essentials.pvp.disable":
+		if {Essentials::pvp::%{_s}'s world%} is not set:
+			send "&4| &cYou have already disabled pvp to the world !" to {_s}
+			stop
+		else:
+			send "&7[&cEssentials&7] &7You have disabled pvp to the world !" to {_s}
+			disable pvp in {_s}'s world
+			delete {Essentials::pvp::%{_s}'s world%}
+			set {Essentials::pvpnow::%{_s}'s world%} to now
+			set {Essentials::pvpauthor::%{_s}'s world%} to {_s}
+			stop
+	else:
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+on load:
+	loop all worlds:
+		if {Essentials::pvp::%loop-value%} isn't set:
+			set {Essentials::pvpnow::%loop-value%} to now
+			set {Essentials::pvpauthor::%loop-value%} to "Console"
+		else:
+			set {Essentials::pvpnow::%loop-value%} to now
+			set {Essentials::pvpauthor::%loop-value%} to "Console"
+	stop
+
+
+function EssentialsPvpCmdInfo(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.pvp.*" or "essentials.pvp.info":
+		send "" to {_s}
+		send "&c| &6Informations of pvp:" to {_s}
+		send "" to {_s}
+		send "&8| &7World: &c%{_s}'s world%" to {_s}
+		if {Essentials::pvp::%{_s}'s world%} isn't set:
+			send "&8| &7State: &cDisabled" to {_s}
+		else:
+			send "&8| &7State: &2Enabled" to {_s}
+		send "&8| &7Date: &c%{Essentials::pvpnow::%{_s}'s world%}%" to {_s}
+		send "&8| &7Author: &c%{Essentials::pvpauthor::%{_s}'s world%}%" to {_s}
+		stop
+	else:
+		send "&4| &cYou do not have permission to use this command !" to {_s}
+		stop
+
+function EssentialsPvpHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/pvp &benable&f/&7on &6| &7Enable pvp in world player !" to {_s}
+	send "&7| &f/pvp &bdisable&f/&7off &6| &7Disable pvp in world player !" to {_s}
+	send "&7| &f/pvp &binfo &6| &7Seen informations of pvp in world player !" to {_s}
+	stop
+
+command /pvp [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:pvp
+	description: &fEssentials command /pvp !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsPvpHelpCmd(player)
+			else:
+				if arg 1 != "enable" or "disable" or "on" or "off" or "info":
+					EssentialsPvpHelpCmd(player)
+				if arg 1 = "enable" or "on":
+					EssentialsPvpCmdEnable(player)
+				if arg 1 = "disable" or "off":
+					EssentialsPvpCmdDisable(player)
+				if arg 1 = "info":
+					EssentialsPvpCmdInfo(player)
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "pvp" or "essentials:pvp":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.pvp":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop

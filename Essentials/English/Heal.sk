@@ -1,0 +1,91 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsHealCmdNoArg(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.heal.bypass" or "essentials.heal.*":
+		heal {_s}
+		send "&7[&cEssentials&7] &7You have been healing !" to {_s}
+		stop
+	if {_s} doesn't have permission "essentials.*" or "essentials.heal.bypass" or "essentials.heal.*":
+		if {Essentials::healalready::%{_s}'s uuid%} isn't set:
+			set {Essentials::healalready::%{_s}'s uuid%} to true
+			send "&7[&cEssentials&7] &7You must wait &c5 &7seconds to be able to heal !" to {_s}
+			wait 5 seconds
+			heal {_s}
+			delete {Essentials::healalready::%{_s}'s uuid%}
+			send "&7[&cEssentials&7] &7You have been healing !" to {_s}
+			stop
+		else:
+			send "&4| &cYou already have a healing in progress !" to {_s}
+			stop
+
+function EssentialsHealCmd(s: sender, p: offline player):
+	if {_s} = player:
+		if {_s} has permission "essentials.*" or "essentials.heal.%{_p}%" or "essentials.heal.*":
+			if {_p} is online:
+				if {_p} = "%{_s}%":
+					send "&4| &cYou cannot your healing yourself !" to {_s}
+					stop
+				else:
+					heal {_p}
+					send "&7[&cEssentials&7] &6You have been healing by &c%{Essentials::nickname::%{_s}'s uuid%}% &6!" to {_p}
+					send "&7[&cEssentials&7] &6You have healing the player &c%{Essentials::nickname::%{_p}'s uuid%}% &6!" to {_s}
+					stop
+			else:
+				send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+				stop
+		else:
+			send "&4| &cYou do not have permission to use this command !" to {_s}
+			stop
+	if {_s} = console:
+		if {_p} is online:
+			heal {_p}
+			send "&7[&cEssentials&7] &6You have been healing by &cConsole &6!" to {_p}
+			send "&7[&cEssentials&7] &6You have healing the player &c%{Essentials::nickname::%{_p}'s uuid%}% &6!" to {_s}
+			stop
+		else:
+			send "&4| &cYou must put the name of a player connected to the server !" to {_s}
+			stop
+
+command /heal [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:heal
+	description: &fEssentials command /heal !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsHealCmdNoArg(player)
+			else:
+				EssentialsHealCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				send "" to console
+				send "&c| &6Help:" to console
+				send "" to console
+				send "&7| &f/heal &f[&cname of player&f] &6| &7Heal player !" to console
+				stop
+			else:
+				EssentialsHealCmd(console, arg 1)
+
+on command "heal" or "essentials:heal":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.heal":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.heal" or "essentials.*":
+		if line 1 = "[heal]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[heal]"
+			send "&7[&cEssentials&7] &7You have created sign !" to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.heal" or "essentials.*":
+		if line 2 of block = "&1[heal]":
+			EssentialsHealCmdNoArg(player)

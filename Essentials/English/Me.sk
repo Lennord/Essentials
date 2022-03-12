@@ -1,0 +1,38 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsMeCmd(s: sender, t: text):
+	if {_s} has permission "essentials.*" or "essentials.me.color":
+		send "&7[&c*&7] &f%{Essentials::nickname::%{_s}'s uuid%}% &6|-> &f%colored {_t}%" to all players
+		stop
+	if {_s} doesn't have permission "essentials.*" or "essentials.me.color":
+		send "&7[&c*&7] &f%{Essentials::nickname::%{_s}'s uuid%}% &6|-> &f%{_t}%" to all players
+		stop	
+
+command /me [<text>]:
+	executable by: player and console
+	aliases: essentials:me
+	description: &fEssentials command /me !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&c| &6Help:" to player
+				send "" to player
+				send "&7| &f/me &f[&ctext&f] &6| &7Send message of format type !" to player
+				stop
+			else:
+				EssentialsMeCmd(player, arg 1)	
+		if sender = console:
+			send "&4| &cYou must be a player to use this command !" to console
+			stop
+
+on command "me" or "essentials:me":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.me":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop

@@ -1,0 +1,64 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript !
+
+#  |-> PLUGIN CODE:
+
+function EssentialsEssentialsCmdReload(s: sender):
+	make console execute command "/sk reload Essentials/"
+	send "&7[&cEssentials&7] &6You have restarted the plugin !" to {_s}
+	stop
+
+function EssentialsEssentialsCmdInfo(s: sender):
+	send "" to {_s}
+	send "&c| &6Informations:&f%nl%%nl%&8| &7Name of plugin&6: &cEssentials &7(&cSkript&7)&f%nl%&8| &7Description of plugin&6: &cEssentials is a skript plugin that allows you to redo the Java plugin from A to Z but in script with improvements and new features.&f%nl%&8| &7Creator of plugin&6: &cAlexisl315 &7(Aliases: &cLennord&7)&f%nl%&8| &7Version of plugin&6: &c1.20.0-SNAPSHOT 2022.3b&f%nl%&8| &7Support version&6: &c1.18.2&f%nl%&8| &7Plugins required&6: &cSkript &7and &cSkungee &7(for &cBungeecord&7)" to {_s}
+	stop
+
+function EssentialsEssentialsHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/essentials &breload &6| &7Reload the skript !" to {_s}
+	send "&7| &f/essentials &binfo &6| &7Info to the skript !" to {_s}
+	stop
+
+command /essentials [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:essentials, ess, essentials:ess
+	description: &fEssentials command /essentials !
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsEssentialsHelpCmd(player)
+			else:
+				if arg 1 != "reload" or "info":
+					EssentialsEssentialsHelpCmd(player)
+				if arg 1 = "reload":
+					if player has permission "essentials.*" or "essentials.essentials.reload" or "essentials.essentials.*":
+						EssentialsEssentialsCmdReload(player)
+					else:
+						send "&4| &cYou do not have permission to use this command !" to player
+						stop
+				if arg 1 = "info":
+					if player has permission "essentials.*" or "essentials.essentials.info" or "essentials.essentials.*":
+						EssentialsEssentialsCmdInfo(player)
+					else:
+						send "&4| &cYou do not have permission to use this command !" to player
+						stop
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsEssentialsHelpCmd(console)
+			else:
+				if arg 1 != "reload" or "info":
+					EssentialsEssentialsHelpCmd(console)
+				if arg 1 = "reload":
+					EssentialsEssentialsCmdReload(console)
+				if arg 1 = "info":
+					EssentialsEssentialsCmdInfo(console)
+
+on command "ess" or "essentials:ess" or "essentials" or "essentials:essentials":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.essentials":
+			cancel event
+			send "&4| &cYou do not have permission to use this command !" to player
+			stop
