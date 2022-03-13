@@ -6,7 +6,7 @@
 
 function EssentialsPvpCmdEnable(s: sender):
 	if {_s} has permission "essentials.*" or "essentials.pvp.*" or "essentials.pvp.enable":
-		if {Essentials::pvp::%{_s}'s world%} is not set:
+		if {Essentials::pvp::%{_s}'s world%} isn't set:
 			send "&7You have enabled pvp to the world." to {_s}
 			enable pvp in {_s}'s world
 			set {Essentials::pvp::%{_s}'s world%} to true
@@ -22,8 +22,28 @@ function EssentialsPvpCmdEnable(s: sender):
 
 function EssentialsPvpCmdDisable(s: sender):
 	if {_s} has permission "essentials.*" or "essentials.pvp.*" or "essentials.pvp.disable":
-		if {Essentials::pvp::%{_s}'s world%} is not set:
+		if {Essentials::pvp::%{_s}'s world%} isn't set:
 			send "&4| &8x &cYou have already disabled pvp to the world." to {_s}
+			stop
+		else:
+			send "&7You have disabled pvp to the world." to {_s}
+			disable pvp in {_s}'s world
+			delete {Essentials::pvp::%{_s}'s world%}
+			set {Essentials::pvpnow::%{_s}'s world%} to now
+			set {Essentials::pvpauthor::%{_s}'s world%} to {_s}
+			stop
+	else:
+		send "&4| &8x &cYou do not have permission to use this command." to {_s}
+		stop
+
+function EssentialsPvpCmdToggle(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.pvp.*" or "essentials.pvp.toggle":
+		if {Essentials::pvp::%{_s}'s world%} isn't set:
+			send "&7You have enabled pvp to the world." to {_s}
+			enable pvp in {_s}'s world
+			set {Essentials::pvp::%{_s}'s world%} to true
+			set {Essentials::pvpnow::%{_s}'s world%} to now
+			set {Essentials::pvpauthor::%{_s}'s world%} to {_s}
 			stop
 		else:
 			send "&7You have disabled pvp to the world." to {_s}
@@ -70,6 +90,7 @@ function EssentialsPvpHelpCmd(s: sender):
 	send "&6| &f/pvp &benable&f/&7on &8x &7Enable pvp in world player." to {_s}
 	send "&6| &f/pvp &bdisable&f/&7off &8x &7Disable pvp in world player." to {_s}
 	send "&6| &f/pvp &binfo &8x &7Seen informations of pvp in world player." to {_s}
+	send "&6| &f/pvp &btoggle &8x &7Enable and disable pvp in in world player." to {_s}
 	stop
 
 command /pvp [<text>] [<text>]:
@@ -81,7 +102,7 @@ command /pvp [<text>] [<text>]:
 			if arg 1 isn't set:
 				EssentialsPvpHelpCmd(player)
 			else:
-				if arg 1 != "enable" or "disable" or "on" or "off" or "info":
+				if arg 1 != "enable" or "disable" or "on" or "off" or "info" or "toggle":
 					EssentialsPvpHelpCmd(player)
 				if arg 1 = "enable" or "on":
 					EssentialsPvpCmdEnable(player)
@@ -89,6 +110,8 @@ command /pvp [<text>] [<text>]:
 					EssentialsPvpCmdDisable(player)
 				if arg 1 = "info":
 					EssentialsPvpCmdInfo(player)
+				if arg 1 = "toggle":
+					EssentialsPvpCmdToggle(player)
 		if sender = console:
 			send "&4| &8x &cYou must be a player to use this command." to console
 			stop
