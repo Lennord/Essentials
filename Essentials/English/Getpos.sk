@@ -1,0 +1,60 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript.
+
+# |-> PLUGIN CODE:
+
+function EssentialsGetposCmdNoArg(s: sender):
+	send "&6Location of me: &c%location of {_s}%&6." to {_s}
+	stop
+
+function EssentialsGetposCmd(s: sender, p: offline player):
+	if {_s} = player:
+		if {_s} has permission "essentials.*" or "essentials.getpos.%{_p}%" or "essentials.getpos.*":
+			if {_p} is online:
+				if {_p} = "%{_s}%":
+					send "&4| &8x &cYou cannot see your altitude yourself." to {_s}
+					stop
+				else:
+					send "&6Location of &c%{Essentials::nickname::%{_p}'s uuid%}%&6: &c%location of {_p}%&6." to {_s}
+					stop
+			else:
+				send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
+				stop
+		else:
+			send "&4| &8x &cYou do not have permission to use this command." to {_s}
+			stop
+	if {_s} = console:
+		if {_p} is online:
+			send "&6Location of &c%{Essentials::nickname::%{_p}'s uuid%}%&6: &c%location of {_p}%&6." to {_s}
+			stop
+		else:
+			send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
+			stop
+
+command /getpos [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:getpos, coords, essentials:coords, getlocation, essentials:getlocation, getloc, essentials:getloc
+	description: &fEssentials command /getpos.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsGetposCmdNoArg(player)
+			else:
+				EssentialsGetposCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				send "" to console
+				send "&6| &8x &6Help:" to console
+				send "" to console
+				send "&6| &f/getpos &f[&cname of player&f] &8x &7Seen location of player." to console
+				stop
+			else:
+				EssentialsGetposCmd(console, arg 1)
+
+on command "getloc" or "essentials:getloc" or "getlocation" or "essentials:getlocation" or "coords" or "essentials:coords" or "getpos" or "essentials:getpos":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.getpos":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop

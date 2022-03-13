@@ -1,0 +1,262 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript.
+
+# |-> PLUGIN CODE:
+
+function EssentialsWarpCmd(s: sender, w: text, p: offline player):
+	if {_s} = player:
+		if {Essentials::warplist::%{_w}%} isn't set:
+			send "&4| &8x &cThe warp &6%{_w}% &cdoes not exist." to {_s}
+			stop
+		else:
+			if {_p} is online:
+				if {_p} = "{_s}":
+					send "&4| &8x &cYou cannot teleport yourself." to {_s}
+					stop
+				else: 
+					set {Essentials::backlocation::%{_p}'s uuid%} to location of {_p}
+					wait 1 tick
+					teleport {_p} to {Essentials::warplocation::%{_w}%}
+					send "&6You teleported the player &c%{Essentials::nickname::%{_p}'s uuid%}% &6to the warp &c%{_w}%&6." to {_s}
+					send "&7You have been teleported to warp &6%{_w}% &7by &6%{Essentials::nickname::%{_s}'s uuid%}%&7." to {_p}
+					stop
+			else:
+				send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
+				stop
+	if {_s} = console:
+		if {Essentials::warplist::%{_w}%} isn't set:
+			send "&4| &8x &cThe warp &6%{_w}% &cdoes not exist." to {_s}
+			stop
+		else:
+			if {_p} is online:
+				set {Essentials::backlocation::%{_p}'s uuid%} to location of {_p}
+				wait 1 tick
+				teleport {_p} to {Essentials::warplocation::%{_w}%}
+				send "&6You teleported the player &c%{Essentials::nickname::%{_p}'s uuid%}% &6to the warp &c%{_w}%&6." to {_s}
+				send "&7You have been teleported to warp &6%{_w}% &7by &6Console&7." to {_p}
+				stop
+			else:
+				send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
+				stop
+
+function EssentialsWarpCmdNoArg(s: sender, w: text):
+	if {_s} has permission "essentials.*" or "essentials.warp.%{_w}%" or "essentials.warp.*":
+		if {Essentials::warplist::%{_w}%} isn't set:
+			send "&4| &8x &cThe warp &6%{_w}% &cdoes not exist." to {_s}
+			stop
+		else:
+			if {_s} has permission "essentials.*" or "essentials.warp.bypass" or "essentials.warp.*":
+				set {Essentials::backlocation::%{_s}'s uuid%} to location of {_s}
+				wait 1 tick
+				teleport {_s} to {Essentials::warplocation::%{_w}%}
+				send "&7You have been teleported to warp &6%{_w}%&7." to {_s}
+				stop
+			else:
+				if {Essentials::warpteleportalready::%{_s}'s uuid%} isn't set:
+					set {Essentials::warpteleportalready::%{_s}'s uuid%} to true
+					send "&7You must wait &c5 &7seconds to be able to teleport to the &6%{_w}%&7." to {_s}
+					wait 5 seconds
+					set {Essentials::backlocation::%{_s}'s uuid%} to location of {_s}
+					wait 1 tick
+					teleport {_s} to {Essentials::warplocation::%{_w}%} 
+					delete {Essentials::warpteleportalready::%{_s}'s uuid%}
+					send "&7You have been teleported to warp &6%{_w}%&7." to {_s}
+					stop
+				else:
+					send "&4| &8x &cYou already have a teleportation in progress." to {_s}
+					stop
+	else:
+		send "&4| &8x &cYou do not have permission to use this command." to {_s}
+		stop
+
+function EssentialsDelwarpCmd(s: sender, w: text):
+	if {Essentials::warplist::%{_w}%} isn't set:
+		send "&4| &8x &cThe warp &6%{_w}% &cdoes not exist." to {_s}
+		stop
+	else:
+		delete {Essentials::warplocation::%{_w}%}
+		delete {Essentials::warpnow::%{_w}%}
+		delete {Essentials::warplist::%{_w}%}
+		send "&7You have deleted to warp &6%{_w}%&7." to {_s}
+		stop
+
+function EssentialsSetwarpCmd(s: sender, w: text):
+	if {Essentials::warplist::%{_w}%} isn't set:
+		set {Essentials::warpauthor::%{_w}%} to {_s}
+		set {Essentials::warplocation::%{_w}%} to location of {_s}
+		set {Essentials::warpnow::%{_w}%} to now
+		send "&7You have created to warp &6%{_w}%&7." to {_s}
+		set {Essentials::warplist::%{_w}%} to {_w}
+		stop
+	else:
+		send "&4| &8x &cThe warp &6%{_w}% &cis exist." to {_s}
+		stop
+
+function EssentialsWarpsCmd(s: sender):
+	if {Essentials::warplist::*} is set:
+		set {_result::warps} to 0
+		send "" to {_s}
+		send "&6| &8x &6List of warps:" to {_s}
+		send "" to {_s}
+		loop {Essentials::warplist::*}:
+			add 1 to {_result::warps} 
+			send "&6| &8x &6Warp &7%{_result::warps}%&7: &c%loop-value%" to {_s}
+		stop
+	else:
+		send "&4| &8x &cYou have no warp." to {_s}
+		stop
+
+function EssentialsWarpinfoCmd(s: sender, w: text):
+	if {_s} has permission "essentials.*" or "essentials.warpinfo.*" or "essentials.warpinfo.%{_w}%":
+		if {Essentials::warplist::%{_w}%} isn't set:
+			send "&4| &8x &cThe warp &6%{_w}% &cdoes not exist." to {_s}
+			stop
+		else:
+			send "" to {_s}
+			send "&c| &6Informations:&f%nl%%nl%&8| &7Name of warp: &c%{Essentials::warplist::%{_w}%}%&f%nl%&8| &7Name of creator: &c%{Essentials::warpauthor::%{_w}%}%&f%nl%&8| &7Date of warp for creator: &c%{Essentials::warpnow::%{_w}%}%&f%nl%&8| &7Location of warp: &c%{Essentials::warplocation::%{_w}%}%" to {_s}
+			stop
+	else:
+		send "&4| &8x &cYou do not have permission to use this command." to {_s}
+		stop
+
+function EssentialsWarpHelpCmd(s: sender):
+	send "" to {_s}
+	send "&c| &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/warp &7[&cname of warp&7] &7[&7Option: &cname of player&7] &6| &7Teleport to warp." to {_s}
+	stop
+
+command /warp [<text>] [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:warp
+	description: &fEssentials command /warp.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsWarpHelpCmd(player)
+			else:
+				if arg 2 isn't set:
+					EssentialsWarpCmdNoArg(player, arg 1)
+				else:
+					EssentialsWarpCmd(player, arg 1, arg 2)
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsWarpHelpCmd(console)
+			else:
+				if arg 2 isn't set:
+					EssentialsWarpHelpCmd(console)
+				else:
+					EssentialsWarpCmd(console, arg 1, arg 2)
+
+on command "warp" or "essentials:warp":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.warp":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /delwarp [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:delwarp, deletewarp, essentials:deletewarp
+	description: &fEssentials command /delwarp.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&6| &8x &6Help:" to player
+				send "" to player
+				send "&6| &f/delwarp &7[&cname of warp&7] &8x &7Delete warp type." to player
+				stop
+			else:
+				EssentialsDelwarpCmd(player, arg 1)
+		if sender = console:
+			send "&4| &8x &cYou must be a player to use this command." to console
+			stop
+
+on command "deletewarp" or "essentials:deletewarp" or "delwarp" or "essentials:delwarp":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.delwarp":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /warps [<text>]:
+	executable by: player and console
+	aliases: essentials:warps
+	description: &fEssentials command /warps.
+	trigger:
+		if sender = player:
+			EssentialsWarpsCmd(player)
+		if sender = console:
+			EssentialsWarpsCmd(player)
+
+on command "warps" or "essentials:warps":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.warps":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /setwarp [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:setwarp, createwarp, essentials:createwarp
+	description: &fEssentials command /setwarp.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&6| &8x &6Help:" to player
+				send "" to player
+				send "&6| &f/setwarp &7[&cname of warp&7] &8x &7Create warp type." to player
+				stop
+			else:
+				EssentialsSetwarpCmd(player, arg 1)
+		if sender = console:
+			send "&4| &8x &cYou must be a player to use this command." to console
+			stop
+
+on command "createwarp" or "essentials:createwarp" or "setwarp" or "essentials:setwarp":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.setwarp":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /warpinfo [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:warpinfo
+	description: &fEssentials command /warpinfo.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&6| &8x &6Help:" to player
+				send "" to player
+				send "&6| &f/warpinfo &7[&cname of warp&7] &8x &7Seen information of warp type." to player
+				stop
+			else:
+				EssentialsWarpinfoCmd(player, arg 1)
+		if sender = console:
+			send "&4| &8x &cYou must be a player to use this command." to console
+			stop
+
+on command "warpinfo" or "essentials:warpinfo":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.warpinfo":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.warps" or "essentials.*":
+		if line 1 = "[warps]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[warps]"
+			send "&7You have created sign." to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.warps" or "essentials.*":
+		if line 2 of block = "&1[warps]":
+			EssentialsWarpsCmd(player)

@@ -1,0 +1,253 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript.
+
+# |-> PLUGIN CODE:
+
+function EssentialsJailsCmd(s: sender):
+	if {Essentials::jailslist::*} is set:
+		set {_result::jails} to 0
+		send "" to {_s}
+		send "&6| &8x &6List of jails:" to {_s}
+		send "" to {_s}
+		loop {Essentials::jailslist::*}:
+			add 1 to {_result::jails} 
+			send "&6| &8x &6Jail &7%{_result::jails}%&7: &c%loop-value%" to {_s}
+		stop
+	else:
+		send "&4| &8x &cYou have no jail." to {_s}
+		stop
+
+function EssentialsSetjailCmd(s: sender, j: text):
+	if {Essentials::jailslist::%{_j}%} isn't set:
+		set {Essentials::jailcreator::%{_j}%} to {_s}
+		set {Essentials::jaillocation::%{_j}%} to location of {_s}
+		set {Essentials::jailslist::%{_j}%} to {_j}
+		send "&7You have created to jail &6%{_j}%&7." to {_s}
+		stop
+	else:
+		send "&4| &8x &cThe jail &6%{_j}% &cis exist." to {_s}
+		stop
+
+function EssentialsDeljailCmd(s: sender, j: text):
+	if {Essentials::jailslist::%{_j}%} isn't set:
+		send "&4| &8x &cThe jail &6%{_j}% &cdoes not exist." to {_s}
+		stop
+	else:
+		delete {Essentials::jailslist::%{_j}%}
+		delete {Essentials::jaillocation::%{_j}%}
+		send "&7You have deleted to jail &6%{_j}%&7." to {_s}
+		stop
+
+function EssentialsJailCmdNoArg(s: sender, p: offline player):
+	if {Essentials::jailplayer::%{_p}'s uuid%} is set:
+		delete {Essentials::jailplayer::%{_p}'s uuid%}
+		delete {Essentials::jailsplayerlist::%{_p}'s uuid%}
+		delete {Essentials::jailplayerlocation::%{_p}'s uuid%}
+		send "&6You have unjail to the player &c%{Essentials.use.nickname.use.%{_p}%}%&6." to {_s}
+		send "&6You have been unjail by &c%{Essentials.use.nickname.use.%{_p}%}%&6." to {_p}
+		stop
+	else:
+		send "&4| &8x &cYou have already unjail to the player &6%{Essentials.use.nickname.use.%{_p}%}%&c." to {_s}
+		stop
+
+function EssentialsJailCmd(s: sender, p: offline player, j: text):
+	if {Essentials::jailslist::%{_j}%} is set:
+		if {Essentials::jailplayer::%{_p}'s uuid%} isn't set:
+			set {Essentials::jailplayer::%{_p}'s uuid%} to true
+			set {Essentials::jailplayerlocation::%{_p}'s uuid%} to location of {_p}
+			set {Essentials::jailsplayerlist::%{_p}'s uuid%} to {_p}
+			teleport {_p} to {Essentials::jaillocation::%{_j}%}
+			send "&6You have jail to the player &c%{Essentials.use.nickname.use.%{_p}%}%&6." to {_s}
+			send "&6You have been jail by &c%{Essentials.use.nickname.use.%{_p}%}%&6." to {_p}
+			stop
+		else:
+			send "&4| &8x &cYou have already jail to the player &6%{Essentials.use.nickname.use.%{_p}%}%&c." to {_s}
+			stop
+	else:
+		send "&4| &8x &cThe jail &6%{_j}% &cdoes not exist." to {_s}
+		stop
+
+function EssentialsJailinfoCmd(s: sender, j: text):
+	if {_s} has permission "essentials.*" or "essentials.jailinfo.*" or "essentials.jailinfo.%{_j}%":
+		if {Essentials::jailslist::%{_j}%} isn't set:
+			send "&4| &8x &cThe jail &6%{_j}% &cdoes not exist." to {_s}
+			stop
+		else:
+			send "" to {_s}
+			send "&c| &6Informations:&f%nl%%nl%&8| &7Name of jail: &c%{Essentials::jailslist::%{_j}%}%&f%nl%&8| &7Name of creator: &c%{Essentials::jailcreator::%{_j}%}%&f%nl%&8| &7Location of jail: &c%{Essentials::jaillocation::%{_j}%}%" to {_s}
+			stop
+	else:
+		send "&4| &8x &cYou do not have permission to use this command." to {_s}
+		stop
+
+function EssentialsJailHelpCmd(s: sender):
+	send "" to {_s}
+	send "&6| &8x &6Help:" to {_s}
+	send "" to {_s}
+	send "&7| &f/togglejail &f[&cname of player&f] &f[&cname of jail&f] &6| &7Teleport player at location of jail type." to {_s}
+	stop
+
+command /jails [<text>]:
+	executable by: player and console
+	aliases: essentials:jails, jaillist, essentials:jaillist
+	description: &fEssentials command /jails.
+	trigger:
+		if sender is a player:
+			EssentialsJailsCmd(player)
+		if sender is console:
+			EssentialsJailsCmd(console)
+
+on command "jails" or "essentials:jails" or "jaillist" or "essentials:jaillist":
+	if sender is a player:
+		if player doesn't have permission "essentials.*" or "essentials.jails":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /setjail [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:setjail, createjail, essentials:createjail
+	description: &fEssentials command /setjail.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&6| &8x &6Help:" to player
+				send "" to player
+				send "&6| &f/setjail &f[&cname of jail&f] &8x &7Create jail at location of me." to player
+				stop
+			else:
+				EssentialsSetjailCmd(player, arg 1)
+		if sender = console:
+			send "&4| &8x &cYou must be a player to use this command." to console
+			stop
+
+on command "setjail" or "essentials:setjail" or "createjail" or "essentials:createjail":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.setjail":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /deljail [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:deljail, deletejail, essentials:deletejail, remjail, essentials:remjail, rmjail, essentials:rmjail
+	description: &fEssentials command /deljail.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&6| &8x &6Help:" to player
+				send "" to player
+				send "&6| &f/deljail &f[&cname of jail&f] &8x &7Delete jail type." to player
+				stop
+			else:
+				EssentialsDeljailCmd(player, arg 1)
+		if sender = console:
+			send "&4| &8x &cYou must be a player to use this command." to console
+			stop
+
+on command "rmjail" or "essentials:rmjail" or "remjail" or "essentials:remjail" or "deletejail" or "essentials:deletejail" or "deljail" or "essentials:deljail":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.deljail":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /togglejail [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:togglejail, unjail, essentials:unjail, jail, essentials:jail, tjail, essentials:tjail
+	description: &fEssentials command /togglejail.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&6| &8x &6Help:" to player
+				send "" to player
+				send "&6| &f/togglejail &f[&cname of player&f] &f[&cname of jail&f] &8x &7Teleport player at location of jail type." to player
+				stop
+			else:
+				if arg 1 is online:
+					if arg 1 != "%player%":
+						EssentialsJailHelpCmd(player)
+					else:
+						if arg 2 isn't set:
+							EssentialsJailCmdNoArg(player, arg 1)
+						else:
+							EssentialsJailCmd(player, arg 1, arg 2)
+				else:
+					send "&4| &8x &cYou must put the name of a player connected to the server." to player
+					stop
+		if sender = console:
+			send "&4| &8x &cYou must be a player to use this command." to console
+			stop
+
+on command "tjail" or "essentials:tjail" or "jail" or "essentials:jail" or "unjail" or "essentials:unjail" or "togglejail" or "essentials:togglejail":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.togglejail":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /jailinfo [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:jailinfo
+	description: &fEssentials command /jailinfo.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				send "" to player
+				send "&6| &8x &6Help:" to player
+				send "" to player
+				send "&6| &f/jailinfo &f[&cname of jail&f] &8x &7Seen information of jail type." to player
+				stop
+			else:
+				EssentialsJailinfoCmd(player, arg 1)
+		if sender = console:
+			send "&4| &8x &cYou must be a player to use this command." to console
+			stop
+
+on command "jailinfo" or "essentials:jailinfo":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.jailinfo":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+on damage:
+	if {Essentials::jailplayer::%victim's uuid%} is set:
+		if victim = player:
+			cancel event
+			stop
+
+on drop:
+	if {Essentials::jailplayer::%player's uuid%} is set:
+		cancel event
+		stop
+
+on inventory click:
+	if {Essentials::jailplayer::%player's uuid%} is set:
+		cancel event
+		stop
+
+on build:
+	if {Essentials::jailplayer::%player's uuid%} is set:
+		cancel event
+		stop
+
+on break:
+	if {Essentials::jailplayer::%player's uuid%} is set:
+		cancel event
+		stop
+
+on teleport:
+	if {Essentials::jailplayer::%player's uuid%} is set:
+		cancel event
+		stop
+
+on player move:
+	if {Essentials::jailplayer::%player's uuid%} is set:
+		if location of player != {Essentials::jailplayerlocation::%player's uuid%}:
+			cancel event
+			stop

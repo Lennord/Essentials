@@ -1,0 +1,92 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript.
+
+# |-> PLUGIN CODE:
+
+function EssentialsFeedCmdNoArg(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.feed.bypass" or "essentials.feed.*":
+		feed {_s}
+		send "&7You have been feeding." to {_s}
+		stop
+	else:
+		if {Essentials::feedalready::%{_s}'s uuid%} isn't set:
+			set {Essentials::feedalready::%{_s}'s uuid%} to true
+			send "&7You must wait &c5 &7seconds to be able to feed." to {_s}
+			wait 5 seconds
+			feed {_s}
+			wait 1 tick
+			delete {Essentials::feedalready::%{_s}'s uuid%}
+			send "&7You have been feeding." to {_s}
+			stop
+		else:
+			send "&4| &8x &cYou already have a feeding in progress." to {_s}
+			stop
+
+function EssentialsFeedCmd(s: sender, p: offline player):
+	if {_s} = player:
+		if {_s} has permission "essentials.*" or "essentials.feed.%{_p}%" or "essentials.feed.*":
+			if {_p} is online:
+				if {_p} is "%{_s}%":
+					send "&4| &8x &cYou cannot your feeding yourself." to {_s}
+					stop
+				else:
+					feed {_p}
+					send "&6You have been feeding by &c%{Essentials::nickname::%{_s}'s uuid%}%&6." to {_p}
+					send "&6You have feeding the player &c%{Essentials::nickname::%{_p}'s uuid%}%&6." to {_s}
+					stop
+			else:
+				send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
+				stop
+		else:
+			send "&4| &8x &cYou do not have permission to use this command." to {_s}
+			stop
+	if {_s} = console:
+		if {_p} is online:
+			feed {_p}
+			send "&6You have been feeding by &cConsole&6." to {_p}
+			send "&6You have feeding the player &c%{Essentials::nickname::%{_p}'s uuid%}%&6." to {_s}
+			stop
+		else:
+			send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
+			stop
+
+command /feed [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:feed
+	description: &fEssentials command /feed.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsFeedCmdNoArg(player)
+			else:
+				EssentialsFeedCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				send "" to console
+				send "&6| &8x &6Help:" to console
+				send "" to console
+				send "&6| &f/feed &f[&cname of player&f] &8x &7Feed player." to console
+				stop
+			else:
+				EssentialsFeedCmd(console, arg 1)
+
+on command "feed" or "essentials:feed":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.feed":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.feed" or "essentials.*":
+		if line 1 = "[feed]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[feed]"
+			send "&7You have created sign." to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.feed" or "essentials.*":
+		if line 2 of block = "&1[feed]":
+			EssentialsFeedCmdNoArg(player)

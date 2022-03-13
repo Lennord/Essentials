@@ -1,0 +1,51 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript.
+
+# |-> PLUGIN CODE:
+
+function EssentialsCompassCmd(s: sender, p: offline player):
+	if {_s} = player:
+		if {_p} is online:
+			send "&7Orientation of &c%{Essentials::nickname::%{_p}'s uuid%}%&7: &c%{_p}'s facing% &7(&c%{_p}'s yaw% &cdegrees&7)&6." to {_s}
+			stop
+		else:
+			send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
+			stop
+	if {_s} = console:
+		if {_p} is online:
+			send "&7Orientation of &c%{Essentials::nickname::%{_p}'s uuid%}%&7: &c%{_p}'s facing% &7(&c%{_p}'s yaw% &cdegrees&7)&6." to {_s}
+			stop
+		else:
+			send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
+			stop
+
+function EssentialsCompassHelpCmd(s: sender):
+	send "" to {_s}
+	send "&6| &8x &6Help:" to {_s}
+	send "" to {_s}
+	send "&6| &f/compass &f[&cname of player&f] &8x &7Seen orientation of player." to {_s}
+	stop
+
+command /compass [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:compass, direction, essentials:direction
+	description: &fEssentials command /compass.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsCompassHelpCmd(player)
+			else:
+				EssentialsCompassCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsCompassHelpCmd(console)
+			else:
+				EssentialsCompassCmd(console, arg 1)
+
+on command "direction" or "essentials:direction" or "compass" or "essentials:compass":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.compass":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop

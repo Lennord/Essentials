@@ -1,0 +1,61 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript.
+
+# |-> PLUGIN CODE:
+
+function EssentialsRandomteleportCmd(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.randomteleport.bypass":
+		set {Essentials::rtpteleportalready::%{_s}'s uuid%} to location at random number between 150 and 10000, 0, random number between 150 and 10000 in world {_s}'s world
+		loop blocks above {Essentials::rtpteleportalready::%{_s}'s uuid%}:
+			if loop-block and block above loop-block are air or cave air:
+				if block under loop-block is not void or air:
+					set {Essentials::backlocation::%{_s}'s uuid%} to location of {_s}
+					teleport {_s} to location of loop-block
+					wait 1 tick
+					if block under {_s} is cave air or water or lava:
+						set block under {_s} to stone
+					send "&7You have been random teleported." to {_s}
+					stop
+	else:
+		if {Essentials::rtpcooldown::%{_s}'s uuid%} is not set:
+			set {Essentials::rtpcooldown::%{_s}'s uuid%} to true
+			send "&7You must wait &c5 &7seconds to be able to random teleport." to {_s}
+			wait 5 seconds
+			set {Essentials::rtpteleportalready::%{_s}'s uuid%} to location at random number between 150 and 10000, 0, random number between 150 and 10000 in world {_s}'s world
+			loop blocks above {Essentials::rtpteleportalready::%{_s}'s uuid%}:
+				if loop-block and block above loop-block are air or cave air:
+					if block under loop-block is not void or air:
+						set {Essentials::backlocation::%{_s}'s uuid%} to location of {_s}
+						teleport {_s} to location of loop-block
+						wait 1 tick
+						if block under {_s} is cave air or water or lava:
+							set block under {_s} to stone
+						send "&7You have been random teleported." to {_s}
+						delete {Essentials::rtpcooldown::%{_s}'s uuid%}
+						stop
+		else:
+			send "&4| &8x &cYou already have a teleportation in progress." to {_s}
+			stop
+
+command /randomteleport [<text>]:
+	executable by: player and console
+	aliases: essentials:randomteleport, randomtp, essentials:randomtp, rtp, essentials:rtp
+	description: &fEssentials command /randomteleport.
+	trigger:
+		if sender = player:
+			EssentialsRandomteleportCmd(player)
+		if sender = console:
+			send "&4| &8x &cYou must be a player to use this command." to console
+			stop
+
+on command "rtp" or "essentials:rtp" or "randomtp" or "essentials:randomtp" or "randomteleport" or "essentials:randomteleport":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.randomteleport":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+on join:
+	delete {Essentials.use.randomteleport.use.teleport.use.%player's uuid%.use.cooldown.use}
+	stop

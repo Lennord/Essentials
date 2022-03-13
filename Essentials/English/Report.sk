@@ -1,0 +1,133 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript.
+
+# |-> PLUGIN CODE:
+
+function EssentialsReportCmd(s: sender, p: offline player, r: text):
+	if {_p} != "%{_s}%":
+		if {_p} is online:
+			send "&7You have reported the player &c%{Essentials::nickname::%{_p}'s uuid%}% &7for next reason. &7Reason: &c%{_r}%" to {_s}
+			set {Essentials::reportlist::%{_p}'s uuid%} to {_p}
+			set {Essentials::reportreason::%{_p}'s uuid%::%{_r}%} to {_r}
+			set {Essentials::reporttimes::%{_p}'s uuid%::%{_r}%} to now
+			stop
+		else:
+			send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
+			stop
+	else:
+		send "&4| &8x &cYou cannot your report yourself." to {_s}
+		stop
+
+function EssentialsReportsCmdList(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.reports.list" or "essentials.reports.*":
+		if {Essentials::reportlist::*} is set:
+			send "&6List of reports: &c%{Essentials::reportlist::*}%&c." to {_s}
+			stop
+		else:
+			send "&6List of reports: &cNone." to {_s}
+			stop
+	else:
+		send "&4| &8x &cYou do not have permission to use this command." to {_s}
+		stop
+
+function EssentialsReportsCmdShow(s: sender, p: offline player):
+	if {Essentials::reportlist::%{_p}'s uuid%} is set:
+		send "&6List of reasons for reporting the player &c%{_p}%&6: &c%{Essentials::reportreason::%{_p}'s uuid%::*}% &c(%{Essentials::reporttimes::%{_p}'s uuid%::*}%&c)&c." to {_s}
+		stop
+	else:
+		send "&cThe player &6%{_p}% &chas never been reported." to {_s}
+		stop
+
+function EssentialsReportsCmdReset(s: sender, p: offline player):
+	if {Essentials::reportlist::%{_p}'s uuid%} is set:
+		delete {Essentials::reportlist::%{_p}'s uuid%}
+		delete {Essentials::reportreason::%{_p}'s uuid%::*}
+		delete {Essentials::reporttimes::%{_p}'s uuid%::*}
+		send "&cThe player &6%{_p}% &chas never been reported." to {_s}
+		stop
+	else:
+		send "&cThe player &6%{_p}% &chas never been reported." to {_s}
+		stop
+
+function EssentialsReportsHelpCmd(s: sender):
+	send "" to {_s}
+	send "&6| &8x &6Help:" to {_s}
+	send "" to {_s}
+	send "&6| &f/reports &blist &8x &7Seen list all reports of all players." to {_s}
+	send "&6| &f/reports &bshow &f[&cname of player&f] &8x &7Seen show all reports of player." to {_s}
+	send "&6| &f/reports &breset &f[&cname of player&f] &8x &7Reset all reports of player." to {_s}
+	stop
+
+function EssentialsReportHelpCmd(s: sender):
+	send "" to {_s}
+	send "&6| &8x &6Help:" to {_s}
+	send "" to {_s}
+	send "&6| &f/report &f[&cname of player&f] &f[&creason&f] &8x &7Report player." to {_s}
+	stop
+
+command /reports [<text>] [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:reports
+	description: &fEssentials command /reports.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsReportsHelpCmd(player)
+			else:
+				if arg 1 != "list" or "show" or "reset":
+					EssentialsReportsHelpCmd(player)
+				if arg 1 = "list":
+					EssentialsReportsCmdList(player)
+				if arg 1 = "show":
+					if player has permission "essentials.*" or "essentials.reports.show" or "essentials.reports.*":
+						if arg 2 isn't set:
+							EssentialsReportsHelpCmd(player)
+						else:
+							EssentialsReportsCmdShow(player, arg 2)
+					else:
+						send "&4| &8x &cYou do not have permission to use this command." to player
+						stop
+				if arg 1 = "reset":
+					if player has permission "essentials.*" or "essentials.reports.reset" or "essentials.reports.*":
+						if arg 2 isn't set:
+							EssentialsReportsHelpCmd(player)
+						else:
+							EssentialsReportsCmdReset(player, arg 2)
+					else:
+						send "&4| &8x &cYou do not have permission to use this command." to player
+						stop
+		if sender = console:
+			send "&4| &8x &cYou must be a player to use this command." to console
+			stop
+
+on command "reports" or "essentials:reports":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.reports":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /report [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:report, alert, essentials:alert
+	description: &fEssentials command /report.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsReportHelpCmd(player)
+			else:
+				if arg 2 isn't set:
+					EssentialsReportHelpCmd(player)
+				else:
+					EssentialsReportCmd(player, arg 1, arg 2)
+		if sender is console:
+			send "&4| &8x &cYou must be a player to use this command." to console
+			stop
+
+on command "report" or "essentials:report" or "alert" or "essentials:alert":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.report":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop

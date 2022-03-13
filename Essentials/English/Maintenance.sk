@@ -1,0 +1,191 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript.
+
+# |-> PLUGIN CODE:
+
+options:
+	MaintenanceKickMessage: &8x &bNAME_OF_SERVER &8x%nl%%nl%&cYou have been kicked from the server.%nl%%nl%&7But why?%nl%%nl%&6You have been excluded from the server because the servers is maintenance.%nl%%nl%&7When can I reconnect?%nl%%nl%&6You can reconnect when the server is operational.%nl%%nl%&7How can I find out more information about the reason for my expulsion?%nl%%nl%&6To find out more information, just go to the discord and contact a member of the server staff.%nl%%nl%&7Discord: &cNAME_OF_DISCORD... &8x &7WebSite: &cADDRESS_OF_WEBSITE
+
+function EssentialsMaintenanceCmdEnable(s: sender):
+	if {_s} = player:
+		if {_s} has permission "essentials.*" or "essentials.maintenance.*" or "essentials.maintenance.enable":
+			if {Essentials::maintenance} isn't set:
+				loop all players:
+					if loop-player doesn't have permission "essentials.*" or "essentials.maintenance.bypass":
+						kick loop-player because "{@MaintenanceKickMessage}"
+						set {Essentials::maintenance} to true
+						set {Essentials::maintenancenow} to now
+						set {Essentials::maintenanceauthor} to {_s}
+						send "&6You have enabled the maintenance to server." to {_s}
+						stop
+			else:
+				send "&4| &8x &cYou have already enabled the maintenance to server." to {_s}
+				stop
+		else:
+			send "&4| &8x &cYou do not have permission to use this command." to {_s}
+			stop
+	if {_s} = console:
+		if {Essentials::maintenance} isn't set:
+			loop all players:
+				if loop-player doesn't have permission "essentials.*" or "essentials.maintenance.bypass":
+					kick loop-player because "{@MaintenanceKickMessage}"
+			set {Essentials::maintenance} to true
+			set {Essentials::maintenancenow} to now
+			set {Essentials::maintenanceauthor} to "Console"
+			send "&6You have enabled the maintenance to server." to {_s}
+			stop
+		else:
+			send "&4| &8x &cYou have already enabled the maintenance to server." to {_s}
+			stop
+
+function EssentialsMaintenanceCmdDisable(s: sender):
+	if {_s} = player:
+		if {_s} has permission "essentials.*" or "essentials.maintenance.*" or "essentials.maintenance.disable":
+			if {Essentials::maintenance} isn't set:
+				send "&4| &8x &cYou have already disabled the maintenance to server." to {_s}
+				stop
+			else:
+				delete {Essentials::maintenance}
+				set {Essentials::maintenancenow} to now
+				set {Essentials::maintenanceauthor} to {_s}
+				send "&6You have disabled the maintenance to server." to {_s}
+				stop
+		else:
+			send "&4| &8x &cYou do not have permission to use this command." to {_s}
+			stop
+	if {_s} = console:
+		if {Essentials::maintenance} isn't set:
+			send "&4| &8x &cYou have already disabled the maintenance to server." to {_s}
+			stop
+		else:
+			delete {Essentials::maintenance}
+			set {Essentials::maintenancenow} to now
+			set {Essentials::maintenanceauthor} to "Console"
+			send "&6You have disabled the maintenance to server." to {_s}
+			stop
+
+function EssentialsMaintenanceCmdToggle(s: sender):
+	if {_s} = player:
+		if {_s} has permission "essentials.*" or "essentials.maintenance.*" or "essentials.maintenance.toggle":
+			if {Essentials::maintenance} isn't set:
+				loop all players:
+					if loop-player doesn't have permission "essentials.*" or "essentials.maintenance.bypass":
+						kick loop-player because "{@MaintenanceKickMessage}"
+				set {Essentials::maintenance} to true
+				set {Essentials::maintenancenow} to now
+				set {Essentials::maintenanceauthor} to {_s}
+				send "&6You have enabled the maintenance to server." to {_s}
+				stop
+			else:
+				delete {Essentials::maintenance}
+				set {Essentials::maintenancenow} to now
+				set {Essentials::maintenanceauthor} to {_s}
+				send "&6You have disabled the maintenance to server." to {_s}
+				stop
+		else:
+			send "&4| &8x &cYou do not have permission to use this command." to {_s}
+			stop
+	if {_s} = console:
+		if {Essentials::maintenance} isn't set:
+			loop all players:
+				if loop-player doesn't have permission "essentials.*" or "essentials.maintenance.bypass":
+					kick loop-player because "{@MaintenanceKickMessage}"
+					set {Essentials::maintenance} to true
+					set {Essentials::maintenancenow} to now
+					set {Essentials::maintenanceauthor} to "Console"
+					send "&6You have enabled the maintenance to server." to {_s}
+					stop
+		else:
+			delete {Essentials::maintenance}
+			set {Essentials::maintenancenow} to now
+			set {Essentials::maintenanceauthor} to "Console"
+			send "&6You have disabled the maintenance to server." to {_s}
+			stop
+
+function EssentialsMaintenanceCmdInfo(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.maintenance.*" or "essentials.maintenance.info":
+		send "" to {_s}
+		send "&6| &8x &6Informations of maintenance:" to {_s}
+		send "" to {_s}
+		if {Essentials::maintenance} isn't set:	
+			send "&6| &8x &7State: &cDisabled" to {_s}
+		else:
+			send "&6| &8x &7State: &2Enabled" to {_s}
+		send "&6| &8x &7Date: &c%{Essentials::maintenancenow}%" to {_s}
+		send "&6| &8x &7Author: &c%{Essentials::maintenanceauthor}%" to {_s}
+		stop
+	else:
+		send "&4| &8x &cYou do not have permission to use this command." to {_s}
+		stop
+
+function EssentialsMaintenanceHelpCmd(s: sender):
+	send "" to {_s}
+	send "&6| &8x &6Help:" to {_s}
+	send "" to {_s}
+	send "&6| &f/maintenance &benable&f/&bon &8x &7Enable maintenance." to {_s}
+	send "&6| &f/maintenance &bdisable&f/&boff &8x &7Disable maintenance." to {_s}
+	send "&6| &f/maintenance &btoggle &8x &7Enable or Disable maintenance." to {_s}
+	send "&6| &f/maintenance &binfo &8x &7Seen informations of maintenance." to {_s}
+	stop
+
+command /maintenance [<text>] [<text>]:
+	executable by: player and console
+	aliases: essentials:maintenance
+	description: &fEssentials command /maintenance.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsMaintenanceHelpCmd(player)
+			else:
+				if arg 1 != "enable" or "disable" or "on" or "off" or "toggle" or "info":
+					EssentialsMaintenanceHelpCmd(player)
+				if arg 1 = "enable" or "on":
+					EssentialsMaintenanceCmdEnable(player)
+				if arg 1 = "disable" or "off":
+					EssentialsMaintenanceCmdDisable(player)
+				if arg 1 = "toggle":
+					EssentialsMaintenanceCmdToggle(player)
+				if arg 1 = "info":
+					EssentialsMaintenanceCmdInfo(player)
+		if sender is console:
+			if arg 1 isn't set:
+				EssentialsMaintenanceHelpCmd(player)
+			else:
+				if arg 1 != "enable" or "disable" or "on" or "off" or "toggle" or "info":
+					EssentialsMaintenanceHelpCmd(console)
+				if arg 1 = "enable" or "on":
+					EssentialsMaintenanceCmdEnable(console)
+				if arg 1 = "disable" or "off":
+					EssentialsMaintenanceCmdDisable(console)
+				if arg 1 = "toggle":
+					EssentialsMaintenanceCmdToggle(console)
+				if arg 1 = "info":
+					EssentialsMaintenanceCmdInfo(console)
+
+on command "maintenance" or "essentials:maintenance":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.maintenance":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+on load:
+	if {Essentials::maintenance} isn't set:
+		set {Essentials::maintenance} to true
+		set {Essentials::maintenancenow} to now
+		set {Essentials::maintenanceauthor} to "Console"
+		stop
+
+on every 1 tick:
+	if {Essentials::maintenance} is true:
+		loop all players:
+			if loop-player doesn't have permission "essentials.*" or "essentials.maintenance.bypass":
+				kick loop-player due to "{@MaintenanceKickMessage}"
+				stop
+
+on connect:
+	if {Essentials::maintenance} is true:
+		if player doesn't have permission "essentials.*" or "essentials.maintenance.bypass":
+			kick player due to "{@MaintenanceKickMessage}"
+			stop

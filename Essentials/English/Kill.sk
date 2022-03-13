@@ -1,0 +1,175 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript.
+
+# |-> PLUGIN CODE:
+
+function EssentialsKillallCmdAllplayers(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.killall.allplayers" or "essentials.killall.*":
+		loop all players:
+			set {Essentials::backlocation::%loop-player's uuid%} to location of loop-player
+			wait 1 tick
+			kill all players
+			send "&7You have killed all players." to {_s}
+			send "&6You have been killed by &c%{Essentials::nickname::%{_s}'s uuid%}%&6." to loop-player
+			stop
+	else:
+		send "&4| &8x &cYou do not have permission to use this command." to {_s}
+		stop
+
+function EssentialsKillallCmdAllmobs(s: sender):
+	if {_s} has permission "essentials.*" or "essentials.killall.allmobs" or "essentials.killall.*":
+		kill all mobs
+		kill all enderdragons
+		kill all withers
+		send "&7You have killed all mobs." to {_s}
+		stop
+	else:
+		send "&4| &8x &cYou do not have permission to use this command." to {_s}
+		stop
+
+function EssentialsKillCmd(s: sender, p: offline player):
+	if {_s} = player:
+		if {_s} has permission "essentials.*" or "essentials.kill.%{_p}%" or "essentials.kill.*":
+			if {_p} is online:
+				if {_p} = "%{_s}%":
+					send "&4| &8x &cYou cannot your kill yourself." to {_s}
+					stop
+				else:
+					if {Essentials::god::%{_p}'s uuid%} isn't set:
+						set {Essentials::backlocation::%{_p}'s uuid%} to location of {_p}
+						wait 1 tick
+						kill {_p}
+						send "&6You have killed the player &c%{Essentials::nickname::%{_p}'s uuid%}%&6." to {_s}
+						send "&6You have been killed by &c%{Essentials::nickname::%{_s}'s uuid%}%&6." to {_p}
+						stop
+					else:
+						send "&4| &8x &cYou cannot to killed the player &6%{Essentials::nickname::%{_p}'s uuid%}% &cbecause you have god mode enabled." to {_s}
+						stop
+			else:
+				send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
+				stop
+		else:
+			send "&4| &8x &cYou do not have permission to use this command." to {_s}
+			stop
+	if {_s} = console:
+		if {_p} is online:
+			if {Essentials::god::%{_p}'s uuid%} isn't set:
+				set {Essentials::backlocation::%{_p}'s uuid%} to location of {_p}
+				wait 1 tick
+				kill {_p}
+				send "&6You have killed the player &c%{Essentials::nickname::%{_p}'s uuid%}%&6." to {_s}
+				send "&6You have been killed by &cConsole&6." to {_p}
+				stop
+			else:
+				send "&4| &8x &cYou cannot to killed the player &6%{Essentials::nickname::%{_p}'s uuid%}% &cbecause you have god mode enabled." to {_s}
+				stop
+		else:
+			send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
+			stop
+
+function EssentialsSuicideCmd(s: sender):
+	if {Essentials::god::%{_s}'s uuid%} isn't set:
+		set {Essentials::backlocation::%{_s}'s uuid%} to location of {_s}
+		wait 1 tick
+		kill {_s}
+		send "&cYou committed suicide." to {_s}
+		stop
+	else:
+		send "&4| &8x &cYou cannot to suicide because you have god mode enabled." to {_s}
+		stop
+
+function EssentialsKillCmdHelp(s: sender):
+	send "" to {_s}
+	send "&6| &8x &6Help:" to {_s}
+	send "" to {_s}
+	send "&6| &f/kill &f[&cname of player&f] &8x &7Kill player." to {_s}
+	stop
+
+function EssentialsKillallHelpCmd(s: sender):
+	send "" to {_s}
+	send "&6| &8x &6Help:" to {_s}
+	send "" to {_s}
+	send "&6| &f/killall &ballplayers &8x &7Kill all players." to {_s}
+	send "&6| &f/killall &ballmobs &8x &7Kill all mobs." to {_s}
+	stop
+
+command /killall [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:killall
+	description: &fEssentials command /killall.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsKillallHelpCmd(player)
+			else:
+				if arg 1 != "allplayers" or "allmobs":
+					EssentialsKillallHelpCmd(player)
+				if arg 1 = "allplayers":
+					EssentialsKillallCmdAllplayers(player)
+				if arg 1 = "allmobs":
+					EssentialsKillallCmdAllmobs(player)
+		if sender = console:
+			send "&4| &8x &cYou must be a player to use this command." to console
+			stop
+
+on command "killall" or "essentials:killall":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.killall":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /kill [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:kill
+	description: &fEssentials command /kill.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsKillCmdHelp(player)
+			else:
+				EssentialsKillCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsKillCmdHelp(console)
+			else:
+				EssentialsKillCmd(console, arg 1)
+
+on command "kill" or "essentials:kill":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.kill":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /suicide [<text>]:
+	executable by: player and console
+	aliases: essentials:suicide
+	description: &fEssentials command /suicide.
+	trigger:
+		if sender = player:
+			EssentialsSuicideCmd(player)
+		if sender = console:
+			send "&4| &8x &cYou must be a player to use this command." to console
+			stop
+
+on command "suicide" or "essentials:suicide":
+	if sender = player:
+		if player doesn't have permission "essentials.*" or "essentials.suicide":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+on sign change:
+	if player has permission "essentials.sign.*" or "essentials.sign.create.*" or "essentials.sign.create.suicide" or "essentials.*":
+		if line 1 = "[suicide]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[suicide]"
+			send "&7You have created sign." to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.*" or "essentials.sign.use.*" or "essentials.sign.use.suicide" or "essentials.*":
+		if line 2 of block = "&1[suicide]":
+			EssentialsSuicideCmd(player)

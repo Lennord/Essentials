@@ -1,0 +1,397 @@
+# |-> Essentials (Skript) << # |->> Skript developed by alexisl315 (Lennord)
+
+# |-> This skript plugin allows you to redo and improve the Essentials plugin (Java) but in skript.
+
+# |-> PLUGIN CODE:
+
+options:
+	BanKickMessage: &8x &bNAME_OF_SERVER &8x%nl%%nl%&cYou have been banned definitively from the server.%nl%%nl%&7But why?%nl%%nl%&6You have been banned from the server because you have not respected the rules of the server.%nl%%nl%&7When can I reconnect?%nl%%nl%&6When you will be banned from the server.%nl%%nl%&7How can I find out more information about the reason for my banned?%nl%%nl%&6To find out more information, just go to the discord and contact a member of the server staff.%nl%%nl%&7Discord: &cNAME_OF_DISCORD... &8x &7WebSite: &cADDRESS_OF_WEBSITE
+
+function EssentialsBaniplistCmd(s: sender):
+	if {Essentials::baniplist::*} is set:
+		set {_result::banip} to 0
+		send "" to {_s}
+		send "&6| &8x &6List of banip:" to {_s}
+		send "" to {_s}
+		loop {Essentials::baniplist::*}:
+			add 1 to {_result::banip} 
+			send "&6| &8x &6Player &7%{_result::banip}%&7: &c%loop-value%" to {_s}
+		stop
+	else:
+		send "&4| &8x &cYou have no player's banned ip." to {_s}
+		stop
+
+function EssentialsBanlistCmd(s: sender):
+	if {Essentials::banlist::*} is set:
+		set {_result::ban} to 0
+		send "" to {_s}
+		send "&6| &8x &6List of ban:" to {_s}
+		send "" to {_s}
+		loop {Essentials::banlist::*}:
+			add 1 to {_result::ban} 
+			send "&6| &8x &6Player &7%{_result::ban}%&7: &c%loop-value%" to {_s}
+		stop
+	else:
+		send "&4| &8x &cYou have no player's banned." to {_s}
+		stop
+
+function EssentialsTempbanCmd(s: sender, p: offline player, r: text, t: timespan):
+	if {Essentials::tempban::%{_p}'s uuid%} isn't set:
+		set {Essentials::tempban::%{_p}'s uuid%} to true
+		set {Essentials::tempban::%{_p}'s uuid%::reason} to {_r}
+		set {Essentials::tempban::%{_p}'s uuid%::times} to {_t}
+		set {Essentials::tempban::%{_p}'s uuid%::timesnow} to now
+		set {Essentials::tempbanlist::%{_p}'s uuid%} to {_p}
+		wait 1 tick
+		delete {Essentials::banip::%{_p}'s uuid%}
+		delete {Essentials::banip::%{_p}'s uuid%::reason}
+		delete {Essentials::baniplist::%{_p}'s uuid%}
+		delete {Essentials::banip::%{Essentials::ip::%{_p}'s uuid%}%}
+		delete {Essentials::ban::%{_p}'s uuid%}
+		delete {Essentials::ban::%{_p}'s uuid%::reason}
+		delete {Essentials::banlist::%{_p}'s uuid%}
+		wait 1 tick
+		kick {_p} because "{@BanKickMessage}"
+		send "&6You have tempban the player &c%{_p}%&6." to {_s}
+		stop
+	else:
+		send "&4| &8x &cYou have already tempban the player &6%{_p}%&c." to {_s}
+		stop
+
+function EssentialsBanCmd(s: sender, p: offline player, r: text):
+	if {Essentials::ban::%{_p}'s uuid%} isn't set:
+		set {Essentials::ban::%{_p}'s uuid%} to true
+		set {Essentials::ban::%{_p}'s uuid%::reason} to {_r}
+		set {Essentials::banlist::%{_p}'s uuid%} to {_p}
+		wait 1 tick
+		delete {Essentials::tempban::%{_p}'s uuid%}
+		delete {Essentials::tempban::%{_p}'s uuid%::reason}
+		delete {Essentials::tempban::%{_p}'s uuid%::times}
+		delete {Essentials::tempban::%{_p}'s uuid%::times::timesnow}
+		delete {Essentials::tempban::list::%{_p}'s uuid%}
+		delete {Essentials::banip::%{_p}'s uuid%}
+		delete {Essentials::banip::%{_p}'s uuid%::reason}
+		delete {Essentials::baniplist::%{_p}'s uuid%}
+		delete {Essentials::banip::%{Essentials::ip::%{_p}'s uuid%}%}
+		kick {_p} because "{@BanKickMessage}"
+		send "&6You have ban the player &c%{_p}%&6." to {_s}
+		stop
+	else:
+		send "&4| &8x &cYou have already ban the player &6%{_p}%&c." to {_s}
+		stop
+
+function EssentialsUnbanCmd(s: sender, p: offline player):
+	if {Essentials::ban::%{_p}'s uuid%} or {Essentials::tempban::%{_p}'s uuid%} is set:
+		delete {Essentials::banip::%{_p}'s uuid%}
+		delete {Essentials::banip::%{_p}'s uuid%::reason}
+		delete {Essentials::baniplist::%{_p}'s uuid%}
+		delete {Essentials::banip::%{Essentials::ip::%{_p}'s uuid%}%}
+		delete {Essentials::tempban::%{_p}'s uuid%}
+		delete {Essentials::tempban::%{_p}'s uuid%::reason}
+		delete {Essentials::tempban::%{_p}'s uuid%::times}
+		delete {Essentials::tempban::%{_p}'s uuid%::times::timesnow}
+		delete {Essentials::tempban::list::%{_p}'s uuid%}
+		delete {Essentials::ban::%{_p}'s uuid%}
+		delete {Essentials::ban::%{_p}'s uuid%::reason}
+		delete {Essentials::banlist::%{_p}'s uuid%}
+		send "&6You have unban the player &c%{_p}%&6." to {_s}
+		stop
+	if {Essentials::ban::%{_p}'s uuid%} and {Essentials::tempban::%{_p}'s uuid%} isn't set:
+		send "&4| &8x &cYou have already unban the player &6%{_p}%&c." to {_s}
+		stop
+
+function EssentialsUnbanipCmd(s: sender, p: offline player):
+	if {Essentials::banip::%{_p}'s uuid%} isn't set:
+		send "&4| &8x &cYou have already unbanip the player &6%{_p}%&c." to {_s}
+		stop
+	if {Essentials::banip::%{_p}'s uuid%} is set:
+		delete {Essentials::banip::%{_p}'s uuid%}
+		delete {Essentials::banip::%{_p}'s uuid%::reason}
+		delete {Essentials::baniplist::%{_p}'s uuid%}
+		delete {Essentials::banip::%{Essentials::ip::%{_p}'s uuid%}%}
+		delete {Essentials::tempban::%{_p}'s uuid%}
+		delete {Essentials::tempban::%{_p}'s uuid%::reason}
+		delete {Essentials::tempban::%{_p}'s uuid%::times}
+		delete {Essentials::tempban::%{_p}'s uuid%::times::timesnow}
+		delete {Essentials::tempban::list::%{_p}'s uuid%}
+		delete {Essentials::ban::%{_p}'s uuid%}
+		delete {Essentials::ban::%{_p}'s uuid%::reason}
+		delete {Essentials::banlist::%{_p}'s uuid%}
+		send "&6You have unbanip the player &c%{_p}%&6." to {_s}
+		stop
+
+function EssentialsBanipCmd(s: sender, p: offline player, r: text):
+	if {Essentials::banip::%{_p}'s uuid%} isn't set:
+		set {Essentials::banip::%{_p}'s uuid%} to true
+		set {Essentials::banip::%{_p}'s uuid%::reason} to {_r}
+		set {Essentials::baniplist::%{_p}'s uuid%} to {_p}
+		set {Essentials::banip::%{Essentials::ip::%{_p}'s uuid%}%} to true
+		wait 1 tick
+		delete {Essentials::tempban::%{_p}'s uuid%}
+		delete {Essentials::tempban::%{_p}'s uuid%::reason}
+		delete {Essentials::tempban::%{_p}'s uuid%::times}
+		delete {Essentials::tempban::%{_p}'s uuid%::times::timesnow}
+		delete {Essentials::tempban::list::%{_p}'s uuid%}
+		delete {Essentials::ban::%{_p}'s uuid%}
+		delete {Essentials::ban::%{_p}'s uuid%::reason}
+		delete {Essentials::banlist::%{_p}'s uuid%}
+		kick {_p} because "{@BanKickMessage}"
+		wait 1 tick
+		send "&6You have banip the player &c%{_p}%&6." to {_s}
+		stop
+	if {Essentials::banip::%{_p}'s uuid%} is set:
+		send "&4| &8x &cYou have already banip the player &6%{_p}%&c." to {_s}
+		stop
+
+function EssentialsUnbanCmdJoin(s: sender):
+	if {Essentials::tempban::%{_s}'s uuid%} is set:
+		if difference between now and {Essentials::tempban::%{_s}'s uuid%::timesnow} is bigger than {Essentials::tempban::%{_s}'s uuid%::times}:
+			delete {Essentials::banip::%{_s}'s uuid%}
+			delete {Essentials::banip::%{_s}'s uuid%::reason}
+			delete {Essentials::baniplist::%{_s}'s uuid%}
+			delete {Essentials::tempban::%{_s}'s uuid%}
+			delete {Essentials::tempban::%{_s}'s uuid%::reason}
+			delete {Essentials::tempban::%{_s}'s uuid%::times}
+			delete {Essentials::tempban::%{_s}'s uuid%::timesnow}
+			delete {Essentials::tempban::list::%{_s}'s uuid%}
+			delete {Essentials::ban::%{_s}'s uuid%}
+			delete {Essentials::ban::%{_s}'s uuid%::reason}
+			delete {Essentials::banlist::%{_s}'s uuid%}
+			stop
+		if difference between now and {Essentials::tempban::%{_s}'s uuid%::timesnow} is smaller than {Essentials::tempban::%{_s}'s uuid%::times}:
+			wait 1 tick
+			kick {_s} because "{@BanKickMessage}"
+			stop
+
+function EssentialsTempbanHelpCmd(s: sender):
+	send "" to {_s}
+	send "&6| &8x &6Help:" to {_s}
+	send "" to {_s}
+	send "&6| &f/tempban &f[&cname of player&f] &f[&creason&f] &f[&cnumber of time for ban&f] &8x &7Ban temporarily to player." to {_s}
+	stop
+
+function EssentialsBanHelpCmd(s: sender):
+	send "" to {_s}
+	send "&6| &8x &6Help:" to {_s}
+	send "" to {_s}
+	send "&6| &f/ban &f[&cname of player&f] &f[&creason&f] &8x &7Ban to player." to {_s}
+	stop
+
+function EssentialsUnbanHelpCmd(s: sender):
+	send "" to {_s}
+	send "&6| &8x &6Help:" to {_s}
+	send "" to {_s}
+	send "&6| &f/unban &f[&cname of player&f] &8x &7Unban to player." to {_s}
+	stop
+
+function EssentialsUnbanipHelpCmd(s: sender):
+	send "" to {_s}
+	send "&6| &8x &6Help:" to {_s}
+	send "" to {_s}
+	send "&6| &f/unbanip &f[&cname of player&f] &8x &7Unban ip to player." to {_s}
+	stop
+
+function EssentialsBanipHelpCmd(s: sender):
+	send "" to {_s}
+	send "&6| &8x &6Help:" to {_s}
+	send "" to {_s}
+	send "&6| &f/banip &f[&cname of player&f] &f[&creason&f] &8x &7Ban ip to player." to {_s}
+	stop
+
+command /baniplist [<text>]:
+	executable by: player and console
+	aliases: essentials:baniplist
+	description: &fEssentials command /baniplist.
+	trigger:
+		if sender = player:
+			EssentialsBaniplistCmd(player)
+		if sender = console:
+			EssentialsBaniplistCmd(console)
+
+on command "baniplist" or "essentials:baniplist":
+	if sender = player:
+		if player doesn't have permission "essentials::*" or "essentials::baniplist":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /banlist [<text>]:
+	executable by: player and console
+	aliases: essentials:banlist
+	description: &fEssentials command /banlist.
+	trigger:
+		if sender = player:
+			EssentialsBanlistCmd(player)
+		if sender = console:
+			EssentialsBanlistCmd(console)
+
+on command "banlist" or "essentials:banlist":
+	if sender = player:
+		if player doesn't have permission "essentials::*" or "essentials::banlist":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /tempban [<offline player>] [<text>] [<timespan>]:
+	executable by: player and console
+	aliases: essentials:tempban
+	description: &fEssentials command /tempban.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsTempbanHelpCmd(player)
+			else:
+				if arg 2 isn't set:
+					EssentialsTempbanHelpCmd(player)
+				else:
+					if arg 3 isn't set:
+						EssentialsTempbanHelpCmd(player)
+					else:
+						EssentialsTempbanCmd(player, arg 1, arg 2, arg 3)
+		if sender = console:			
+			if arg 1 isn't set:
+				EssentialsTempbanHelpCmd(console)
+			else:
+				if arg 2 isn't set:
+					EssentialsTempbanHelpCmd(console)
+				else:
+					if arg 3 isn't set:
+						EssentialsTempbanHelpCmd(console)
+					else:
+						EssentialsTempbanCmd(console, arg 1, arg 2, arg 3)
+
+on command "tempban" or "essentials:tempban":
+	if sender = player:
+		if player doesn't have permission "essentials::*" or "essentials::tempban":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /ban [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:ban
+	description: &fEssentials command /ban.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsBanHelpCmd(player)
+			else:
+				if arg 2 isn't set:
+					EssentialsBanHelpCmd(player)
+				else:
+					EssentialsBanCmd(player, arg 1, arg 2)
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsBanHelpCmd(console)
+			else:
+				if arg 2 isn't set:
+					EssentialsBanHelpCmd(console)
+				else:
+					EssentialsBanCmd(console, arg 1, arg 2)
+
+on command "ban" or "essentials:ban":
+	if sender = player:
+		if player doesn't have permission "essentials::*" or "essentials::ban":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /unban [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:unban
+	description: &fEssentials command /unban.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsUnbanHelpCmd(player)
+			else:
+				EssentialsUnbanCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsUnbanHelpCmd(console)
+			else:
+				EssentialsUnbanCmd(console, arg 1)
+
+on command "unban" or "essentials:unban":
+	if sender = player:
+		if player doesn't have permission "essentials::*" or "essentials::unban":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /unbanip [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:unbanip
+	description: &fEssentials command /unbanip.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsUnbanipHelpCmd(player)
+			else:
+				EssentialsUnbanipCmd(player, arg 1)
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsUnbanipHelpCmd(console)
+			else:
+				EssentialsUnbanipCmd(console, arg 1)
+
+on command "unbanip" or "essentials:unbanip" or "banip" or "essentials:banip":
+	if sender = player:
+		if player doesn't have permission "essentials::*" or "essentials::unbanip":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+command /banip [<offline player>] [<text>]:
+	executable by: player and console
+	aliases: essentials:banip
+	description: &fEssentials command /banip.
+	trigger:
+		if sender = player:
+			if arg 1 isn't set:
+				EssentialsBanipHelpCmd(player)
+			else:
+				if arg 2 isn't set:
+					EssentialsBanipHelpCmd(player)
+				else:
+					EssentialsBanipCmd(player, arg 1, arg 2)
+		if sender = console:
+			if arg 1 isn't set:
+				EssentialsBanipHelpCmd(console)
+			else:
+				if arg 2 isn't set:
+					EssentialsBanipHelpCmd(console)
+				else:
+					EssentialsBanipCmd(console, arg 1, arg 2)
+
+on command "banip" or "essentials:banip":
+	if sender = player:
+		if player doesn't have permission "essentials::*" or "essentials::banip":
+			cancel event
+			send "&4| &8x &cYou do not have permission to use this command." to player
+			stop
+
+on join:
+	EssentialsUnbanCmdJoin(player)
+
+on join:
+	if {Essentials::banip::%player's uuid%} is set:
+		wait 1 tick
+		kick player due to " &c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been ban life from the server.%nl%%nl%&7Reason: &c%{Essentials::banip::%player's uuid%::reason}%%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
+		stop
+
+on join:
+	if {Essentials::ban::%player's uuid%} is set:
+		wait 1 tick
+		kick player due to "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been ban from the server.%nl%%nl%&7Reason: &c%{Essentials::ban::%player's uuid%::reason}%%nl%%nl%&c-_-_-_-_- &fServer Infos "
+		stop
+
+on connect:
+	set {Essentials::ip::%player's uuid%} to ip of player
+	stop
+
+on every 20 ticks:
+	loop all players:
+		if {Essentials::banip::%{Essentials::ip::%loop-player's uuid%}%} is set:
+			kick loop-player due to "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been ban life from the server.%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
+			stop
