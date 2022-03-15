@@ -76,15 +76,15 @@ function EssentialsGamemodeCmdSurvival(s: sender, p: offline player):
 				stop
 			else:
 				if gamemode of {_p} = survival:
-					send "&4| &8x &cYou have already changed gamemode to survival for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+					send "&4| &8x &cYou have already changed gamemode to survival for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
 					stop
 				else:
 					delete {Essentials::fly::%{_p}'s uuid%}
 					set gamemode of {_p} to survival
 					delete {Essentials::god::%{_p}'s uuid%}
 					wait 1 tick
-					send "&7You have changed gamemode to survival for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
-					send "&6Your gamemode have been changed by &c%{Essentials.use.nickname.use.%{_s}%.use}%&6." to {_p}
+					send "&7You have changed gamemode to survival for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
+					send "&6Your gamemode have been changed by &c%{Essentials::nickname::%{_s}'s uuid%}%&6." to {_p}
 					stop
 		else:
 			send "&4| &8x &cYou do not have permission to use th= command." to {_s}
@@ -95,14 +95,14 @@ function EssentialsGamemodeCmdSurvival(s: sender, p: offline player):
 			stop
 		else:
 			if gamemode of {_p} = survival:
-				send "&4| &8x &cYou have already changed gamemode to survival for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+				send "&4| &8x &cYou have already changed gamemode to survival for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
 				stop
 			else:
 				delete {Essentials::fly::%{_p}'s uuid%}
 				set gamemode of {_p} to survival
 				delete {Essentials::god::%{_p}'s uuid%}
 				wait 1 tick
-				send "&7You have changed gamemode to survival for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+				send "&7You have changed gamemode to survival for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
 				send "&6Your gamemode have been changed by &cConsole&6." to {_p}
 				stop
 
@@ -114,29 +114,29 @@ function EssentialsGamemodeCmdCreative(s: sender, p: offline player):
 				stop
 			else:
 				if gamemode of {_p} = creative:
-					send "&4| &8x &cYou have already changed gamemode to creative for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+					send "&4| &8x &cYou have already changed gamemode to creative for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
 					stop
 				else:
 					set {Essentials::fly::%{_p}'s uuid%} to true
 					set gamemode of {_p} to creative
 					set {Essentials::god::%{_p}'s uuid%} to true
 					wait 1 tick
-					send "&7You have changed gamemode to creative for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
-					send "&6Your gamemode have been changed by &c%{Essentials.use.nickname.use.%{_s}%.use}%&6." to {_p}
+					send "&7You have changed gamemode to creative for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
+					send "&6Your gamemode have been changed by &c%{Essentials::nickname::%{_s}'s uuid%}%&6." to {_p}
 					stop
 		else:
 			send "&4| &8x &cYou do not have permission to use th= command." to {_s}
 			stop
 	if {_s} = console:
 		if gamemode of {_p} = creative:
-			send "&4| &8x &cYou have already changed gamemode to creative for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			send "&4| &8x &cYou have already changed gamemode to creative for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
 			stop
 		else:
 			set {Essentials::fly::%{_p}'s uuid%} to true
 			set gamemode of {_p} to creative
 			set {Essentials::god::%{_p}'s uuid%} to true
 			wait 1 tick
-			send "&7You have changed gamemode to creative for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			send "&7You have changed gamemode to creative for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
 			send "&6Your gamemode have been changed by &cConsole&6." to {_p}
 			stop
 
@@ -148,29 +148,29 @@ function EssentialsGamemodeCmdAdventure(s: sender, p: offline player):
 				stop
 			else:
 				if gamemode of {_p} = adventure:
-					send "&4| &8x &cYou have already changed gamemode to adventure for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+					send "&4| &8x &cYou have already changed gamemode to adventure for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
 					stop
 				else:
 					delete {Essentials::fly::%{_p}'s uuid%}
 					set gamemode of {_p} to adventure
 					delete {Essentials::god::%{_p}'s uuid%}
 					wait 1 tick
-					send "&7You have changed gamemode to adventure for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
-					send "&6Your gamemode have been changed by &c%{Essentials.use.nickname.use.%{_s}%.use}%&6." to {_p}
+					send "&7You have changed gamemode to adventure for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
+					send "&6Your gamemode have been changed by &c%{Essentials::nickname::%{_s}'s uuid%}%&6." to {_p}
 					stop
 		else:
 			send "&4| &8x &cYou do not have permission to use th= command." to {_s}
 			stop
 	if {_s} = console:
 		if gamemode of {_p} = adventure:
-			send "&4| &8x &cYou have already changed gamemode to adventure for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			send "&4| &8x &cYou have already changed gamemode to adventure for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
 			stop
 		else:
 			delete {Essentials::fly::%{_p}'s uuid%}
 			set gamemode of {_p} to adventure
 			delete {Essentials::god::%{_p}'s uuid%}
 			wait 1 tick
-			send "&7You have changed gamemode to adventure for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			send "&7You have changed gamemode to adventure for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
 			send "&6Your gamemode have been changed by &cConsole&6." to {_p}
 			stop
 
@@ -182,29 +182,29 @@ function EssentialsGamemodeCmdSpectator(s: sender, p: offline player):
 				stop
 			else:
 				if gamemode of {_p} = spectator:
-					send "&4| &8x &cYou have already changed gamemode to spectator for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+					send "&4| &8x &cYou have already changed gamemode to spectator for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
 					stop
 				else:
 					set {Essentials::fly::%{_p}'s uuid%} to true
 					set gamemode of {_p} to spectator
 					set {Essentials::god::%{_p}'s uuid%} to true
 					wait 1 tick
-					send "&7You have changed gamemode to spectator for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
-					send "&6Your gamemode have been changed by &c%{Essentials.use.nickname.use.%{_s}%.use}%&6." to {_p}
+					send "&7You have changed gamemode to spectator for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
+					send "&6Your gamemode have been changed by &c%{Essentials::nickname::%{_s}'s uuid%}%&6." to {_p}
 					stop
 		else:
 			send "&4| &8x &cYou do not have permission to use th= command." to {_s}
 			stop
 	if {_s} = console:
 		if gamemode of {_p} = spectator:
-			send "&4| &8x &cYou have already changed gamemode to spectator for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			send "&4| &8x &cYou have already changed gamemode to spectator for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
 			stop
 		else:
 			set {Essentials::fly::%{_p}'s uuid%} to true
 			set gamemode of {_p} to spectator
 			set {Essentials::god::%{_p}'s uuid%} to true
 			wait 1 tick
-			send "&7You have changed gamemode to spectator for &6%{Essentials.use.nickname.use.%{_p}%.use}% &c!" to {_s}
+			send "&7You have changed gamemode to spectator for &6%{Essentials::nickname::%{_p}'s uuid%}%&c." to {_s}
 			send "&6Your gamemode have been changed by &cConsole&6." to {_p}
 			stop
 
