@@ -9,13 +9,17 @@ function EssentialsAfkCmdNoArg(s: sender):
 		send "&7You have enabled your afk mode." to {_s}
 		set {Essentials::afk::%{_s}'s uuid%} to true
 		set {Essentials::afklocation::%{_s}'s uuid%} to location of {_s}
-		broadcast "&7[&cAFK&7] &6| &f%{Essentials::nickname::%{_s}'s uuid%}%"
+		loop all players:
+			if loop-player has permission "essentials.*" or "essentials.afk.message":
+				send "&7[&cAFK&7] &6| &f%{Essentials::nickname::%{_s}'s uuid%}%" to loop-player
 		stop
 	else:
 		send "&7You have disabled your afk mode." to {_s}
 		delete {Essentials::afk::%{_s}'s uuid%}
 		delete {Essentials::afklocation::%{_s}'s uuid%}
-		broadcast "&7[&cNO-AFK&7] &6| &f%{Essentials::nickname::%{_s}'s uuid%}%"
+		loop all players:
+			if loop-player has permission "essentials.*" or "essentials.afk.message":
+				send "&7[&cNO-AFK&7] &6| &f%{Essentials::nickname::%{_s}'s uuid%}%" to loop-player
 		stop
 
 function EssentialsAfkCmd(s: sender, p: offline player):
@@ -28,13 +32,17 @@ function EssentialsAfkCmd(s: sender, p: offline player):
 				if {Essentials::afk::%{_p}'s uuid%} isn't set:
 					send "&6You have enabled afk mode to the player &c%{Essentials::nickname::%{_p}'s uuid%}% &6!" to {_s}
 					send "&6You have been enabled afk mode by &c%{Essentials::nickname::%{_s}'s uuid%}% &6!" to {_p}
-					broadcast "&7[&cAFK&7] &6| &f%{Essentials::nickname::%{_s}'s uuid%}%"
+					loop all players:
+						if loop-player has permission "essentials.*" or "essentials.afk.message":
+							send "&7[&cAFK&7] &6| &f%{Essentials::nickname::%{_p}'s uuid%}%" to loop-player
 					set {Essentials::afk::%{_p}'s uuid%} to true
 					stop
 				else:
 					send "&6You have disabled afk mode to the player &c%{Essentials::nickname::%{_p}'s uuid%}% &6!" to {_s}
 					send "&6You have been disabled afk mode by &c%{Essentials::nickname::%{_s}'s uuid%}% &6!" to {_p}
-					broadcast "&7[&cNO-AFK&7] &6| &f%{Essentials::nickname::%{_s}'s uuid%}%"
+					loop all players:
+						if loop-player has permission "essentials.*" or "essentials.afk.message":
+							send "&7[&cNO-AFK&7] &6| &f%{Essentials::nickname::%{_p}'s uuid%}%" to loop-player
 					delete {Essentials::afk::%{_p}'s uuid%}
 					stop
 		else:
@@ -46,7 +54,9 @@ function EssentialsAfkCmd(s: sender, p: offline player):
 
 function EssentialsAfkCmdSystem(s: sender):
 	if {Essentials::afk::%{_s}'s uuid%} is set:
-		broadcast "&7[&cNO-AFK&7] &6| &f%{Essentials::nickname::%{_s}'s uuid%}%"
+		loop all players:
+			if loop-player has permission "essentials.*" or "essentials.afk.message" or "essentials.afk.*":
+				send "&7[&cNO-AFK&7] &6| &f%{Essentials::nickname::%{_s}'s uuid%}%" to loop-player
 		delete {Essentials::afk::%{_s}'s uuid%}
 		stop
 
@@ -102,6 +112,6 @@ on inventory click:
 every 5 seconds:
 	loop all players:
 		if {Essentials.use.afk.use.%loop-player's uuid%.use} is set:
-			if loop-player doesn't have permission "essentials.afk.kick.bypass":
+			if loop-player doesn't have permission "essentials.afk.kick.bypass" or "essentials.afk.*":
 				kick loop-player because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server.%nl%%nl%&7Reason: &cAFK%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
 				stop
