@@ -108,7 +108,7 @@ on build:
 		if {Essentials::freeze::%player's uuid%} is set:
 			delete {Essentials::freeze::%player's uuid%}
 			stop
-	if player doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+	else:
 		if {Essentials::freeze::%player's uuid%} is set:
 			cancel event
 			stop
@@ -118,7 +118,7 @@ on inventory click:
 		if {Essentials::freeze::%player's uuid%} is set:
 			delete {Essentials::freeze::%player's uuid%}
 			stop
-	if player doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+	else:
 		if {Essentials::freeze::%player's uuid%} is set:
 			cancel event
 			stop
@@ -128,7 +128,7 @@ on player move:
 		if {Essentials::freeze::%player's uuid%} is set:
 			delete {Essentials::freeze::%player's uuid%}
 			stop
-	if player doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+	else:
 		if {Essentials::freeze::%player's uuid%} is set:
 			cancel event
 			stop
@@ -138,7 +138,7 @@ on break:
 		if {Essentials::freeze::%player's uuid%} is set:
 			delete {Essentials::freeze::%player's uuid%}
 			stop
-	if player doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+	else:
 		if {Essentials::freeze::%player's uuid%} is set:
 			cancel event
 			stop
@@ -148,7 +148,7 @@ on drop:
 		if {Essentials::freeze::%player's uuid%} is set:
 			delete {Essentials::freeze::%player's uuid%}
 			stop
-	if player doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+	else:
 		if {Essentials::freeze::%player's uuid%} is set:
 			cancel event
 			stop
@@ -159,7 +159,7 @@ on damage:
 			if {Essentials::freeze::%victim's uuid%} is set:
 				delete {Essentials::freeze::%victim's uuid%}
 				stop
-		if victim doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+		else:
 			if {Essentials::freeze::%victim's uuid%} is set:
 				cancel event
 				stop
@@ -169,7 +169,7 @@ on click:
 		if {Essentials::freeze::%player's uuid%} is set:
 			delete {Essentials::freeze::%player's uuid%}
 			stop
-	if player doesn't have permission "essentials.*" or "essentials.freeze.bypass":
+	else:
 		if {Essentials::freeze::%player's uuid%} is set:
 			cancel event
 			stop
