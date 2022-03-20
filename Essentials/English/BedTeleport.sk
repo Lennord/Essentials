@@ -22,10 +22,10 @@ function EssentialsBedteleportCmd(s: sender, p: offline player):
 			else:
 				if bed of {_p} exists:
 					teleport {_s} to bed of {_p}
-					send "&6You have been teleported to the bed of the player &c%{Essentials::nicname::%{_p}'s uuid%}%&6." to {_s}
+					send "&6You have been teleported to the bed of the player &c%{Essentials::nickname::%{_p}'s uuid%}%&6." to {_s}
 					stop
 				else:
-					send "&4| &8x &cThe bed of the player &6%{Essentials::nicname::%{_p}'s uuid%}% &cdoes not exist." to {_s}
+					send "&4| &8x &cThe bed of the player &6%{Essentials::nickname::%{_p}'s uuid%}% &cdoes not exist." to {_s}
 					stop
 		else:
 			send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
