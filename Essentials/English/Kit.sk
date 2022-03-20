@@ -24,10 +24,10 @@ function EssentialsCreatekitCmd(s: sender, k: text):
 		loop 108 times:
 			set {Essentials.use.inv.use.%{_result::kitcount}%.use.%{_k}%.use} to slot {_result::kitcount} of {_s}'s inventory
 			add 1 to {_result::kitcount}
-			set {Essentials::kit::helmet::%{_k}%} to {_s}'s helmet
-			set {Essentials::kit::chestplate::%{_k}%} to {_s}'s chestplate
-			set {Essentials::kit::leggings::%{_k}%} to {_s}'s legs
-			set {Essentials::kit::boot::%{_k}%} to {_s}'s boot
+		set {Essentials::kit::helmet::%{_k}%} to {_s}'s helmet
+		set {Essentials::kit::chestplate::%{_k}%} to {_s}'s chestplate
+		set {Essentials::kit::leggings::%{_k}%} to {_s}'s legs
+		set {Essentials::kit::boot::%{_k}%} to {_s}'s boot
 		send "&7You have created to kit &6%{_k}%&7." to {_s}
 		set {Essentials::kit::creator::%{_k}%} to {_s}
 		set {Essentials::kitname::%{_k}%} to {_k}
@@ -58,10 +58,10 @@ function EssentialsKitCmd(s: sender, k: text):
 				loop 108 times:
 					set slot {_result::kitcount} of {_s}'s inventory to {Essentials.use.inv.use.%{_result::kitcount}%.use.%{_k}%.use}
 					add 1 to {_result::kitcount}
-					set {_s}'s helmet to {Essentials::kit::helmet::%{_k}%}
-					set {_s}'s chestplate to {Essentials::kit::helmet::%{_k}%}
-					set {_s}'s leggings to {Essentials.use.kit.use.legging.use.%{_k}%.use}
-					set {_s}'s boots to {Essentials::kit::boot::%{_k}%}
+				set {_s}'s helmet to {Essentials::kit::helmet::%{_k}%}
+				set {_s}'s chestplate to {Essentials::kit::helmet::%{_k}%}
+				set {_s}'s leggings to {Essentials.use.kit.use.legging.use.%{_k}%.use}
+				set {_s}'s boots to {Essentials::kit::boot::%{_k}%}
 				send "&7You have give to kit &c%{_k}%&7." to {_s}
 				stop
 			else:
@@ -75,10 +75,10 @@ function EssentialsKitCmd(s: sender, k: text):
 					wait 5 seconds
 					set slot {_result::kitcount} of {_s}'s inventory to {Essentials.use.inv.use.%{_result::kitcount}%.use.%{_k}%.use}
 					add 1 to {_result::kitcount}
-					set {_s}'s helmet to {Essentials::kit::helmet::%{_k}%}
-					set {_s}'s chestplate to {Essentials::kit::helmet::%{_k}%}
-					set {_s}'s leggings to {Essentials.use.kit.use.legging.use.%{_k}%.use}
-					set {_s}'s boots to {Essentials::kit::boot::%{_k}%}
+				set {_s}'s helmet to {Essentials::kit::helmet::%{_k}%}
+				set {_s}'s chestplate to {Essentials::kit::helmet::%{_k}%}
+				set {_s}'s leggings to {Essentials.use.kit.use.legging.use.%{_k}%.use}
+				set {_s}'s boots to {Essentials::kit::boot::%{_k}%}
 				send "&7You have give to kit &c%{_k}%&7." to {_s}
 				stop
 			else:
