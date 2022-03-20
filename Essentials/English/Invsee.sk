@@ -11,7 +11,7 @@ function EssentialsInvseeCmd(s: sender, p: offline player):
 			stop
 		else:
 			open {_p}'s inventory to {_s}
-			send "&7[&cEssentials&7] &6You have opened the inventory of the player &c%{Essentials::nickname::%{_p}'s uuid%}%&6." to {_s}
+			send "&6You have opened the inventory of the player &c%{Essentials::nickname::%{_p}'s uuid%}%&6." to {_s}
 			stop
 	else:
 		send "&4| &8x &cYou must put the name of a player connected to the server." to {_s}
