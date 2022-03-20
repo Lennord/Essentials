@@ -112,9 +112,9 @@ on click:
 on inventory click:
 	EssentialsAfkCmdSystem(player)
 
-every 5 seconds:
+every 300 seconds:
 	loop all players:
-		if {Essentials.use.afk.use.%loop-player's uuid%.use} is set:
+		if {Essentials::afk::%loop-player's uuid%} is set:
 			if loop-player doesn't have permission "essentials.afk.kick.bypass" or "essentials.afk.*":
 				kick loop-player because "&c-_-_-_-_- &fServer Infos &c-_-_-_-_-%nl%%nl%&cYou have been kicked from the server.%nl%%nl%&7Reason: &cAFK%nl%%nl%&c-_-_-_-_- &fServer Infos &c-_-_-_-_-"
 				stop
