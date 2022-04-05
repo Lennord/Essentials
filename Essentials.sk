@@ -2149,6 +2149,7 @@ function EssentialsCMDSeen(s: sender, p: offline player):
 		send "&8| &fGamemode of player: &c%{_p}'s gamemode%" to {_s}
 		send "&8| &fCoords of player: &7x: &c%x-location of {_p}% &8- &7y: &c%y-location of {_p}% &8- &7z: &c%z-location of {_p}%" to {_s}
 		send "&8| &fWorld of player: &c%{_p}'s world%" to {_s}
+		send "&8| &fPing of player: &c%{_p}'s ping%" to {_s}
 		load "plugins/Essentials/players/%{_s}%/who.yml"
 		if yaml value "freeze.stats" from "who" = false:
 			send "&8| &fFreeze mode: &cfalse" to {_s}
@@ -2251,6 +2252,20 @@ function EssentialsCMDTpa(s: sender, p: offline player):
 		send "&7You have requested a teleportation request from the player &6%{_p}%&7."  to {_s}
 		send "&7You have a request for teleportation by the player &6%{_s}%&7, use the &c/tpaccept &7to be able to accept the request or the &c/tpdeny &7to be able to refuse a request." to {_p}
 		stop
+
+function EssentialsCMDPing1(s: sender):
+	if yaml value "language" from "config" = "English":
+		send "&7You have &6%{_s}'s ping% &7ping." to {_s}
+		stop
+
+function EssentialsCMDPing2(s: sender, p: offline player):
+	if {_s} has permission "essentials.fly.others" or "essentials.*":
+		load "plugins/Essentials/config.yml"
+		if yaml value "language" from "config" = "English":
+			send "&7The player &6%{_s}% &7has &6%{_p}'s ping% &7ping." to {_s}
+			stop
+	else:
+		EssentialsNoPermission({_s})
 
 on build:
 	load "plugins/Essentials/players/%player%/who.yml"
@@ -4076,6 +4091,24 @@ command /tp [<offline player>] [<text>]:
 		if sender = console:
 			EssentialsNoCommandConsole(console)
 
+command /ping [<offline player>] [<text>]:
+	aliases: essentials:ping
+	description: &fEssentials command /ping.
+	trigger:
+		if arg 1 isn't set:
+			EssentialsCMDPing1(sender)
+		else:
+			if arg 1 is offline:
+				EssentialsPlayerOffline(sender, arg 1)
+			else:
+				EssentialsCMDPing2(sender, arg 1)
+
+on command "/ping" or "/essentials:ping":
+	if sender = player:
+		if player doesn't have permission "essentials.ping" or "essentials.*":
+			cancel event
+			EssentialsNoPermission(player)
+
 on command "/tp" or "/essentials:tp" or "/teleport" or "/essentials:teleport":
 	if sender = player:
 		if player doesn't have permission "essentials.tp" or "essentials.*":
@@ -4367,3 +4400,16 @@ on right click on sign:
 	if player has permission "essentials.sign.use.god" or "essentials.sign.use.*" or "essentials.sign.*" or "essentials.*":
 		if line 2 of block = "&1[god]":
 			EssentialsCMDFly1(player)
+
+on sign change:
+	if player has permission "essentials.sign.create.ping" or "essentials.sign.use.*" or "essentials.sign.*" or "essentials.*":
+		if line 1 = "[ping]":
+			set line 1 of block to ""
+			set line 2 of block to "&1[ping]"
+			send "&7You have created a new panel of &6Ping&7." to player
+			stop
+
+on right click on sign:
+	if player has permission "essentials.sign.use.ping" or "essentials.sign.use.*" or "essentials.sign.*" or "essentials.*":
+		if line 2 of block = "&1[ping]":
+			EssentialsCMDPing1(player)
