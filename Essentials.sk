@@ -4,99 +4,88 @@
 #   --> Code:
 
 on join:
-	load "plugins/Essentials/players/%player%/who.yml"
-	if yaml value "firstjoin.stats" from "who" doesn't exist:
+	if yaml file "plugins/Essentials/players/%player%/who.yml" doesn't exist:
+		load "plugins/Essentials/players/%player%/who.yml"
 		set yaml value "firstjoin.stats" from "who" to true
 		set yaml value "firstjoin.date" from "who" to "%now%"
-	else:
-		if yaml value "firstjoin.stats" from "who" != true:
-			set yaml value "firstjoin.stats" from "who" to true
-			set yaml value "firstjoin.date" from "who" to "%now%"
-	if yaml value "vanish.stats" from "who" doesn't exist:
+		set yaml value "firstjoin.stats" from "who" to true
+		set yaml value "firstjoin.date" from "who" to "%now%"
 		set yaml value "vanish.stats" from "who" to false
 		set yaml value "vanish.date" from "who" to "%now%"
-	else:
-		if yaml value "vanish.stats" from "who" != false:
-			set yaml value "vanish.stats" from "who" to false
-			set yaml value "vanish.date" from "who" to "%now%"
-	if yaml value "freeze.stats" from "who" doesn't exist:
 		set yaml value "freeze.stats" from "who" to false
 		set yaml value "freeze.date" from "who" to "%now%"
-	set yaml value "join.date" from "who" to "%now%"
-	set yaml value "afk.stats" from "who" to false
-	set yaml value "afk.date" from "who" to "%now%"
-	set yaml value "back.stats" from "who" to false
-	delete yaml value "back.location" from "who"
-	if yaml value "ban.stats" from "who" doesn't exist:
+		set yaml value "join.date" from "who" to "%now%"
+		set yaml value "afk.stats" from "who" to false
+		set yaml value "afk.date" from "who" to "%now%"
+		set yaml value "back.stats" from "who" to false
+		delete yaml value "back.location" from "who"
 		set yaml value "ban.stats" from "who" to false
 		delete yaml value "ban.type-ban" from "who"
 		delete yaml value "ban.date" from "who"
 		delete yaml value "ban.reason" from "who"
 		delete yaml value "ban.times" from "who"
-	if yaml value "mute.stats" from "who" doesn't exist:
 		set yaml value "mute.stats" from "who" to false
 		delete yaml value "mute.type-ban" from "who"
 		delete yaml value "mute.date" from "who"
 		delete yaml value "mute.reason" from "who"
 		delete yaml value "mute.times" from "who"
-	if yaml value "homes.stats" from "who" doesn't exist:
 		set yaml value "homes.stats" from "who" to false
-	save yaml "who"
-	unload yaml "who"
-	stop
+		save yaml "who"
+		unload yaml "who"
+		stop
+	else:
+		set yaml value "join.date" from "who" to "%now%"
+		set yaml value "afk.stats" from "who" to false
+		set yaml value "afk.date" from "who" to "%now%"
+		set yaml value "back.stats" from "who" to false
+		delete yaml value "back.location" from "who"
+		set yaml value "vanish.stats" from "who" to false
+		set yaml value "vanish.date" from "who" to "%now%"
+		save yaml "who"
+		unload yaml "who"
+		stop
 
 on load:
-	load "plugins/Essentials/config.yml"
-	if yaml value "language" from "config" doesn't exist:
+	if yaml file "plugins/Essentials/config.yml" doesn't exist:
+		load "plugins/Essentials/config.yml"
 		set yaml value "language" from "config" to "English"
-	else:
-		if yaml value "language" from "config" != "English":
-			set yaml value "language" from "config" to "English"
-	if yaml value "afk.cooldown-kicked" from "config" doesn't exist:
 		set yaml value "afk.cooldown-kicked" from "config" to 300
-	if yaml value "back.cooldown-teleport" from "config" doesn't exist:
 		set yaml value "back.cooldown-teleport" from "config" to 5
-	if yaml value "heal.cooldown-use" from "config" doesn't exist:
 		set yaml value "heal.cooldown-use" from "config" to 5
-	if yaml value "feed.cooldown-use" from "config" doesn't exist:
 		set yaml value "feed.cooldown-use" from "config" to 5
-	if yaml value "home.cooldown-use" from "config" doesn't exist:
 		set yaml value "home.cooldown-use" from "config" to 5
-	if yaml value "tpaccept.cooldown-teleport" from "config" doesn't exist:
 		set yaml value "tpaccept.cooldown-teleport" from "config" to 5
-	if yaml value "spawn.stats" from "config" doesn't exist:
 		set yaml value "spawn.stats" from "config" to false
 		set yaml value "spawn.cooldown-teleport" from "config" to 5
-	if yaml value "random-teleport.cooldown-teleport" from "config" doesn't exist:
 		set yaml value "random-teleport.cooldown-teleport" from "config" to 5
 		set yaml value "random-teleport.max-block" from "config" to 50000
 		set yaml value "random-teleport.min-block" from "config" to 1000
-	if yaml value "chat.stats" from "config" doesn't exist:
 		set yaml value "chat.format-stats" from "config" to true
 		set yaml value "chat.stats" from "config" to true
 		set yaml value "chat.date" from "config" to "%now%"
 		set yaml value "chat.author" from "config" to "%sender%"
-	if yaml value "motd.stats" from "config" doesn't exist:
 		set yaml value "motd.stats" from "config" to true
 		set yaml value "motd.line-1" from "config" to "&f[&6SERVER NAME&f] &8x &7MINIGAMES AND MORES"
 		set yaml value "motd.line-2" from "config" to "    &7SERVER VERSION: &c1.0.0"
-	if yaml value "maintenance.stats" from "config" doesn't exist:
 		set yaml value "maintenance.stats" from "config" to true
 		set yaml value "maintenance.date" from "config" to "%now%"
-	if yaml value "firstjoin-message.stats" from "config" doesn't exist:
 		set yaml value "firstjoin-message.stats" from "config" to true
-	if yaml value "join-message.stats" from "config" doesn't exist:
 		set yaml value "join-message.stats" from "config" to true
-	if yaml value "quit-message.stats" from "config" doesn't exist:
 		set yaml value "quit-message.stats" from "config" to true
-	if yaml value "kits.stats" from "config" doesn't exist:
 		set yaml value "kits.stats" from "config" to false
 		set yaml value "kits.cooldown-use" from "config" to 5
-	if yaml value "warps.stats" from "config" doesn't exist:
 		set yaml value "warps.stats" from "config" to false
 		set yaml value "warps.cooldown-use" from "config" to 5
-	save yaml "config"
-	unload yaml "config"
+		save yaml "config"
+		unload yaml "config"
+		stop
+	else:
+		load "plugins/Essentials/config.yml"
+		if yaml value "language" from "config" != "English":
+			set yaml value "language" from "config" to "English"
+		save yaml "config"
+		unload yaml "config"
+		stop
 
 on load:
 	send "&7[&bEssentials&7] &8x &2Enabled" to console
