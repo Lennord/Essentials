@@ -76,6 +76,7 @@ on load:
 		set yaml value "kits.cooldown-use" from "config" to 5
 		set yaml value "warps.stats" from "config" to false
 		set yaml value "warps.cooldown-use" from "config" to 5
+		set yaml list "block-place" from "config" to tnt
 		save yaml "config"
 		unload yaml "config"
 		stop
@@ -2352,6 +2353,14 @@ on build:
 	if player doesn't have permission "essentials.build" or "essentials.*":
 		cancel event
 		EssentialsNoBuild(player)
+	else:
+		if player doesn't have permission "essentials.build.bypass" or "essentials.*":
+			load "plugins/Essentials/config.yml"
+			if yaml list "block-place" from "config" contains event-block:
+				cancel event
+				if yaml value "language" from "config" = "English":
+					send "&4| &8x &cYou have not a build with this block." to player
+					stop
 
 on break:
 	if player doesn't have permission "essentials.build" or "essentials.*":
