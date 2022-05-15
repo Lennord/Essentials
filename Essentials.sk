@@ -32,6 +32,7 @@ on join:
 		set yaml value "homes.stats" from "who" to false
 		save yaml "who"
 		unload yaml "who"
+		stop
 	else:
 		set yaml value "join.date" from "who" to "%now%"
 		set yaml value "afk.stats" from "who" to false
@@ -42,6 +43,7 @@ on join:
 		set yaml value "vanish.date" from "who" to "%now%"
 		save yaml "who"
 		unload yaml "who"
+		stop
 
 on load:
 	yaml file "plugins/Essentials/config.yml" doesn't exist:
@@ -77,12 +79,14 @@ on load:
 		set yaml list "block-place" from "config" to tnt
 		save yaml "config"
 		unload yaml "config"
+		stop
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" != "English":
 			set yaml value "language" from "config" to "English"
 		save yaml "config"
 		unload yaml "config"
+		stop
 
 on load:
 	send "&7[&bEssentials&7] &8x &2Enabled" to console
