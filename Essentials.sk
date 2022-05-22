@@ -2213,19 +2213,20 @@ on sign change:
 		replace "&" with "§" in line 4
 
 on death:
-	player has permission "essentials.deathmessage" or "essentials.*":
-		load "plugins/Essentials/players/%player%/who.yml"
-		yaml value "back.stats" from "who" = false:
-			set yaml value "back.stats" from "who" to true
-			set yaml value "back.location" from "who" to location of player
-		load "plugins/Essentials/config.yml"
-		yaml value "language" from "config" = "English":
-			set death message to "&6%player% &cjust died."
-		save yaml "who"
-		unload yaml "who"
-		stop
-	player has permission "essentials.forcerespawn" or "essentials.*":
-		force player to respawn
+	victim = player:
+		victim has permission "essentials.deathmessage" or "essentials.*":
+			load "plugins/Essentials/players/%victim%/who.yml"
+			yaml value "back.stats" from "who" = false:
+				set yaml value "back.stats" from "who" to true
+				set yaml value "back.location" from "who" to location of victim
+			load "plugins/Essentials/config.yml"
+			yaml value "language" from "config" = "English":
+				set death message to "&6%victim% &cjust died."
+			save yaml "who"
+			unload yaml "who"
+			stop
+		victim has permission "essentials.forcerespawn" or "essentials.*":
+			force victim to respawn
 
 on enchant prepare:
 	player doesn't have permission "essentials.enchanted" or "essentials.*":
