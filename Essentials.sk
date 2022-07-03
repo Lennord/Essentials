@@ -166,6 +166,7 @@ function EssentialsHelp(s: sender, typehelp: text):
 			send "" to {_s}
 			send "&8| &8x &6Help:" to {_s}
 			send "" to {_s}
+			send "&8| &f/broadcast &7[&cmessage&7] &8x &7Send message in the all worlds." to {_s}
 			send "&8| &f/broadcast &7[&cname of world] &7[&cmessage&7] &8x &7Send message in the world type." to {_s}
 			send "" to {_s}
 		{_typehelp} = "ChatCMD":
@@ -695,18 +696,26 @@ function EssentialsCMDBedteleport2(s: sender, p: offline player):
 	else:
 		EssentialsNoPermission({_s})
 
-function EssentialsCMDBroadcast(s: sender, w: text, t: text):
+function EssentialsCMDBroadcastWorldType(s: sender, w: text, t: text):
 	({_w} parsed as world) is set:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
 			{_s} has permission "essentials.broadcast.color" or "essentials.broadcast.*" or "essentials.*":
-				broadcast "&7[&Announcement&7] &8x &f%colored {_t}%" to world "%{_w}%"
+				broadcast "&7[&bAnnouncement&7] &8x &f%colored {_t}%" to world "%{_w}%"
 			else:
-				broadcast "&7[&Announcement&7] &8x &f%{_t}%" to world "%{_w}%"
+				broadcast "&7[&bAnnouncement&7] &8x &f%{_t}%" to world "%{_w}%"
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
 			send "&4| &8x &cThe world &6%{_w}% &chave not exist." to {_s}
+
+function EssentialsCMDBroadcastAllWorlds(s: sender, t: text):
+	load "plugins/Essentials/config.yml"
+	yaml value "language" from "config" = "English":
+		{_s} has permission "essentials.broadcast.color" or "essentials.broadcast.*" or "essentials.*":
+			broadcast "&7[&bAnnouncement&7] &8x &f%colored {_t}%" to all worlds
+		else:
+			broadcast "&7[&bAnnouncement&7] &8x &f%{_t}%" to all worlds
 
 function EssentialsCMDChat(s: sender, syntaxetype: text):
 	{_syntaxetype} = "Enable":
@@ -2481,9 +2490,9 @@ command /broadcast [<text>] [<text>]:
 				EssentialsHelp(player, "BroadcastCMD")
 			else:
 				arg 2 isn't set:
-					EssentialsHelp(player, "BroadcastCMD")
+					EssentialsCMDBroadcastAllWorlds(player, arg 1)
 				else:
-					EssentialsCMDBroadcast(player, arg 1, arg 2)
+					EssentialsCMDBroadcastWorldType(player, arg 1, arg 2)
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
