@@ -34,6 +34,7 @@ on join:
 		unload yaml "who"
 		stop
 	else:
+		load "plugins/Essentials/players/%player%/who.yml"
 		set yaml value "join.date" from "who" to "%now%"
 		set yaml value "afk.stats" from "who" to false
 		set yaml value "afk.date" from "who" to "%now%"
