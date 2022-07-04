@@ -2236,10 +2236,7 @@ on quit:
 
 on sign change:
 	player has permission "essentials.sign.color" or "essentials.*":
-		replace "&" with "§" in line 1
-		replace "&" with "§" in line 2
-		replace "&" with "§" in line 3
-		replace "&" with "§" in line 4
+		replace "&" with "§" in line 1, line 2, line 3 and line 4
 
 on death:
 	victim = player:
