@@ -2187,6 +2187,9 @@ on chat:
 on click:
 	EssentialsNoAfk(player)
 
+on sneak toggle:
+	EssentialsNoAfk(player)
+
 on damage:
 	victim = player:
 		EssentialsNoAfk(victim)
