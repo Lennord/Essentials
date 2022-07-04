@@ -3444,13 +3444,16 @@ command /fly [<offline player>] [<text>]:
 	aliases: essentials:fly
 	description: &fEssentials command /fly.
 	trigger:
-		arg 1 isn't set:
-			EssentialsCMDFly1(sender)
-		else:
-			arg 1 is offline:
-				EssentialsPlayerOffline(sender, arg 1)
+		sender = player:
+			arg 1 isn't set:
+				EssentialsCMDFly1(sender)
 			else:
-				EssentialsCMDFly2(sender, arg 1)
+				arg 1 is offline:
+					EssentialsPlayerOffline(sender, arg 1)
+				else:
+					EssentialsCMDFly2(sender, arg 1)
+		sender = console:
+			EssentialsNoCommandConsole(console)
 
 on command "/fly" or "/essentials:fly":
 	sender = player:
@@ -3462,13 +3465,16 @@ command /god [<offline player>] [<text>]:
 	aliases: essentials:god
 	description: &fEssentials command /god.
 	trigger:
-		arg 1 isn't set:
-			EssentialsCMDGod1(sender)
-		else:
-			arg 1 is offline:
-				EssentialsPlayerOffline(sender, arg 1)
+		sender = player:
+			arg 1 isn't set:
+				EssentialsCMDGod1(sender)
 			else:
-				EssentialsCMDGod2(sender, arg 1)
+				arg 1 is offline:
+					EssentialsPlayerOffline(sender, arg 1)
+				else:
+					EssentialsCMDGod2(sender, arg 1)
+		sender = console:
+			EssentialsNoCommandConsole(console)
 
 on command "/god" or "/essentials:god":
 	sender = player:
