@@ -2325,12 +2325,6 @@ command /essentials [<text>] [<text>]:
 				yaml value "language" from "config" = "English":
 					send "&7You have been reloaded this skript." to sender
 
-on command "/essentials" or "/ess" or "/essentials:essentials" or "/essentials:ess":
-	sender = player:
-		player doesn't have permission "essentials.essentials" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /afk [<offline player>] [<text>]:
 	aliases: essentials:afk
 	description: &fEssentials command /afk.
@@ -2345,12 +2339,6 @@ command /afk [<offline player>] [<text>]:
 				EssentialsPlayerOffline(sender, arg 1)
 			else:
 				EssentialsCMDAfk2(sender, arg 1)
-
-on command "/afk" or "/essentials:afk":
-	sender = player:
-		player doesn't have permission "essentials.afk" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /antioch [<offline player>] [<text>]:
 	aliases: essentials:antioch, grenade, essentials:grenade, tnt, essentials:tnt
@@ -2367,12 +2355,6 @@ command /antioch [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/antioch" or "/essentials:antioch" or "/grenade" or "/essentials:grenade" or "/tnt" or "/essentials:tnt":
-	sender = player:
-		player doesn't have permission "essentials.antioch" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /back [<offline player>] [<text>]:
 	aliases: essentials:back, return, essentials:return
 	description: &fEssentials command /back.
@@ -2387,12 +2369,6 @@ command /back [<offline player>] [<text>]:
 				EssentialsPlayerOffline(sender, arg 1)
 			else:
 				EssentialsCMDBack2(sender, arg 1)
-
-on command "/back" or "/essentials:back" or "/return" or "/essentials:return":
-	sender = player:
-		player doesn't have permission "essentials.back" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /ban [<offline player>] [<text>]:
 	aliases: essentials:ban
@@ -2412,18 +2388,6 @@ command /banlist [<text>]:
 	trigger:
 		EssentialsCMDBanlist(sender)
 
-on command "/banlist" or "/essentials:banlist":
-	sender = player:
-		player doesn't have permission "essentials.banlist" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
-on command "/ban" or "/essentials:ban":
-	sender = player:
-		player doesn't have permission "essentials.ban" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /unban [<offline player>] [<text>]:
 	aliases: essentials:unban
 	description: &fEssentials command /unban.
@@ -2432,12 +2396,6 @@ command /unban [<offline player>] [<text>]:
 			EssentialsHelp(sender, "UnbanCMD")
 		else:
 			EssentialsCMDUnban(sender, arg 1)
-
-on command "/unban" or "/essentials:unban":
-	sender = player:
-		player doesn't have permission "essentials.unban" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /tempban [<offline player>] [<text>] [<timespan>]:
 	aliases: essentials:tempban
@@ -2454,12 +2412,6 @@ command /tempban [<offline player>] [<text>] [<timespan>]:
 				else:
 					EssentialsCMDTempban(sender, arg 1, arg 2, arg 3)
 
-on command "/tempban" or "/essentials:tempban":
-	sender = player:
-		player doesn't have permission "essentials.tempban" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /bedteleport [<offline player>] [<text>]:
 	aliases: essentials:bedteleport, bt, essentials:bt
 	description: &fEssentials command /bedteleport.
@@ -2475,12 +2427,6 @@ command /bedteleport [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/bedteleport" or "/essentials:bedteleport" or "/bt" or "/essentials:bt":
-	sender = player:
-		player doesn't have permission "essentials.bedteleport" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /break [<offline player>] [<text>]:
 	aliases: essentials:break
 	description: &fEssentials command /break.
@@ -2490,12 +2436,6 @@ command /break [<offline player>] [<text>]:
 			send "&7You have been broked at location of the target's block." to player
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/break" or "/essentials:break":
-	sender = player:
-		player doesn't have permission "essentials.break" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /broadcast [<text>] [<text>]:
 	aliases: essentials:broadcast, bc, essentials:bc
@@ -2511,12 +2451,6 @@ command /broadcast [<text>] [<text>]:
 					EssentialsCMDBroadcastWorldType(player, arg 1, arg 2)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/broadcast" or "/essentials:broadcast" or "/bc" or "/essentials:bc":
-	sender = player:
-		player doesn't have permission "essentials.broadcast" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /chat [<text>] [<text>]:
 	aliases: essentials:chat
@@ -2536,12 +2470,6 @@ command /chat [<text>] [<text>]:
 			arg 1 = "clear":
 				EssentialsCMDChat(sender, "Clear")
 
-on command "/chat" or "/essentials:chat":
-	sender = player:
-		player doesn't have permission "essentials.chat" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /chunkslime [<offline player>] [<text>]:
 	aliases: essentials:chunkslime
 	description: &fEssentials command /chunkslime.
@@ -2556,12 +2484,6 @@ command /chunkslime [<offline player>] [<text>]:
 					EssentialsCMDChunkSlime2(sender, arg 1)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/chunkslime" or "/essentials:chunkslime":
-	sender = player:
-		player doesn't have permission "essentials.chunkslime" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /clearinventory [<offline player>] [<text>]:
 	aliases: essentials:clearinventory, ci, essentials:ci, clearinv, essentials:clearinv
@@ -2578,12 +2500,6 @@ command /clearinventory [<offline player>] [<text>]:
 			else:
 				EssentialsCMDClearinventory2(sender, arg 1)
 
-on command "/clearinventory" or "/essentials:clearinventory" or "/ci" or "/essentials:ci" or "/clearinv" or "/essentials:clearinv":
-	sender = player:
-		player doesn't have permission "essentials.clearinventory" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /compass [<offline player>] [<text>]:
 	aliases: essentials:compass, direction, essentials:direction
 	description: &fEssentials command /compass.
@@ -2599,12 +2515,6 @@ command /compass [<offline player>] [<text>]:
 			else:
 				EssentialsCMDCompass2(sender, arg 1)
 
-on command "/compass" or "/essentials:compass" or "/direction" or "/essentials:direction":
-	sender = player:
-		player doesn't have permission "essentials.compass" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /deop [<offline player>] [<text>]:
 	aliases: essentials:deop, deoperator, essentials:deoperator
 	description: &fEssentials command /deop.
@@ -2613,12 +2523,6 @@ command /deop [<offline player>] [<text>]:
 			EssentialsHelp(sender, "DeopCMD")
 		else:
 			EssentialsCMDDeop(sender, arg 1)
-
-on command "/deop" or "/essentials:deop" or "/deoperator" or "/essentials:deoperator":
-	sender = player:
-		player doesn't have permission "essentials.deop" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /op [<offline player>] [<text>]:
 	aliases: essentials:op, operator, essentials:operator
@@ -2629,12 +2533,6 @@ command /op [<offline player>] [<text>]:
 		else:
 			EssentialsCMDOp(sender, arg 1)
 
-on command "/op" or "/essentials:op" or "/operator" or "/essentials:operator":
-	sender = player:
-		player doesn't have permission "essentials.op" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /thor [<text>]:
 	aliases: essentials:thor
 	description: &fEssentials command /thor.
@@ -2644,23 +2542,11 @@ command /thor [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/thor" or "/essentials:thor":
-	sender = player:
-		player doesn't have permission "essentials.thor" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /tps [<text>]:
 	aliases: essentials:tps
 	description: &fEssentials command /tps.
 	trigger:
 		EssentialsCMDTps(sender)
-
-on command "/tps" or "/essentials:tps":
-	sender = player:
-		player doesn't have permission "essentials.tps" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /workbench [<offline player>] [<text>]:
 	aliases: essentials:workbench, wb, essentials:wb
@@ -2677,23 +2563,11 @@ command /workbench [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/workbench" or "/essentials:workbench" or "/wb" or "/essentials:wb":
-	sender = player:
-		player doesn't have permission "essentials.workbench" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /stop [<text>]:
 	aliases: essentials:stop
 	description: &fEssentials command /stop.
 	trigger:
 		EssentialsCMDStop(sender)
-
-on command "/stop" or "/essentials:stop":
-	sender = player:
-		player doesn't have permission "essentials.stop" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /getpos [<offline player>] [<text>]:
 	aliases: essentials:getpos, coords, essentials:coords, getlocation, essentials:getlocation, getloc, essentials:getloc
@@ -2710,12 +2584,6 @@ command /getpos [<offline player>] [<text>]:
 			else:
 				EssentialsCMDGetpos2(sender, arg 1)
 
-on command "/getpos" or "/essentials:getpos" or "/coords" or "/essentials:coords" or "/getlocation" or "/essentials:getlocation" or "/getloc" or "/essentials:getloc":
-	sender = player:
-		player doesn't have permission "essentials.getpos" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /helpop [<text>]:
 	aliases: essentials:helpop
 	description: &fEssentials command /helpop.
@@ -2727,12 +2595,6 @@ command /helpop [<text>]:
 				EssentialsCMDHelpop(player, arg 1)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/helpop" or "/essentials:helpop":
-	sender = player:
-		player doesn't have permission "essentials.helpop" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /give [<text>] [<number>] [<text>]:
 	aliases: essentials:give
@@ -2749,12 +2611,6 @@ command /give [<text>] [<number>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/give" or "/essentials:give":
-	sender = player:
-		player doesn't have permission "essentials.give" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /seed [<text>] [<text>]:
 	aliases: essentials:seed
 	description: &fEssentials command /seed.
@@ -2767,12 +2623,6 @@ command /seed [<text>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/seed" or "/essentials:seed":
-	sender = player:
-		player doesn't have permission "essentials.seed" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /skull [<offline player>] [<text>]:
 	aliases: essentials:skull, head, essentials:head, playerhead, essentials:playerhead
 	description: &fEssentials command /skull.
@@ -2784,12 +2634,6 @@ command /skull [<offline player>] [<text>]:
 				EssentialsCMDSkull(player, arg 1)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "skull" or "essentials:skull" or "head" or "essentials:head" or "playerhead" or "essentials:playerhead":
-	sender = player:
-		player doesn't have permission "essentials.skull" or "essentials.*":
-			cancel event
-			send "&4| &8x &cYou do not have permission to use this command." to player
 
 command /enderchest [<offline player>] [<text>]:
 	aliases: essentials:enderchest, ec, essentials:ec
@@ -2806,12 +2650,6 @@ command /enderchest [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/enderchest" or "/essentials:enderchest" or "/ec" or "/essentials:ec":
-	sender = player:
-		player doesn't have permission "essentials.enderchest" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /slap [<offline player>] [<text>]:
 	aliases: essentials:slap
 	description: &fEssentials command /slap.
@@ -2823,12 +2661,6 @@ command /slap [<offline player>] [<text>]:
 				EssentialsPlayerOffline(sender, arg 1)
 			else:
 				EssentialsCMDSlap(sender, arg 1)
-
-on command "/slap" or "/essentials:slap":
-	sender = player:
-		player doesn't have permission "essentials.slap" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /jump [<offline player>] [<text>]:
 	aliases: essentials:jump
@@ -2845,23 +2677,11 @@ command /jump [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/jump" or "/essentials:jump":
-	sender = player:
-		player doesn't have permission "essentials.jump" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /list [<text>]:
 	aliases: essentials:list
 	description: &fEssentials command /list.
 	trigger:
 		EssentialsCMDList(sender)
-
-on command "/list" or "/essentials:list":
-	sender = player:
-		player doesn't have permission "essentials.list" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /fireball [<offline player>] [<text>]:
 	aliases: essentials:fireball
@@ -2878,12 +2698,6 @@ command /fireball [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/fireball" or "/essentials:fireball":
-	sender = player:
-		player doesn't have permission "essentials.fireball" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /me [<text>]:
 	aliases: essentials:me
 	description: &fEssentials command /me.
@@ -2895,12 +2709,6 @@ command /me [<text>]:
 				EssentialsCMDMe(player, arg 1)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/me" or "/essentials:me":
-	sender = player:
-		player doesn't have permission "essentials.me" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /invsee [<offline player>] [<text>]:
 	aliases: essentials:invsee
@@ -2917,12 +2725,6 @@ command /invsee [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/invsee" or "/essentials:invsee":
-	sender = player:
-		player doesn't have permission "essentials.invsee" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /itemdb [<offline player>] [<text>]:
 	aliases: essentials:itemdb
 	description: &fEssentials command /itemdb.
@@ -2938,12 +2740,6 @@ command /itemdb [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/itemdb" or "/essentials:itemdb":
-	sender = player:
-		player doesn't have permission "essentials.itemdb" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /randomteleport [<text>]:
 	aliases: essentials:randomteleport, rtp, essentials:rtp
 	description: &fEssentials command /randomteleport.
@@ -2952,12 +2748,6 @@ command /randomteleport [<text>]:
 			EssentialsCMDRandomTeleport(player)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/randomteleport" or "/essentials:randomteleport" or "/rtp" or "/essentials:rtp":
-	sender = player:
-		player doesn't have permission "essentials.randomteleport" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /repair [<text>] [<text>]:
 	aliases: essentials:repair
@@ -2973,12 +2763,6 @@ command /repair [<text>] [<text>]:
 					EssentialsCMDRepair(player, "ALL")
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/repair" or "/essentials:repair":
-	sender = player:
-		player doesn't have permission "essentials.repair" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /weather [<text>] [<text>]:
 	aliases: essentials:weather
@@ -3001,12 +2785,6 @@ command /weather [<text>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/weather" or "/essentials:weather":
-	sender = player:
-		player doesn't have permission "essentials.weather" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /depth [<offline player>] [<text>]:
 	aliases: essentials:depth
 	description: &fEssentials command /depth.
@@ -3021,12 +2799,6 @@ command /depth [<offline player>] [<text>]:
 					EssentialsCMDDepth2(sender, arg 1)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/depth" or "/essentials:depth":
-	sender = player:
-		player doesn't have permission "essentials.depth" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /extinguish [<offline player>] [<text>]:
 	aliases: essentials:extinguish, ext, essentials:ext
@@ -3043,12 +2815,6 @@ command /extinguish [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/extinguish" or "/essentials:extinguish" or "/ext" or "/essentials:ext":
-	sender = player:
-		player doesn't have permission "essentials.extinguish" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /unenchant [<offline player>] [<text>]:
 	aliases: essentials:unenchant
 	description: &fEssentials command /unenchant.
@@ -3063,12 +2829,6 @@ command /unenchant [<offline player>] [<text>]:
 					EssentialsCMDUnenchant2(sender, arg 1)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/unenchant" or "/essentials:unenchant":
-	sender = player:
-		player doesn't have permission "essentials.unenchant" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /speed [<text>] [<integer>] [<text>]:
 	aliases: essentials:speed
@@ -3101,12 +2861,6 @@ command /speed [<text>] [<integer>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/speed" or "/essentials:speed":
-	sender = player:
-		player doesn't have permission "essentials.speed" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /spawn [<offline player>] [<text>]:
 	aliases: essentials:spawn
 	description: &fEssentials command /spawn.
@@ -3122,12 +2876,6 @@ command /spawn [<offline player>] [<text>]:
 			else:
 				EssentialsCMDSpawn2(sender, arg 1)
 
-on command "/spawn" or "/essentials:spawn":
-	sender = player:
-		player doesn't have permission "essentials.spawn" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /setspawn [<text>]:
 	aliases: essentials:setspawn, createspawn, essentials:createspawn
 	description: &fEssentials command /setspawn.
@@ -3137,12 +2885,6 @@ command /setspawn [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/setspawn" or "/essentials:setspawn":
-	sender = player:
-		player doesn't have permission "essentials.setspawn" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /delspawn [<text>]:
 	aliases: essentials:delspawn, deletespawn, essentials:deletespawn
 	description: &fEssentials command /delspawn.
@@ -3151,12 +2893,6 @@ command /delspawn [<text>]:
 			EssentialsCMDDelspawn(sender)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/delspawn" or "/essentials:delspawn":
-	sender = player:
-		player doesn't have permission "essentials.delspawn" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /vanish [<offline player>] [<text>]:
 	aliases: essentials:vanish
@@ -3172,12 +2908,6 @@ command /vanish [<offline player>] [<text>]:
 					EssentialsCMDVanish2(sender, arg 1)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/vanish" or "/essentials:vanish":
-	sender = player:
-		player doesn't have permission "essentials.vanish" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /msg [<offline player>] [<text>]:
 	aliases: essentials:msg, m, essentials:m, t, essentials:t, whisper, essentials:whisper, message, essentials:message
@@ -3197,12 +2927,6 @@ command /msg [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/msg" or "/essentials:msg" or "/m" or "/essentials:m" or "/t" or "/essentials:t" or "/whisper" or "/essentials:whisper" or "/message" or "/essentials:message":
-	sender = player:
-		player doesn't have permission "essentials.msg" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /maintenance [<text>] [<integer>] [<text>]:
 	aliases: essentials:maintenance
 	description: &fEssentials command /maintenance.
@@ -3219,12 +2943,6 @@ command /maintenance [<text>] [<integer>] [<text>]:
 			arg 1 = "toggle":
 				EssentialsCMDMaintenance(sender, "TOGGLE")
 
-on command "/maintenance" or "/essentials:maintenance":
-	sender = player:
-		player doesn't have permission "essentials.maintenance" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /kickall [<text>]:
 	aliases: essentials:kickall
 	description: &fEssentials command /kickall.
@@ -3236,12 +2954,6 @@ command /kickall [<text>]:
 				EssentialsCMDKickall(player, arg 1)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/kickall" or "/essentials:kickall":
-	sender = player:
-		player doesn't have permission "essentials.kickall" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /kick [<offline player>] [<text>]:
 	aliases: essentials:kick
@@ -3258,12 +2970,6 @@ command /kick [<offline player>] [<text>]:
 				else:
 					EssentialsCMDKick(sender, arg 1, arg 2)
 
-on command "/kick" or "/essentials:kick":
-	sender = player:
-		player doesn't have permission "essentials.kick" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /kill [<offline player>] [<text>]:
 	aliases: essentials:kill
 	description: &fEssentials command /kill.
@@ -3276,12 +2982,6 @@ command /kill [<offline player>] [<text>]:
 			else:
 				EssentialsCMDKill(sender, arg 1)
 
-on command "/kill" or "/essentials:kill":
-	sender = player:
-		player doesn't have permission "essentials.kill" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /suicide [<offline player>] [<text>]:
 	aliases: essentials:suicide
 	description: &fEssentials command /suicide.
@@ -3290,12 +2990,6 @@ command /suicide [<offline player>] [<text>]:
 			EssentialsCMDSuicide(sender)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/suicide" or "/essentials:suicide":
-	sender = player:
-		player doesn't have permission "essentials.suicide" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /heal [<offline player>] [<text>]:
 	aliases: essentials:heal
@@ -3309,12 +3003,6 @@ command /heal [<offline player>] [<text>]:
 			else:
 				EssentialsCMDHeal2(sender, arg 1)
 
-on command "/heal" or "/essentials:heal":
-	sender = player:
-		player doesn't have permission "essentials.heal" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /feed [<offline player>] [<text>]:
 	aliases: essentials:feed
 	description: &fEssentials command /feed.
@@ -3326,12 +3014,6 @@ command /feed [<offline player>] [<text>]:
 				EssentialsPlayerOffline(sender, arg 1)
 			else:
 				EssentialsCMDFeed2(sender, arg 1)
-
-on command "/feed" or "/essentials:feed":
-	sender = player:
-		player doesn't have permission "essentials.feed" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /gamemode [<text>] [<offline player>] [<text>]:
 	aliases: essentials:gamemode, gm, essentials:gm
@@ -3368,12 +3050,6 @@ command /gamemode [<text>] [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/gamemode" or "/essentials:gamemode" or "/gm" or "/essentials:gm":
-	sender = player:
-		player doesn't have permission "essentials.gamemode" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /mute [<offline player>] [<text>]:
 	aliases: essentials:mute
 	description: &fEssentials command /mute.
@@ -3386,23 +3062,11 @@ command /mute [<offline player>] [<text>]:
 			else:
 				EssentialsCMDMute(sender, arg 1, arg 2)
 
-on command "/mute" or "/essentials:mute":
-	sender = player:
-		player doesn't have permission "essentials.mute" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /mutelist [<text>]:
 	aliases: essentials:mutelist
 	description: &fEssentials command /mutelist.
 	trigger:
 		EssentialsCMDMutelist(sender)
-
-on command "/mutelist" or "/essentials:mutelist":
-	sender = player:
-		player doesn't have permission "essentials.mutelist" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /unmute [<offline player>] [<text>]:
 	aliases: essentials:unmute
@@ -3412,12 +3076,6 @@ command /unmute [<offline player>] [<text>]:
 			EssentialsHelp(sender, "UnmuteCMD")
 		else:
 			EssentialsCMDUnmute(sender, arg 1)
-
-on command "/unmute" or "/essentials:unmute":
-	sender = player:
-		player doesn't have permission "essentials.unmute" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /tempmute [<offline player>] [<text>] [<timespan>]:
 	aliases: essentials:tempmute
@@ -3434,12 +3092,6 @@ command /tempmute [<offline player>] [<text>] [<timespan>]:
 				else:
 					EssentialsCMDTempmute(sender, arg 1, arg 2, arg 3)
 
-on command "/tempmute" or "/essentials:tempmute":
-	sender = player:
-		player doesn't have permission "essentials.tempmute" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /fly [<offline player>] [<text>]:
 	aliases: essentials:fly
 	description: &fEssentials command /fly.
@@ -3455,12 +3107,6 @@ command /fly [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/fly" or "/essentials:fly":
-	sender = player:
-		player doesn't have permission "essentials.fly" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /god [<offline player>] [<text>]:
 	aliases: essentials:god
 	description: &fEssentials command /god.
@@ -3475,12 +3121,6 @@ command /god [<offline player>] [<text>]:
 					EssentialsCMDGod2(sender, arg 1)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/god" or "/essentials:god":
-	sender = player:
-		player doesn't have permission "essentials.god" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /time [<text>] [<text>]:
 	aliases: essentials:time
@@ -3505,12 +3145,6 @@ command /time [<text>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/time" or "/essentials:time":
-	sender = player:
-		player doesn't have permission "essentials.time" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /day [<text>] [<text>]:
 	aliases: essentials:day
 	description: &fEssentials command /day.
@@ -3520,12 +3154,6 @@ command /day [<text>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/day" or "/essentials:day":
-	sender = player:
-		player doesn't have permission "essentials.day" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /night [<text>] [<text>]:
 	aliases: essentials:night
 	description: &fEssentials command /night.
@@ -3534,12 +3162,6 @@ command /night [<text>] [<text>]:
 			EssentialsCMDTime(player, "NIGHT")
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/night" or "/essentials:night":
-	sender = player:
-		player doesn't have permission "essentials.night" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /sethome [<text>] [<text>]:
 	aliases: essentials:sethome, createhome, essentials:createhome
@@ -3553,12 +3175,6 @@ command /sethome [<text>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/sethome" or "/essentials:sethome" or "/createhome" or "/essentials:createhome":
-	sender = player:
-		player doesn't have permission "essentials.sethome" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /delhome [<text>] [<text>]:
 	aliases: essentials:delhome, deletehome, essentials:deletehome
 	description: &fEssentials command /delhome.
@@ -3571,12 +3187,6 @@ command /delhome [<text>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/delhome" or "/essentials:delhome" or "/deletehome" or "/essentials:deletehome":
-	sender = player:
-		player doesn't have permission "essentials.delhome" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /homes [<text>] [<text>]:
 	aliases: essentials:homes
 	description: &fEssentials command /homes.
@@ -3585,12 +3195,6 @@ command /homes [<text>] [<text>]:
 			EssentialsCMDHomes(player)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/homes" or "/essentials:homes":
-	sender = player:
-		player doesn't have permission "essentials.homes" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /home [<text>] [<text>]:
 	aliases: essentials:home
@@ -3603,12 +3207,6 @@ command /home [<text>] [<text>]:
 				EssentialsCMDHome(player, arg 1)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/home" or "/essentials:home":
-	sender = player:
-		player doesn't have permission "essentials.home" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /freeze [<offline player>] [<text>]:
 	aliases: essentials:freeze
@@ -3625,12 +3223,6 @@ command /freeze [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/freeze" or "/essentials:freeze":
-	sender = player:
-		player doesn't have permission "essentials.freeze" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /freezelist [<text>]:
 	aliases: essentials:freezelist
 	description: &fEssentials command /freezelist.
@@ -3639,12 +3231,6 @@ command /freezelist [<text>]:
 			EssentialsCMDFreezelist(player)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/freezelist" or "/essentials:freezelist":
-	sender = player:
-		player doesn't have permission "essentials.freezelist" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /setkit [<text>] [<text>]:
 	aliases: essentials:setkit
@@ -3658,12 +3244,6 @@ command /setkit [<text>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/setkit" or "/essentials:setkit" or "/createkit" or "/essentials:createkit":
-	sender = player:
-		player doesn't have permission "essentials.setkit" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /delkit [<text>] [<text>]:
 	aliases: essentials:delkit, deletekit, essentials:deletekit
 	description: &fEssentials command /delkit.
@@ -3676,12 +3256,6 @@ command /delkit [<text>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/delkit" or "/essentials:delkit" or "/deletekit" or "/essentials:deletekit":
-	sender = player:
-		player doesn't have permission "essentials.delkit" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /kits [<text>] [<text>]:
 	aliases: essentials:kits
 	description: &fEssentials command /kits.
@@ -3690,12 +3264,6 @@ command /kits [<text>] [<text>]:
 			EssentialsCMDKits(player)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/kits" or "/essentials:kits":
-	sender = player:
-		player doesn't have permission "essentials.kits" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /kit [<text>] [<text>]:
 	aliases: essentials:kit
@@ -3721,12 +3289,6 @@ command /setwarp [<text>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/setwarp" or "/essentials:setwarp" or "/createwarp" or "/essentials:createwarp":
-	sender = player:
-		player doesn't have permission "essentials.setwarp" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /delwarp [<text>] [<text>]:
 	aliases: essentials:delwarp, deletewarp, essentials:deletewarp
 	description: &fEssentials command /delwarp.
@@ -3739,12 +3301,6 @@ command /delwarp [<text>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/delwarp" or "/essentials:delwarp" or "/deletewarp" or "/essentials:deletewarp":
-	sender = player:
-		player doesn't have permission "essentials.delwarp" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /warps [<text>] [<text>]:
 	aliases: essentials:warps
 	description: &fEssentials command /warps.
@@ -3753,12 +3309,6 @@ command /warps [<text>] [<text>]:
 			EssentialsCMDWarps(player)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/warps" or "/essentials:warps":
-	sender = player:
-		player doesn't have permission "essentials.warps" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /warp [<text>] [<text>]:
 	aliases: essentials:warp
@@ -3772,12 +3322,6 @@ command /warp [<text>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/warp" or "/essentials:warp":
-	sender = player:
-		player doesn't have permission "essentials.warp" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /seen [<offline player>] [<text>]:
 	aliases: essentials:seen
 	description: &fEssentials command /seen.
@@ -3790,12 +3334,6 @@ command /seen [<offline player>] [<text>]:
 			else:
 				EssentialsCMDSeen(sender, arg 1)
 
-on command "/seen" or "/essentials:seen":
-	sender = player:
-		player doesn't have permission "essentials.seen" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /tpall [<offline player>] [<text>]:
 	aliases: essentials:tpall
 	description: &fEssentials command /tpall.
@@ -3804,12 +3342,6 @@ command /tpall [<offline player>] [<text>]:
 			EssentialsCMDTpall(sender)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/tpall" or "/essentials:tpall":
-	sender = player:
-		player doesn't have permission "essentials.tpall" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /tpa [<offline player>] [<text>]:
 	aliases: essentials:tpa
@@ -3826,12 +3358,6 @@ command /tpa [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/tpa" or "/essentials:tpa":
-	sender = player:
-		player doesn't have permission "essentials.tpa" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /tpaccept [<text>]:
 	aliases: essentials:tpaccept
 	description: &fEssentials command /tpaccept.
@@ -3841,12 +3367,6 @@ command /tpaccept [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/tpaccept" or "/essentials:tpaccept":
-	sender = player:
-		player doesn't have permission "essentials.tpaccept" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /tpdeny [<text>]:
 	aliases: essentials:tpdeny
 	description: &fEssentials command /tpdeny.
@@ -3855,12 +3375,6 @@ command /tpdeny [<text>]:
 			EssentialsCMDTpdeny(player)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/tpdeny" or "/essentials:tpdeny":
-	sender = player:
-		player doesn't have permission "essentials.tpdeny" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 command /tp [<offline player>] [<text>]:
 	aliases: essentials:tp, teleport, essentials:teleport
@@ -3877,12 +3391,6 @@ command /tp [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/tp" or "/essentials:tp" or "/teleport" or "/essentials:teleport":
-	sender = player:
-		player doesn't have permission "essentials.tp" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /ping [<offline player>] [<text>]:
 	aliases: essentials:ping
 	description: &fEssentials command /ping.
@@ -3898,12 +3406,6 @@ command /ping [<offline player>] [<text>]:
 		sender = console:
 			EssentialsNoCommandConsole(console)
 
-on command "/ping" or "/essentials:ping":
-	sender = player:
-		player doesn't have permission "essentials.ping" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
-
 command /anvil [<offline player>] [<text>]:
 	aliases: essentials:anvil
 	description: &fEssentials command /anvil.
@@ -3918,12 +3420,6 @@ command /anvil [<offline player>] [<text>]:
 					EssentialsCMDAnvil2(player, arg 1)
 		sender = console:
 			EssentialsNoCommandConsole(console)
-
-on command "/anvil" or "/essentials:anvil":
-	sender = player:
-		player doesn't have permission "essentials.anvil" or "essentials.*":
-			cancel event
-			EssentialsNoPermission(player)
 
 on sign change:
 	player has permission "essentials.sign.create.back" or "essentials.sign.use.*" or "essentials.sign.*" or "essentials.*":
@@ -4212,3 +3708,346 @@ on right click on sign:
 	player has permission "essentials.sign.use.anvil" or "essentials.sign.use.*" or "essentials.sign.*" or "essentials.*":
 		line 2 of block = "&1[anvil]":
 			EssentialsCMDAnvil1(player)
+
+on command:
+	sender = player:
+		command = "essentials" or "ess" or "essentials:essentials" or "essentials:ess":
+			player doesn't have permission "essentials.essentials" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "afk" or "essentials:afk":
+			player doesn't have permission "essentials.afk" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "antioch" or "essentials:antioch" or "grenade" or "essentials:grenade" or "tnt" or "essentials:tnt":
+			player doesn't have permission "essentials.antioch" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "back" or "essentials:back" or "return" or "essentials:return":
+			player doesn't have permission "essentials.back" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "ban" or "essentials:ban":
+			player doesn't have permission "essentials.ban" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "unban" or "essentials:unban":
+			player doesn't have permission "essentials.unban" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "tempban" or "essentials:tempban":
+			player doesn't have permission "essentials.tempban" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "banlist" or "essentials:banlist":
+			player doesn't have permission "essentials.banlist" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "bedteleport" or "essentials:bedteleport" or "bt" or "essentials:bt":
+			player doesn't have permission "essentials.bedteleport" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "break" or "essentials:break":
+			player doesn't have permission "essentials.break" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "broadcast" or "essentials:broadcast" or "bc" or "essentials:bc":
+			player doesn't have permission "essentials.broadcast" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "chat" or "essentials:chat":
+			player doesn't have permission "essentials.chat" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "chunkslime" or "essentials:chunkslime":
+			player doesn't have permission "essentials.chunkslime" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "clearinventory" or "essentials:clearinventory" or "ci" or "essentials:ci" or "clearinv" or "essentials:clearinv":
+			player doesn't have permission "essentials.clearinventory" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "compass" or "essentials:compass" or "direction" or "essentials:direction":
+			player doesn't have permission "essentials.compass" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "deop" or "essentials:deop" or "deoperator" or "essentials:deoperator":
+			player doesn't have permission "essentials.deop" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "op" or "essentials:op" or "operator" or "essentials:operator":
+			player doesn't have permission "essentials.op" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "thor" or "essentials:thor":
+			player doesn't have permission "essentials.thor" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "tps" or "essentials:tps":
+			player doesn't have permission "essentials.tps" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "workbench" or "essentials:workbench" or "wb" or "essentials:wb":
+			player doesn't have permission "essentials.workbench" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command =  "stop" or "essentials:stop":
+			player doesn't have permission "essentials.stop" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "getpos" or "essentials:getpos" or "coords" or "essentials:coords" or "getlocation" or "essentials:getlocation" or "getloc" or "essentials:getloc":
+			player doesn't have permission "essentials.getpos" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "helpop" or "essentials:helpop":
+			player doesn't have permission "essentials.helpop" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "give" or "essentials:give":
+			player doesn't have permission "essentials.give" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "seed" or "essentials:seed":
+			player doesn't have permission "essentials.seed" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "skull" or "essentials:skull" or "head" or "essentials:head" or "playerhead" or "essentials:playerhead":
+			player doesn't have permission "essentials.skull" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "enderchest" or "essentials:enderchest" or "ec" or "essentials:ec":
+			player doesn't have permission "essentials.enderchest" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "slap" or "essentials:slap":
+			player doesn't have permission "essentials.slap" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "jump" or "essentials:jump":
+			player doesn't have permission "essentials.jump" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "list" or "essentials:list":
+			player doesn't have permission "essentials.list" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "fireball" or "essentials:fireball":
+			player doesn't have permission "essentials.fireball" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "me" or "essentials:me":
+			player doesn't have permission "essentials.me" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "itemdb" or "essentials:itemdb":
+			player doesn't have permission "essentials.itemdb" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "randomteleport" or "essentials:randomteleport" or "rtp" or "essentials:rtp":
+			player doesn't have permission "essentials.randomteleport" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "repair" or "essentials:repair":
+			player doesn't have permission "essentials.repair" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "weather" or "essentials:weather":
+			player doesn't have permission "essentials.weather" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "depth" or "essentials:depth":
+			player doesn't have permission "essentials.depth" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "extinguish" or "essentials:extinguish" or "ext" or "essentials:ext":
+			player doesn't have permission "essentials.extinguish" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "unenchant" or "essentials:unenchant":
+			player doesn't have permission "essentials.unenchant" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "speed" or "essentials:speed":
+			player doesn't have permission "essentials.speed" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "spawn" or "essentials:spawn":
+			player doesn't have permission "essentials.spawn" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "setspawn" or "essentials:setspawn":
+			player doesn't have permission "essentials.setspawn" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "delspawn" or "essentials:delspawn":
+			player doesn't have permission "essentials.delspawn" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "vanish" or "essentials:vanish":
+			player doesn't have permission "essentials.vanish" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "msg" or "essentials:msg" or "m" or "essentials:m" or "t" or "essentials:t" or "whisper" or "essentials:whisper" or "message" or "essentials:message":
+			player doesn't have permission "essentials.msg" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "maintenance" or "essentials:maintenance":
+			player doesn't have permission "essentials.maintenance" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "kickall" or "essentials:kickall":
+			player doesn't have permission "essentials.kickall" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "kick" or "essentials:kick":
+			player doesn't have permission "essentials.kick" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "kill" or "essentials:kill":
+			player doesn't have permission "essentials.kill" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "suicide" or "essentials:suicide":
+			player doesn't have permission "essentials.suicide" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "heal" or "essentials:heal":
+			player doesn't have permission "essentials.heal" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "feed" or "essentials:feed":
+			player doesn't have permission "essentials.feed" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "gamemode" or "essentials:gamemode" or "gm" or "essentials:gm":
+			player doesn't have permission "essentials.gamemode" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "mute" or "essentials:mute":
+			player doesn't have permission "essentials.mute" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "mutelist" or "essentials:mutelist":
+			player doesn't have permission "essentials.mutelist" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "unmute" or "essentials:unmute":
+			player doesn't have permission "essentials.unmute" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "tempmute" or "essentials:tempmute":
+			player doesn't have permission "essentials.tempmute" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "fly" or "essentials:fly":
+			player doesn't have permission "essentials.fly" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "god" or "essentials:god":
+			player doesn't have permission "essentials.god" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "day" or "essentials:day":
+			player doesn't have permission "essentials.day" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "night" or "essentials:night":
+			player doesn't have permission "essentials.night" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "sethome" or "essentials:sethome" or "createhome" or "essentials:createhome":
+			player doesn't have permission "essentials.sethome" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "delhome" or "essentials:delhome" or "deletehome" or "essentials:deletehome":
+			player doesn't have permission "essentials.delhome" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "homes" or "essentials:homes":
+			player doesn't have permission "essentials.homes" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "home" or "essentials:home":
+			player doesn't have permission "essentials.home" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "freeze" or "essentials:freeze":
+			player doesn't have permission "essentials.freeze" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "freezelist" or "essentials:freezelist":
+			player doesn't have permission "essentials.freezelist" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "setkit" or "essentials:setkit" or "createkit" or "essentials:createkit":
+			player doesn't have permission "essentials.setkit" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "delkit" or "essentials:delkit" or "deletekit" or "essentials:deletekit":
+			player doesn't have permission "essentials.delkit" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "kits" or "essentials:kits":
+			player doesn't have permission "essentials.kits" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "kit" or "essentials:kit":
+			player doesn't have permission "essentials.kit" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "setwarp" or "essentials:setwarp" or "createwarp" or "essentials:createwarp":
+			player doesn't have permission "essentials.setwarp" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "delwarp" or "essentials:delwarp" or "deletewarp" or "essentials:deletewarp":
+			player doesn't have permission "essentials.delwarp" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "warps" or "essentials:warps":
+			player doesn't have permission "essentials.warps" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "warp" or "essentials:warp":
+			player doesn't have permission "essentials.warp" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "seen" or "essentials:seen":
+			player doesn't have permission "essentials.seen" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "tpall" or "essentials:tpall":
+			player doesn't have permission "essentials.tpall" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "tpa" or "essentials:tpa":
+			player doesn't have permission "essentials.tpa" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "tpaccept" or "essentials:tpaccept":
+			player doesn't have permission "essentials.tpaccept" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "tpdeny" or "essentials:tpdeny":
+			player doesn't have permission "essentials.tpdeny" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "tp" or "essentials:tp" or "teleport" or "essentials:teleport":
+			player doesn't have permission "essentials.teleport" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "ping" or "essentials:ping":
+			player doesn't have permission "essentials.ping" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "anvil" or "essentials:anvil":
+			player doesn't have permission "essentials.anvil" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "invsee" or "essentials:invsee":
+			player doesn't have permission "essentials.invsee" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "time" or "essentials:time":
+			player doesn't have permission "essentials.time" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
