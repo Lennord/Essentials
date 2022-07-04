@@ -448,7 +448,6 @@ function EssentialsNoAfk(s: sender):
 function EssentialsCMDAntioch1(s: sender):
 	spawn 1 primed tnt at the targeted block of {_s}
 	send "&7You have spawn 1 primed tnt at the location of target's block." to {_s}
-	stop
 
 function EssentialsCMDAntioch2(s: sender, p: offline player):
 	{_s} has permission "essentials.antioch.others" or "essentials.*":
@@ -963,7 +962,6 @@ function EssentialsCMDEnderchest1(s: sender):
 	load "plugins/Essentials/config.yml"
 	yaml value "language" from "config" = "English":
 		send "&7You have opened your enderchest." to {_s}
-	stop
 
 function EssentialsCMDEnderchest2(s: sender, p: offline player):
 	{_s} has permission "essentials.workbench.others" or "essentials.*":
@@ -979,7 +977,6 @@ function EssentialsCMDSlap(s: sender, p: offline player):
 	load "plugins/Essentials/config.yml"
 	yaml value "language" from "config" = "English":
 		send "&7You have slapped the player &6%{_p}%&7." to {_s}
-	stop
 
 function EssentialsCMDJump1(s: sender):
 	target block of {_s} is set:
@@ -1012,7 +1009,6 @@ function EssentialsCMDFireball1(s: sender):
 	load "plugins/Essentials/config.yml"
 	yaml value "language" from "config" = "English":
 		send "&7You have shooted a fireball at your location." to {_s}
-	stop
 	
 function EssentialsCMDFireball2(s: sender, p: offline player):
 	{_s} has permission "essentials.fireball.others" or "essentials.*":
@@ -1337,11 +1333,9 @@ function EssentialsCMDKick(s: sender, p: offline player, t: text):
 
 function EssentialsCMDKill(s: sender, p: offline player):
 	kill {_p}
-	stop
 
 function EssentialsCMDSuicide(s: sender):
 	kill {_s}
-	stop
 
 function EssentialsCMDHeal1(s: sender):
 	load "plugins/Essentials/config.yml"
@@ -2055,7 +2049,6 @@ function EssentialsCMDAnvil1(s: sender):
 	load "plugins/Essentials/config.yml"
 	yaml value "language" from "config" = "English":
 		send "&7You have opened the anvil." to {_s}
-	stop
 
 function EssentialsCMDAnvil2(s: sender, p: offline player):
 	{_s} has permission "essentials.anvil.others" or "essentials.*":
