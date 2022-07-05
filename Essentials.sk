@@ -31,8 +31,6 @@ on join:
 		delete yaml value "mute.times" from "who"
 		set yaml value "homes.stats" from "who" to false
 		save yaml "who"
-		unload yaml "who"
-		stop
 	else:
 		load "plugins/Essentials/players/%player%/who.yml"
 		set yaml value "join.date" from "who" to "%now%"
@@ -43,8 +41,7 @@ on join:
 		set yaml value "vanish.stats" from "who" to false
 		set yaml value "vanish.date" from "who" to "%now%"
 		save yaml "who"
-		unload yaml "who"
-		stop
+	unload yaml "who"
 
 on load:
 	yaml file "plugins/Essentials/config.yml" doesn't exist:
@@ -79,17 +76,12 @@ on load:
 		set yaml value "warps.cooldown-use" from "config" to 5
 		set yaml list "block-place" from "config" to tnt
 		save yaml "config"
-		unload yaml "config"
-		stop
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" != "English":
 			set yaml value "language" from "config" to "English"
 		save yaml "config"
-		unload yaml "config"
-		stop
-
-on load:
+	unload yaml "config"
 	send "&7[&bEssentials&7] &8x &2Enabled" to console
 
 on unload:
@@ -123,180 +115,76 @@ function EssentialsPlayerOffline(s: sender, p: offline player):
 function EssentialsHelp(s: sender, typehelp: text):
 	load "plugins/Essentials/config.yml"
 	yaml value "language" from "config" = "English":
+		send "" to {_s}
+		send "&8| &8x &6Help:" to {_s}
+		send "" to {_s}
 		{_typehelp} = "EssentialsCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/essentials &binfo &8x &7Seen informations of this skript." to {_s}
 			send "&8| &f/essentials &breload &8x &7Reload this skript." to {_s}
-			send "" to {_s}
 		{_typehelp} = "AfkCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			{_s} = player:
 				send "&8| &f/afk &8x &7Enable and Disable afk." to {_s}
 			send "&8| &f/afk &7[&cname of player&7] &8x &7Enable and Disable afk for the player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "BackCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/back &7[&cname of player&7] &8x &7Return player's location to the player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "BanCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/ban &7[&cname of player&7] &7[&creason&7] &8x &7Ban the player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "UnbanCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/unban &7[&cname of player&7] &8x &7Unban the player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "TempbanCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/tempban &7[&cname of player] &7[&creason&7] &7[&ctimes&7] &8x &7Ban temporary the player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "BroadcastCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/broadcast &7[&cmessage&7] &8x &7Send message in the all worlds." to {_s}
 			send "&8| &f/broadcast &7[&cname of world] &7[&cmessage&7] &8x &7Send message in the world type." to {_s}
-			send "" to {_s}
 		{_typehelp} = "ChatCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/chat &benable&7/&bon &8x &7Enable the chat for all players." to {_s}
 			send "&8| &f/chat &bdisable&7/&boff &8x &7Disable the chat for all players." to {_s}
 			send "&8| &f/chat &btoggle&7 &8x &7Enable and disable the chat for all players." to {_s}
 			send "&8| &f/chat &bclear &8x &7Clear the chat for all players." to {_s}
-			send "" to {_s}
 		{_typehelp} = "ClearinventoryCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/clearinventory &7[&cname of player&7] &8x &7Clear player's inventory of the player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "DeopCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/deop &7[&cname of player&7] &8x &7Deop the player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "OpCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/op &7[&cname of player&7] &8x &7Op the player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "GetposCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/getpos &7[&cname of player&7] &8x &7Seen location of the player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "HelpopCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/helpop &7[&cname of player&7] &8x &7Send message for the help." to {_s}
-			send "" to {_s}
 		{_typehelp} = "GiveCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/give &7[&cname of item&7] &7[&cnumber&7] &8x &7Give item type." to {_s}
-			send "" to {_s}
 		{_typehelp} = "SkullCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/skull &7[&cname of player&7] &8x &7Give the head of player's offline." to {_s}
-			send "" to {_s}
 		{_typehelp} = "SlapCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/slap &7[&cname of player&7] &8x &7Slap the player's offline." to {_s}
-			send "" to {_s}
 		{_typehelp} = "MeCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/me &7[&cmessage&7] &8x &7Send message of all players." to {_s}
-			send "" to {_s}
 		{_typehelp} = "InvseeCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/invsee &7[&cname of player&7] &8x &7Open inventory of player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "WeatherCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/weather &bclear &8x &7Clear the weather of the player's world." to {_s}
 			send "&8| &f/weather &bsun &8x &7Set sun of the weather of the player's world." to {_s}
 			send "&8| &f/weather &brain &8x &7Set rain of the weather of the player's world." to {_s}
 			send "&8| &f/weather &bthunder &8x &7Set thunder of the weather of the player's world." to {_s}
-			send "" to {_s}
 		{_typehelp} = "SpeedCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/speed &bclear &8x &7Clear the speed fly and walk." to {_s}
 			send "&8| &f/speed &bfly &7[&cnumber&7] &8x &7Set speed number of the speed fly." to {_s}
 			send "&8| &f/speed &bwalk &7[&cnumber&7] &8x &7Set speed number of the speed walk." to {_s}
-			send "" to {_s}
 		{_typehelp} = "SpawnCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/spawn &7[&cname of player&7] &8x &7Teleport player's online of the spawn point." to {_s}
-			send "" to {_s}
 		{_typehelp} = "MsgCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/msg &7[&cname of player&7] &7[&cmessage&7] &8x &7Send message to player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "MaintenanceCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/maintenance &benable&7/&bon &8x &7Enable the maintenance of this server." to {_s}
 			send "&8| &f/maintenance &bdisable&7/&boff &8x &7Disable the maintenance of this server." to {_s}
 			send "&8| &f/maintenance &btoggle &8x &7Enable and disable the maintenance of this server." to {_s}
-			send "" to {_s}
 		{_typehelp} = "KickCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/kick &7[&cname of player&7] &7[&cmessage&7] &8x &7Kick player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "KickallCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/kickall &7[&cmessage&7] &8x &7Kick all player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "KillCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/kill &7[&cname of player&7] &8x &7Kill all player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "GamemodeCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/gamemode &bsurvival &8x &7Set your gamemode to survival." to {_s}
 			send "&8| &f/gamemode &bcreative &8x &7Set your gamemode to creative." to {_s}
 			send "&8| &f/gamemode &badventure &8x &7Set your gamemode to adventure." to {_s}
@@ -306,91 +194,35 @@ function EssentialsHelp(s: sender, typehelp: text):
 			send "&8| &f/gamemode &bcreative &7[&cname of player&7] &8x &7Set gamemode to creative of the player's online." to {_s}
 			send "&8| &f/gamemode &badventure &7[&cname of player&7] &8x &7Set gamemode to adventure of the player's online." to {_s}
 			send "&8| &f/gamemode &bspectator &7[&cname of player&7] &8x &7Set gamemode to spectator of the player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "MuteCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/mute &7[&cname of player&7] &7[&creason&7] &8x &7Mute the player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "UnmuteCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/unmute &7[&cname of player&7] &8x &7Unmute the player." to {_s}
-			send "" to {_s}
 		{_typehelp} = "TempmuteCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/tempmute &7[&cname of player&7] &7[&creason&7] &7[&ctimes&7] &8x &7Mute temporary the player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "SethomeCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/sethome &7[&cname of home&7] &8x &7Set home at your location." to {_s}
-			send "" to {_s}
 		{_typehelp} = "DelhomeCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/delhome &7[&cname of home&7] &8x &7Delete home." to {_s}
-			send "" to {_s}
 		{_typehelp} = "HomeCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/home &7[&cname of home&7] &8x &7Teleport at location of home type." to {_s}
-			send "" to {_s}
 		{_typehelp} = "FreezeCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/freeze &7[&cname of player&7] &8x &7Freeze player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "SetkitCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/setkit &7[&cname of kit&7] &8x &7Create kit." to {_s}
-			send "" to {_s}
 		{_typehelp} = "DelkitCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/delkit &7[&cname of kit&7] &8x &7Delete kit." to {_s}
-			send "" to {_s}
 		{_typehelp} = "KitCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/kit &7[&cname of kit&7] &8x &7Give of kit type." to {_s}
-			send "" to {_s}
 		{_typehelp} = "SeenCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/seen &7[&cname of player&7] &8x &7Seen information of player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "TpaCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/tpa &7[&cname of player&7] &8x &7Request teleportation of player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "TpacceptCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/tpaccept &8x &7Accept teleportation of player's online." to {_s}
-			send "" to {_s}
 		{_typehelp} = "TpdenyCMD":
-			send "" to {_s}
-			send "&8| &8x &6Help:" to {_s}
-			send "" to {_s}
 			send "&8| &f/tpdeny &8x &7Deny teleportation of player's online." to {_s}
-			send "" to {_s}
+		send "" to {_s}
 
 function EssentialsCMDAfk1(s: sender):
 	load "plugins/Essentials/players/%{_s}%/who.yml"
