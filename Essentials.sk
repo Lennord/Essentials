@@ -2141,9 +2141,9 @@ command /essentials [<text>] [<text>]:
 					send "&6Help:" to sender
 					send "" to sender
 					send "&6» &fName of skript: &cEssentials (Skript)" to sender
-					send "&6» &fLink of skript: &chttps://www.spigotmc.org/resources/essentials-skript-1-13-2-1-18-2.39698/" to sender
+					send "&6» &fLink of skript: &chttps://www.spigotmc.org/resources/essentials-skript-1-13-2-1-19.39698/" to sender
 					send "&6» &fDescription of skript: &cThis skript allows you to redo all or almost all the functionality of the EssentialsX plugin." to sender
-					send "&6» &fVersion of skript: &c2.0.6" to sender
+					send "&6» &fVersion of skript: &c2.0.7" to sender
 					send "&6» &fPlugin requirements: &cSkript &7and &cSkript-YAML" to sender
 					send "&6» &fAll languages of skript: &cEnglish" to sender
 					send "" to sender
