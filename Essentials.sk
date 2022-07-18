@@ -1,8 +1,3 @@
-#   . Essentials (Skript), Developped by alexisl315 (Alias: Lennord).
-#   . This skript allows you to redo all or almost all the functionality of the EssentialsX plugin.
-
-#   --> Code:
-
 on join:
 	yaml file "plugins/Essentials/players/%player%/who.yml" doesn't exist:
 		load "plugins/Essentials/players/%player%/who.yml"
@@ -63,7 +58,7 @@ on load:
 		set yaml value "chat.date" from "config" to "%now%"
 		set yaml value "chat.author" from "config" to "%sender%"
 		set yaml value "motd.stats" from "config" to true
-		set yaml value "motd.line-1" from "config" to "&f[&6SERVER NAME&f] &8x &7MINIGAMES AND MORES"
+		set yaml value "motd.line-1" from "config" to "&f[&6SERVER NAME&f] &8» &7MINIGAMES AND MORES"
 		set yaml value "motd.line-2" from "config" to "    &7SERVER VERSION: &c1.0.0"
 		set yaml value "maintenance.stats" from "config" to true
 		set yaml value "maintenance.date" from "config" to "%now%"
@@ -82,10 +77,10 @@ on load:
 			set yaml value "language" from "config" to "English"
 		save yaml "config"
 	unload yaml "config"
-	send "&7[&bEssentials&7] &8x &2Enabled" to console
+	send "&7[&bEssentials&7] &8» &2Enabled" to console
 
 on unload:
-	send "&7[&bEssentials&7] &8x &cDisabled" to console
+	send "&7[&bEssentials&7] &8» &cDisabled" to console
 
 on server list ping:
 	load "plugins/Essentials/config.yml"
@@ -95,133 +90,135 @@ on server list ping:
 function EssentialsNoPermission(s: sender):
 	load "plugins/Essentials/config.yml"
 	yaml value "language" from "config" = "English":
-		send "&4| &8x &cYou have not permission to use this command." to {_s}
+		send "&4» &cYou have not permission to use this command." to {_s}
+
+function EssentialsNoPermissionConsole(s: sender):
+	load "plugins/Essentials/config.yml"
+	yaml value "language" from "config" = "English":
+		send "&4» &cYou must be a player to use this command." to console
 
 function EssentialsNoBuild(s: sender):
 	load "plugins/Essentials/config.yml"
 	yaml value "language" from "config" = "English":
-		send "&4| &8x &cYou have not permission to build and break the all blocks." to {_s}
-
-function EssentialsNoCommandConsole(s: sender):
-	load "plugins/Essentials/config.yml"
-	yaml value "language" from "config" = "English":
-		send "&4| &8x &cYou must be a player to use this command." to {_s}
+		send "&4» &cYou have not permission to build and break the all blocks." to {_s}
 
 function EssentialsPlayerOffline(s: sender, p: offline player):
 	load "plugins/Essentials/config.yml"
 	yaml value "language" from "config" = "English":
-		send "&4| &8x &cThe player &6%{_p}% &cis offline." to {_s}
+		send "&4» &cThe player &6%{_p}% &cis offline." to {_s}
 
 function EssentialsHelp(s: sender, typehelp: text):
 	load "plugins/Essentials/config.yml"
 	yaml value "language" from "config" = "English":
 		send "" to {_s}
-		send "&8| &8x &6Help:" to {_s}
+		send "&6Help:" to {_s}
 		send "" to {_s}
 		{_typehelp} = "EssentialsCMD":
-			send "&8| &f/essentials &binfo &8x &7Seen informations of this skript." to {_s}
-			send "&8| &f/essentials &breload &8x &7Reload this skript." to {_s}
+			send "&6» &f/essentials &binfo &8» &7Seen informations of this skript." to {_s}
+			send "&6» &f/essentials &breload &8» &7Reload this skript." to {_s}
 		{_typehelp} = "AfkCMD":
 			{_s} = player:
-				send "&8| &f/afk &8x &7Enable and Disable afk." to {_s}
-			send "&8| &f/afk &7[&cname of player&7] &8x &7Enable and Disable afk for the player's online." to {_s}
+				send "&6» &f/afk &8» &7Enable and Disable afk." to {_s}
+			send "&6» &f/afk &7[&cname of player&7] &8» &7Enable and Disable afk for the player's online." to {_s}
 		{_typehelp} = "BackCMD":
-			send "&8| &f/back &7[&cname of player&7] &8x &7Return player's location to the player's online." to {_s}
+			send "&6» &f/back &7[&cname of player&7] &8» &7Return player's location to the player's online." to {_s}
 		{_typehelp} = "BanCMD":
-			send "&8| &f/ban &7[&cname of player&7] &7[&creason&7] &8x &7Ban the player's online." to {_s}
+			send "&6» &f/ban &7[&cname of player&7] &7[&creason&7] &8» &7Ban the player's online." to {_s}
 		{_typehelp} = "UnbanCMD":
-			send "&8| &f/unban &7[&cname of player&7] &8x &7Unban the player's online." to {_s}
+			send "&6» &f/unban &7[&cname of player&7] &8» &7Unban the player's online." to {_s}
 		{_typehelp} = "TempbanCMD":
-			send "&8| &f/tempban &7[&cname of player] &7[&creason&7] &7[&ctimes&7] &8x &7Ban temporary the player's online." to {_s}
+			send "&6» &f/tempban &7[&cname of player] &7[&creason&7] &7[&ctimes&7] &8» &7Ban temporary the player's online." to {_s}
 		{_typehelp} = "BroadcastCMD":
-			send "&8| &f/broadcast &7[&cmessage&7] &8x &7Send message in the all worlds." to {_s}
-			send "&8| &f/broadcast &7[&cname of world] &7[&cmessage&7] &8x &7Send message in the world type." to {_s}
+			send "&6» &f/broadcast &7[&cmessage&7] &8» &7Send message in the all worlds." to {_s}
+			send "&6» &f/broadcast &7[&cname of world] &7[&cmessage&7] &8» &7Send message in the world type." to {_s}
 		{_typehelp} = "ChatCMD":
-			send "&8| &f/chat &benable&7/&bon &8x &7Enable the chat for all players." to {_s}
-			send "&8| &f/chat &bdisable&7/&boff &8x &7Disable the chat for all players." to {_s}
-			send "&8| &f/chat &btoggle&7 &8x &7Enable and disable the chat for all players." to {_s}
-			send "&8| &f/chat &bclear &8x &7Clear the chat for all players." to {_s}
+			send "&6» &f/chat &benable&7/&bon &8» &7Enable the chat for all players." to {_s}
+			send "&6» &f/chat &bdisable&7/&boff &8» &7Disable the chat for all players." to {_s}
+			send "&6» &f/chat &btoggle&7 &8» &7Enable and disable the chat for all players." to {_s}
+			send "&6» &f/chat &bclear &8» &7Clear the chat for all players." to {_s}
 		{_typehelp} = "ClearinventoryCMD":
-			send "&8| &f/clearinventory &7[&cname of player&7] &8x &7Clear player's inventory of the player's online." to {_s}
+			send "&6» &f/clearinventory &7[&cname of player&7] &8» &7Clear player's inventory of the player's online." to {_s}
 		{_typehelp} = "DeopCMD":
-			send "&8| &f/deop &7[&cname of player&7] &8x &7Deop the player's online." to {_s}
+			send "&6» &f/deop &7[&cname of player&7] &8» &7Deop the player's online." to {_s}
 		{_typehelp} = "OpCMD":
-			send "&8| &f/op &7[&cname of player&7] &8x &7Op the player's online." to {_s}
+			send "&6» &f/op &7[&cname of player&7] &8» &7Op the player's online." to {_s}
 		{_typehelp} = "GetposCMD":
-			send "&8| &f/getpos &7[&cname of player&7] &8x &7Seen location of the player's online." to {_s}
+			send "&6» &f/getpos &7[&cname of player&7] &8» &7Seen location of the player's online." to {_s}
 		{_typehelp} = "HelpopCMD":
-			send "&8| &f/helpop &7[&cname of player&7] &8x &7Send message for the help." to {_s}
+			send "&6» &f/helpop &7[&cname of player&7] &8» &7Send message for the help." to {_s}
 		{_typehelp} = "GiveCMD":
-			send "&8| &f/give &7[&cname of item&7] &7[&cnumber&7] &8x &7Give item type." to {_s}
+			send "&6» &f/give &7[&cname of item&7] &7[&cnumber&7] &8» &7Give item type." to {_s}
 		{_typehelp} = "SkullCMD":
-			send "&8| &f/skull &7[&cname of player&7] &8x &7Give the head of player's offline." to {_s}
+			send "&6» &f/skull &7[&cname of player&7] &8» &7Give the head of player's offline." to {_s}
 		{_typehelp} = "SlapCMD":
-			send "&8| &f/slap &7[&cname of player&7] &8x &7Slap the player's offline." to {_s}
+			send "&6» &f/slap &7[&cname of player&7] &8» &7Slap the player's offline." to {_s}
 		{_typehelp} = "MeCMD":
-			send "&8| &f/me &7[&cmessage&7] &8x &7Send message of all players." to {_s}
+			send "&6» &f/me &7[&cmessage&7] &8» &7Send message of all players." to {_s}
 		{_typehelp} = "InvseeCMD":
-			send "&8| &f/invsee &7[&cname of player&7] &8x &7Open inventory of player's online." to {_s}
+			send "&6» &f/invsee &7[&cname of player&7] &8» &7Open inventory of player's online." to {_s}
 		{_typehelp} = "WeatherCMD":
-			send "&8| &f/weather &bclear &8x &7Clear the weather of the player's world." to {_s}
-			send "&8| &f/weather &bsun &8x &7Set sun of the weather of the player's world." to {_s}
-			send "&8| &f/weather &brain &8x &7Set rain of the weather of the player's world." to {_s}
-			send "&8| &f/weather &bthunder &8x &7Set thunder of the weather of the player's world." to {_s}
+			send "&6» &f/weather &bclear &8» &7Clear the weather of the player's world." to {_s}
+			send "&6» &f/weather &bsun &8» &7Set sun of the weather of the player's world." to {_s}
+			send "&6» &f/weather &brain &8» &7Set rain of the weather of the player's world." to {_s}
+			send "&6» &f/weather &bthunder &8» &7Set thunder of the weather of the player's world." to {_s}
 		{_typehelp} = "SpeedCMD":
-			send "&8| &f/speed &bclear &8x &7Clear the speed fly and walk." to {_s}
-			send "&8| &f/speed &bfly &7[&cnumber&7] &8x &7Set speed number of the speed fly." to {_s}
-			send "&8| &f/speed &bwalk &7[&cnumber&7] &8x &7Set speed number of the speed walk." to {_s}
+			send "&6» &f/speed &bclear &8» &7Clear the speed fly and walk." to {_s}
+			send "&6» &f/speed &bfly &7[&cnumber&7] &8» &7Set speed number of the speed fly." to {_s}
+			send "&6» &f/speed &bwalk &7[&cnumber&7] &8» &7Set speed number of the speed walk." to {_s}
 		{_typehelp} = "SpawnCMD":
-			send "&8| &f/spawn &7[&cname of player&7] &8x &7Teleport player's online of the spawn point." to {_s}
+			send "&6» &f/spawn &7[&cname of player&7] &8» &7Teleport player's online of the spawn point." to {_s}
 		{_typehelp} = "MsgCMD":
-			send "&8| &f/msg &7[&cname of player&7] &7[&cmessage&7] &8x &7Send message to player's online." to {_s}
+			send "&6» &f/msg &7[&cname of player&7] &7[&cmessage&7] &8» &7Send message to player's online." to {_s}
 		{_typehelp} = "MaintenanceCMD":
-			send "&8| &f/maintenance &benable&7/&bon &8x &7Enable the maintenance of this server." to {_s}
-			send "&8| &f/maintenance &bdisable&7/&boff &8x &7Disable the maintenance of this server." to {_s}
-			send "&8| &f/maintenance &btoggle &8x &7Enable and disable the maintenance of this server." to {_s}
+			send "&6» &f/maintenance &benable&7/&bon &8» &7Enable the maintenance of this server." to {_s}
+			send "&6» &f/maintenance &bdisable&7/&boff &8» &7Disable the maintenance of this server." to {_s}
+			send "&6» &f/maintenance &btoggle &8» &7Enable and disable the maintenance of this server." to {_s}
 		{_typehelp} = "KickCMD":
-			send "&8| &f/kick &7[&cname of player&7] &7[&cmessage&7] &8x &7Kick player's online." to {_s}
+			send "&6» &f/kick &7[&cname of player&7] &7[&cmessage&7] &8» &7Kick player's online." to {_s}
 		{_typehelp} = "KickallCMD":
-			send "&8| &f/kickall &7[&cmessage&7] &8x &7Kick all player's online." to {_s}
+			send "&6» &f/kickall &7[&cmessage&7] &8» &7Kick all player's online." to {_s}
 		{_typehelp} = "KillCMD":
-			send "&8| &f/kill &7[&cname of player&7] &8x &7Kill all player's online." to {_s}
+			send "&6» &f/kill &7[&cname of player&7] &8» &7Kill all player's online." to {_s}
 		{_typehelp} = "GamemodeCMD":
-			send "&8| &f/gamemode &bsurvival &8x &7Set your gamemode to survival." to {_s}
-			send "&8| &f/gamemode &bcreative &8x &7Set your gamemode to creative." to {_s}
-			send "&8| &f/gamemode &badventure &8x &7Set your gamemode to adventure." to {_s}
-			send "&8| &f/gamemode &bspectator &8x &7Set your gamemode to spectator." to {_s}
+			send "&6» &f/gamemode &bsurvival &8» &7Set your gamemode to survival." to {_s}
+			send "&6» &f/gamemode &bcreative &8» &7Set your gamemode to creative." to {_s}
+			send "&6» &f/gamemode &badventure &8» &7Set your gamemode to adventure." to {_s}
+			send "&6» &f/gamemode &bspectator &8» &7Set your gamemode to spectator." to {_s}
 			send "" to {_s}
-			send "&8| &f/gamemode &bsurvival &7[&cname of player&7] &8x &7Set gamemode to survival of the player's online." to {_s}
-			send "&8| &f/gamemode &bcreative &7[&cname of player&7] &8x &7Set gamemode to creative of the player's online." to {_s}
-			send "&8| &f/gamemode &badventure &7[&cname of player&7] &8x &7Set gamemode to adventure of the player's online." to {_s}
-			send "&8| &f/gamemode &bspectator &7[&cname of player&7] &8x &7Set gamemode to spectator of the player's online." to {_s}
+			send "&6» &f/gamemode &bsurvival &7[&cname of player&7] &8» &7Set gamemode to survival of the player's online." to {_s}
+			send "&6» &f/gamemode &bcreative &7[&cname of player&7] &8» &7Set gamemode to creative of the player's online." to {_s}
+			send "&6» &f/gamemode &badventure &7[&cname of player&7] &8» &7Set gamemode to adventure of the player's online." to {_s}
+			send "&6» &f/gamemode &bspectator &7[&cname of player&7] &8» &7Set gamemode to spectator of the player's online." to {_s}
 		{_typehelp} = "MuteCMD":
-			send "&8| &f/mute &7[&cname of player&7] &7[&creason&7] &8x &7Mute the player's online." to {_s}
+			send "&6» &f/mute &7[&cname of player&7] &7[&creason&7] &8» &7Mute the player's online." to {_s}
 		{_typehelp} = "UnmuteCMD":
-			send "&8| &f/unmute &7[&cname of player&7] &8x &7Unmute the player." to {_s}
+			send "&6» &f/unmute &7[&cname of player&7] &8» &7Unmute the player." to {_s}
 		{_typehelp} = "TempmuteCMD":
-			send "&8| &f/tempmute &7[&cname of player&7] &7[&creason&7] &7[&ctimes&7] &8x &7Mute temporary the player's online." to {_s}
+			send "&6» &f/tempmute &7[&cname of player&7] &7[&creason&7] &7[&ctimes&7] &8» &7Mute temporary the player's online." to {_s}
 		{_typehelp} = "SethomeCMD":
-			send "&8| &f/sethome &7[&cname of home&7] &8x &7Set home at your location." to {_s}
+			send "&6» &f/sethome &7[&cname of home&7] &8» &7Set home at your location." to {_s}
 		{_typehelp} = "DelhomeCMD":
-			send "&8| &f/delhome &7[&cname of home&7] &8x &7Delete home." to {_s}
+			send "&6» &f/delhome &7[&cname of home&7] &8» &7Delete home." to {_s}
 		{_typehelp} = "HomeCMD":
-			send "&8| &f/home &7[&cname of home&7] &8x &7Teleport at location of home type." to {_s}
+			send "&6» &f/home &7[&cname of home&7] &8» &7Teleport at location of home type." to {_s}
 		{_typehelp} = "FreezeCMD":
-			send "&8| &f/freeze &7[&cname of player&7] &8x &7Freeze player's online." to {_s}
+			send "&6» &f/freeze &7[&cname of player&7] &8» &7Freeze player's online." to {_s}
 		{_typehelp} = "SetkitCMD":
-			send "&8| &f/setkit &7[&cname of kit&7] &8x &7Create kit." to {_s}
+			send "&6» &f/setkit &7[&cname of kit&7] &8» &7Create kit." to {_s}
 		{_typehelp} = "DelkitCMD":
-			send "&8| &f/delkit &7[&cname of kit&7] &8x &7Delete kit." to {_s}
+			send "&6» &f/delkit &7[&cname of kit&7] &8» &7Delete kit." to {_s}
 		{_typehelp} = "KitCMD":
-			send "&8| &f/kit &7[&cname of kit&7] &8x &7Give of kit type." to {_s}
+			send "&6» &f/kit &7[&cname of kit&7] &8» &7Give of kit type." to {_s}
 		{_typehelp} = "SeenCMD":
-			send "&8| &f/seen &7[&cname of player&7] &8x &7Seen information of player's online." to {_s}
+			send "&6» &f/seen &7[&cname of player&7] &8» &7Seen information of player's online." to {_s}
 		{_typehelp} = "TpaCMD":
-			send "&8| &f/tpa &7[&cname of player&7] &8x &7Request teleportation of player's online." to {_s}
+			send "&6» &f/tpa &7[&cname of player&7] &8» &7Request teleportation of player's online." to {_s}
 		{_typehelp} = "TpacceptCMD":
-			send "&8| &f/tpaccept &8x &7Accept teleportation of player's online." to {_s}
+			send "&6» &f/tpaccept &8» &7Accept teleportation of player's online." to {_s}
 		{_typehelp} = "TpdenyCMD":
-			send "&8| &f/tpdeny &8x &7Deny teleportation of player's online." to {_s}
+			send "&6» &f/tpdeny &8» &7Deny teleportation of player's online." to {_s}
+		{_typehelp} = "SudoCMD":
+			send "&6» &f/sudo &7[&cname of command&7] &8» &7Execute command." to {_s}
 		send "" to {_s}
 
 function EssentialsCMDAfk1(s: sender):
@@ -272,7 +269,7 @@ function EssentialsNoAfk(s: sender):
 		yaml value "language" from "config" = "English":
 			loop all players:
 				loop-player has permission "essentials.*" or "essentials.afk.message" or "essentials.afk.*":
-					send "&7[&cAFK-DISABLED&7] &8x &f%{_s}%" to loop-player
+					send "&7[&cAFK-DISABLED&7] &8» &f%{_s}%" to loop-player
 		save yaml "who"
 		unload yaml "who"
 		stop
@@ -323,7 +320,7 @@ function EssentialsCMDBack1(s: sender):
 	yaml value "back.location" from "who" doesn't exist:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cYou do not have location of back point." to {_s}
+			send "&4» &cYou do not have location of back point." to {_s}
 	else:
 		{_s} has permission "essentials.back.bypass" or "essentials.back.*" or "essentials.*":
 			teleport {_s} to yaml value "back.location" from "who"
@@ -352,7 +349,7 @@ function EssentialsCMDBack2(s: sender, p: offline player):
 	yaml value "back.location" from "who" doesn't exist:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cYou do not have location of back point for the player &6%{_p}%&c." to {_s}
+			send "&4» &cYou do not have location of back point for the player &6%{_p}%&c." to {_s}
 	else:
 		{_s} has permission "essentials.back.others" or "essentials.back.*" or "essentials.*":
 			teleport {_p} to yaml value "back.location" from "who"
@@ -371,7 +368,7 @@ function EssentialsCMDSpawn1(s: sender):
 	load "plugins/Essentials/config.yml"
 	yaml value "spawn.stats" from "config" = false:
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe spawn point has not exist." to {_s}
+			send "&4» &cThe spawn point has not exist." to {_s}
 	else:
 		{_s} has permission "essentials.spawn.bypass" or "essentials.spawn.*" or "essentials.*":
 			teleport {_s} to yaml value "spawn.location" from "config"
@@ -390,7 +387,7 @@ function EssentialsCMDSpawn2(s: sender, p: offline player):
 	yaml value "spawn.location" from "config" doesn't exist:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe spawn point has not exist." to {_s}
+			send "&4» &cThe spawn point has not exist." to {_s}
 	else:
 		{_s} has permission "essentials.spawn.others" or "essentials.spawn.*" or "essentials.*":
 			teleport {_p} to yaml value "spawn.location" from "config"
@@ -403,7 +400,7 @@ function EssentialsCMDSpawn2(s: sender, p: offline player):
 function EssentialsCMDBan(s: sender, p: offline player, r: text):
 	load "plugins/Essentials/players/%{_p}%/who.yml"
 	yaml value "firstjoin.stats" from "who" doesn't exist:
-		send "&4| &8x &cThe player &6%{_p}% &chas been unregister in this server." to {_s}
+		send "&4» &cThe player &6%{_p}% &chas been unregister in this server." to {_s}
 	else:
 		yaml value "ban.stats" from "who" = false:
 			set yaml value "ban.stats" from "who" to true
@@ -422,18 +419,18 @@ function EssentialsCMDBan(s: sender, p: offline player, r: text):
 			unload yaml "who"
 			stop
 		else:
-			send "&4| &8x &cThe player &6%{_p}% &chas been banned." to {_s}
+			send "&4» &cThe player &6%{_p}% &chas been banned." to {_s}
 
 function EssentialsCMDBanlist(s: sender):
 	{Essentials::banlist::*} isn't set:
-		send "&4| &8x &cNo player has been banned." to {_s}
+		send "&4» &cNo player has been banned." to {_s}
 	else:
 		send "&6List all players is banned: &c%{Essentials::banlist::*}%" to {_s}
 
 function EssentialsCMDTempban(s: sender, p: offline player, r: text, t: timespan):
 	load "plugins/Essentials/players/%{_p}%/who.yml"
 	yaml value "firstjoin.stats" from "who" doesn't exist:
-		send "&4| &8x &cThe player &6%{_p}% &chas been unregister in this server." to {_s}
+		send "&4» &cThe player &6%{_p}% &chas been unregister in this server." to {_s}
 	else:
 		yaml value "ban.stats" from "who" = false:
 			set yaml value "ban.stats" from "who" to true
@@ -452,12 +449,12 @@ function EssentialsCMDTempban(s: sender, p: offline player, r: text, t: timespan
 			unload yaml "who"
 			stop
 		else:
-			send "&4| &8x &cThe player &6%{_p}% &chas been banned temporary." to {_s}
+			send "&4» &cThe player &6%{_p}% &chas been banned temporary." to {_s}
 
 function EssentialsCMDUnban(s: sender, p: offline player):
 	load "plugins/Essentials/players/%{_p}%/who.yml"
 	yaml value "firstjoin.stats" from "who" doesn't exist:
-		send "&4| &8x &cThe player &6%{_p}% &chas been unregister in this server." to {_s}
+		send "&4» &cThe player &6%{_p}% &chas been unregister in this server." to {_s}
 	else:
 		yaml value "ban.stats" from "who" = true:
 			set yaml value "ban.stats" from "who" to false
@@ -476,7 +473,7 @@ function EssentialsCMDUnban(s: sender, p: offline player):
 			unload yaml "who"
 			stop
 		else:
-			send "&4| &8x &cThe player &6%{_p}% &chave not banned." to {_s}
+			send "&4» &cThe player &6%{_p}% &chave not banned." to {_s}
 
 on every 3 tick:
 	load "plugins/Essentials/config.yml"
@@ -512,7 +509,7 @@ function EssentialsCMDBedteleport1(s: sender):
 			send "&7You have been teleported at location of bed&7." to {_s}
 	else:
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cYou do not have bed." to {_s}
+			send "&4» &cYou do not have bed." to {_s}
 			
 function EssentialsCMDBedteleport2(s: sender, p: offline player):
 	{_s} has permission "essentials.bedteleport.others" or "essentials.*":
@@ -523,7 +520,7 @@ function EssentialsCMDBedteleport2(s: sender, p: offline player):
 				send "&7You have been teleported at location of bed of the player &6%{_p}%&7." to {_s}
 		else:
 			yaml value "language" from "config" = "English":
-				send "&4| &8x &cYou do not have bed of the player &6%{_p}%&c." to {_s}
+				send "&4» &cYou do not have bed of the player &6%{_p}%&c." to {_s}
 	else:
 		EssentialsNoPermission({_s})
 
@@ -532,21 +529,21 @@ function EssentialsCMDBroadcastWorldType(s: sender, w: text, t: text):
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
 			{_s} has permission "essentials.broadcast.color" or "essentials.broadcast.*" or "essentials.*":
-				broadcast "&7[&bAnnouncement&7] &8x &f%colored {_t}%" to world "%{_w}%"
+				broadcast "&7[&bAnnouncement&7] &8» &f%colored {_t}%" to world "%{_w}%"
 			else:
-				broadcast "&7[&bAnnouncement&7] &8x &f%{_t}%" to world "%{_w}%"
+				broadcast "&7[&bAnnouncement&7] &8» &f%{_t}%" to world "%{_w}%"
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe world &6%{_w}% &chave not exist." to {_s}
+			send "&4» &cThe world &6%{_w}% &chave not exist." to {_s}
 
 function EssentialsCMDBroadcastAllWorlds(s: sender, t: text):
 	load "plugins/Essentials/config.yml"
 	yaml value "language" from "config" = "English":
 		{_s} has permission "essentials.broadcast.color" or "essentials.broadcast.*" or "essentials.*":
-			broadcast "&7[&bAnnouncement&7] &8x &f%colored {_t}%" to all worlds
+			broadcast "&7[&bAnnouncement&7] &8» &f%colored {_t}%" to all worlds
 		else:
-			broadcast "&7[&bAnnouncement&7] &8x &f%{_t}%" to all worlds
+			broadcast "&7[&bAnnouncement&7] &8» &f%{_t}%" to all worlds
 
 function EssentialsCMDChat(s: sender, syntaxetype: text):
 	{_syntaxetype} = "Enable":
@@ -562,7 +559,7 @@ function EssentialsCMDChat(s: sender, syntaxetype: text):
 				unload yaml "config"
 				stop
 			else:
-				send "&4| &8x &cThe chat has been already enabled." to {_s}
+				send "&4» &cThe chat has been already enabled." to {_s}
 				stop
 		else:
 			EssentialsNoPermission({_s})
@@ -579,7 +576,7 @@ function EssentialsCMDChat(s: sender, syntaxetype: text):
 				unload yaml "config"
 				stop
 			else:
-				send "&4| &8x &cThe chat have not enabled." to {_s}
+				send "&4» &cThe chat have not enabled." to {_s}
 				stop
 		else:
 			EssentialsNoPermission({_s})
@@ -674,13 +671,13 @@ function EssentialsCMDDeop(s: sender, p: offline player):
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe player &6%{_p}% &chave not op." to {_s}
+			send "&4» &cThe player &6%{_p}% &chave not op." to {_s}
 
 function EssentialsCMDOp(s: sender, p: offline player):
 	{_p} = op:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe player &6%{_p}% &chas already op." to {_s}
+			send "&4» &cThe player &6%{_p}% &chas already op." to {_s}
 	else:
 		op {_p}
 		load "plugins/Essentials/config.yml"
@@ -741,13 +738,13 @@ function EssentialsCMDHelpop(s: sender, t: text):
 			loop-players has permission "essentials.helpop.receive" or "essentials.*":
 				load "plugins/Essentials/config.yml"
 				yaml value "language" from "config" = "English":
-					send "&7[&bHELPOP&7] &8x &7%{_s}%&7: &f%colored {_t}%" to loop-player
+					send "&7[&bHELPOP&7] &8» &7%{_s}%&7: &f%colored {_t}%" to loop-player
 	else:
 		loop all players:
 			loop-players has permission "essentials.helpop.receive" or "essentials.*":
 				load "plugins/Essentials/config.yml"
 				yaml value "language" from "config" = "English":
-					send "&7[&bHELPOP&7] &8x &7%{_s}%&7: &f%{_t}%" to loop-player
+					send "&7[&bHELPOP&7] &8» &7%{_s}%&7: &f%{_t}%" to loop-player
 
 function EssentialsCMDGive(s: sender, itemtype: text, n: number):
 	set {_Essentials::give::itemtype::%{_s}'s uuid%} to {_itemtype}
@@ -762,7 +759,7 @@ function EssentialsCMDGive(s: sender, itemtype: text, n: number):
 		else:
 			EssentialsNoPermission({_s})
 	else:
-		send "&4| &8x &cThe item &6%{_itemtype}% &ccannot exist or cannot be given. " to {_s}
+		send "&4» &cThe item &6%{_itemtype}% &ccannot exist or cannot be given. " to {_s}
 
 function EssentialsCMDSeed1(s: sender):
 	load "plugins/Essentials/config.yml"
@@ -780,7 +777,7 @@ function EssentialsCMDSeed2(s: sender, w: text):
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe world &6%{_w}% &chave not exist." to {_s}
+			send "&4» &cThe world &6%{_w}% &chave not exist." to {_s}
 
 function EssentialsCMDSkull(s: sender, skulltype: offline player):
 	{_s} has permission "essentials.skull.%{_skulltype}%" or "essentials.skull.*" or "essentials.*":
@@ -817,7 +814,7 @@ function EssentialsCMDJump1(s: sender):
 		yaml value "language" from "config" = "English":
 			send "&7You have been teleported at location of your target block&7." to {_s}
 	else:
-		send "&4| &8x &cThe location of your target block is not exist." to {_s}
+		send "&4» &cThe location of your target block is not exist." to {_s}
 	
 function EssentialsCMDJump2(s: sender, p: offline player):
 	{_s} has permission "essentials.jump.others" or "essentials.*":
@@ -827,7 +824,7 @@ function EssentialsCMDJump2(s: sender, p: offline player):
 			yaml value "language" from "config" = "English":
 				send "&7You have teleported at location of your target block of the player &6%{_p}%&7." to {_s}
 		else:
-			send "&4| &8x &cThe location of your target block is not exist." to {_s}
+			send "&4» &cThe location of your target block is not exist." to {_s}
 	else:
 		EssentialsNoPermission({_s})
 
@@ -872,10 +869,10 @@ function EssentialsCMDItemdb1(s: sender):
 	load "plugins/Essentials/config.yml"
 	yaml value "language" from "config" = "English":
 		send "" to {_s}
-		send "&8| &8x &6Informations:" to {_s}
+		send "&6» &8» &6Informations:" to {_s}
 		send "" to {_s}
-		send "&8| &fName of item: &c%{_s}'s tool%" to {_s}
-		send "&8| &fDurability of item: &c%durability of {_s}'s tool%&7/&c%max durability of {_s}'s tool%" to {_s}
+		send "&6» &fName of item: &c%{_s}'s tool%" to {_s}
+		send "&6» &fDurability of item: &c%durability of {_s}'s tool%&7/&c%max durability of {_s}'s tool%" to {_s}
 		send "" to {_s}
 
 function EssentialsCMDItemdb2(s: sender, p: offline player):
@@ -883,11 +880,11 @@ function EssentialsCMDItemdb2(s: sender, p: offline player):
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
 			send "" to {_s}
-			send "&8| &8x &6Informations:" to {_s}
+			send "&6» &8» &6Informations:" to {_s}
 			send "" to {_s}
-			send "&8| &fName of player: &c%{_p}%" to {_s}
-			send "&8| &fName of item: &c%{_p}'s tool%" to {_s}
-			send "&8| &fDurability of item: &c%durability of {_p}'s tool%&7/&c%max durability of {_p}'s tool%" to {_s}
+			send "&6» &fName of player: &c%{_p}%" to {_s}
+			send "&6» &fName of item: &c%{_p}'s tool%" to {_s}
+			send "&6» &fDurability of item: &c%durability of {_p}'s tool%&7/&c%max durability of {_p}'s tool%" to {_s}
 			send "" to {_s}
 	else:
 		EssentialsNoPermission({_s})
@@ -897,7 +894,7 @@ function EssentialsCMDRepair(s: sender, repairtype: text):
 		{_s}'s tool = air:
 			load "plugins/Essentials/config.yml"
 			yaml value "language" from "config" = "English":
-				send "&4| &8x &cYou cannot repair air." to {_s}
+				send "&4» &cYou cannot repair air." to {_s}
 		else:
 			repair {_s}'s tool
 			load "plugins/Essentials/config.yml"
@@ -977,11 +974,11 @@ function EssentialsCMDUnenchant1(s: sender):
 		else:
 			load "plugins/Essentials/config.yml"
 			yaml value "language" from "config" = "English":
-				send "&4| &8x &cThis item is not enchanting." to {_s}
+				send "&4» &cThis item is not enchanting." to {_s}
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cYou can not disenchant anything." to {_s}
+			send "&4» &cYou can not disenchant anything." to {_s}
 
 function EssentialsCMDUnenchant2(s: sender, p: offline player):
 	{_s} has permission "essentials.unenchant.others" or "essentials.*":	
@@ -994,11 +991,11 @@ function EssentialsCMDUnenchant2(s: sender, p: offline player):
 			else:
 				load "plugins/Essentials/config.yml"
 				yaml value "language" from "config" = "English":
-					send "&4| &8x &cThis item is not enchanting of the tool of the player &6%{_p}%&c." to {_s}
+					send "&4» &cThis item is not enchanting of the tool of the player &6%{_p}%&c." to {_s}
 		else:
 			load "plugins/Essentials/config.yml"
 			yaml value "language" from "config" = "English":
-				send "&4| &8x &cThe player &6%{_p}% &cis not disenchant anything." to {_s}
+				send "&4» &cThe player &6%{_p}% &cis not disenchant anything." to {_s}
 	else:
 		EssentialsNoPermission({_s})
 
@@ -1032,7 +1029,7 @@ function EssentialsCMDSetspawn(s: sender):
 		unload yaml "config"
 		stop
 	else:
-		send "&4| &8x &cThe spawn point already exist" to {_s}
+		send "&4» &cThe spawn point already exist" to {_s}
 
 function EssentialsCMDDelspawn(s: sender):
 	load "plugins/Essentials/config.yml"
@@ -1045,7 +1042,7 @@ function EssentialsCMDDelspawn(s: sender):
 		unload yaml "config"
 		stop
 	else:
-		send "&4| &8x &cThe spawn point have not exist" to {_s}
+		send "&4» &cThe spawn point have not exist" to {_s}
 
 function EssentialsCMDVanish1(s: sender):
 	load "plugins/Essentials/players/%{_s}%/who.yml"
@@ -1094,7 +1091,7 @@ function EssentialsCMDVanish2(s: sender, p: offline player):
 
 function EssentialsCMDMsg(s: sender, p: offline player, m: text):
 	{_p} = "%{_s}%":
-		send "&4| &8x &cYou cannot your send message yourself." to {_s}
+		send "&4» &cYou cannot your send message yourself." to {_s}
 	else:
 		{_s} has permission "essentials.msg.color" or "essentials.*":
 			load "plugins/Essentials/config.yml"
@@ -1120,12 +1117,12 @@ function EssentialsCMDMaintenance(s: sender, maintenancetype: text):
 			stop
 		else:
 			yaml value "language" from "config" = "English":
-				send "&4| &8x &cThe maintenance has been already enabled of this server." to {_s}
+				send "&4» &cThe maintenance has been already enabled of this server." to {_s}
 	{_maintenancetype} = "DISABLE":
 		load "plugins/Essentials/config.yml"
 		yaml value "maintenance.stats" from "config" = false:
 			yaml value "language" from "config" = "English":
-				send "&4| &8x &cThe maintenance has not enabled." to {_s}
+				send "&4» &cThe maintenance has not enabled." to {_s}
 		else:
 			set yaml value "maintenance.stats" from "config" to false
 			set yaml value "maintenance.date" from "config" to "%now%"
@@ -1219,7 +1216,7 @@ function EssentialsCMDGamemode1(s: sender, gamemodetype: text):
 			else:
 				load "plugins/Essentials/config.yml"
 				yaml value "language" from "config" = "English":
-					send "&4| &8x &cYou have already this gamemode." to {_s}
+					send "&4» &cYou have already this gamemode." to {_s}
 		else:
 			EssentialsNoPermission({_s})
 	{_gamemodetype} = "CREATIVE":
@@ -1233,7 +1230,7 @@ function EssentialsCMDGamemode1(s: sender, gamemodetype: text):
 			else:
 				load "plugins/Essentials/config.yml"
 				yaml value "language" from "config" = "English":
-					send "&4| &8x &cYou have already this gamemode." to {_s}
+					send "&4» &cYou have already this gamemode." to {_s}
 		else:
 			EssentialsNoPermission({_s})
 	{_gamemodetype} = "ADVENTURE":
@@ -1247,7 +1244,7 @@ function EssentialsCMDGamemode1(s: sender, gamemodetype: text):
 			else:
 				load "plugins/Essentials/config.yml"
 				yaml value "language" from "config" = "English":
-					send "&4| &8x &cYou have already this gamemode." to {_s}
+					send "&4» &cYou have already this gamemode." to {_s}
 		else:
 			EssentialsNoPermission({_s})
 	{_gamemodetype} = "SPECTATOR":
@@ -1261,7 +1258,7 @@ function EssentialsCMDGamemode1(s: sender, gamemodetype: text):
 			else:
 				load "plugins/Essentials/config.yml"
 				yaml value "language" from "config" = "English":
-					send "&4| &8x &cYou have already this gamemode." to {_s}
+					send "&4» &cYou have already this gamemode." to {_s}
 		else:
 			EssentialsNoPermission({_s})
 
@@ -1277,7 +1274,7 @@ function EssentialsCMDGamemode2(s: sender, gamemodetype: text, p: offline player
 			else:
 				load "plugins/Essentials/config.yml"
 				yaml value "language" from "config" = "English":
-					send "&4| &8x &cThe player &6%{_p}% &chas already this gamemode." to {_s}
+					send "&4» &cThe player &6%{_p}% &chas already this gamemode." to {_s}
 		else:
 			EssentialsNoPermission({_s})
 	{_gamemodetype} = "CREATIVE":
@@ -1291,7 +1288,7 @@ function EssentialsCMDGamemode2(s: sender, gamemodetype: text, p: offline player
 			else:
 				load "plugins/Essentials/config.yml"
 				yaml value "language" from "config" = "English":
-					send "&4| &8x &cThe player &6%{_p}% &chas already this gamemode." to {_s}
+					send "&4» &cThe player &6%{_p}% &chas already this gamemode." to {_s}
 		else:
 			EssentialsNoPermission({_s})
 	{_gamemodetype} = "ADVENTURE":
@@ -1305,7 +1302,7 @@ function EssentialsCMDGamemode2(s: sender, gamemodetype: text, p: offline player
 			else:
 				load "plugins/Essentials/config.yml"
 				yaml value "language" from "config" = "English":
-					send "&4| &8x &cThe player &6%{_p}% &chas already this gamemode." to {_s}
+					send "&4» &cThe player &6%{_p}% &chas already this gamemode." to {_s}
 		else:
 			EssentialsNoPermission({_s})
 	{_gamemodetype} = "SPECTATOR":
@@ -1319,14 +1316,14 @@ function EssentialsCMDGamemode2(s: sender, gamemodetype: text, p: offline player
 			else:
 				load "plugins/Essentials/config.yml"
 				yaml value "language" from "config" = "English":
-					send "&4| &8x &cThe player &6%{_p}% &chas already this gamemode." to {_s}
+					send "&4» &cThe player &6%{_p}% &chas already this gamemode." to {_s}
 		else:
 			EssentialsNoPermission({_s})
 
 function EssentialsCMDMute(s: sender, p: offline player, r: text):
 	load "plugins/Essentials/players/%{_p}%/who.yml"
 	yaml value "firstjoin.stats" from "who" doesn't exist:
-		send "&4| &8x &cThe player &6%{_p}% &chas been unregister in this server." to {_s}
+		send "&4» &cThe player &6%{_p}% &chas been unregister in this server." to {_s}
 	else:
 		yaml value "mute.stats" from "who" = false:
 			set yaml value "mute.stats" from "who" to true
@@ -1345,18 +1342,18 @@ function EssentialsCMDMute(s: sender, p: offline player, r: text):
 			unload yaml "who"
 			stop
 		else:
-			send "&4| &8x &cThe player &6%{_p}% &chas been muted." to {_s}
+			send "&4» &cThe player &6%{_p}% &chas been muted." to {_s}
 
 function EssentialsCMDMutelist(s: sender):
 	{Essentials::mutelist::*} isn't set:
-		send "&4| &8x &cNo player has been muted." to {_s}
+		send "&4» &cNo player has been muted." to {_s}
 	else:
 		send "&6List all players is muted: &c%{Essentials::mutelist::*}%" to {_s}
 
 function EssentialsCMDTempmute(s: sender, p: offline player, r: text, t: timespan):
 	load "plugins/Essentials/players/%{_p}%/who.yml"
 	yaml value "firstjoin.stats" from "who" doesn't exist:
-		send "&4| &8x &cThe player &6%{_p}% &chas been unregister in this server." to {_s}
+		send "&4» &cThe player &6%{_p}% &chas been unregister in this server." to {_s}
 	else:
 		yaml value "mute.stats" from "who" = false:
 			set yaml value "mute.stats" from "who" to true
@@ -1375,12 +1372,12 @@ function EssentialsCMDTempmute(s: sender, p: offline player, r: text, t: timespa
 			unload yaml "who"
 			stop
 		else:
-			send "&4| &8x &cThe player &6%{_p}% &chas been muted temporary." to {_s}
+			send "&4» &cThe player &6%{_p}% &chas been muted temporary." to {_s}
 
 function EssentialsCMDUnmute(s: sender, p: offline player):
 	load "plugins/Essentials/players/%{_p}%/who.yml"
 	yaml value "firstjoin.stats" from "who" doesn't exist:
-		send "&4| &8x &cThe player &6%{_p}% &chas been unregister in this server." to {_s}
+		send "&4» &cThe player &6%{_p}% &chas been unregister in this server." to {_s}
 	else:
 		yaml value "mute.stats" from "who" = true:
 			set yaml value "mute.stats" from "who" to false
@@ -1399,7 +1396,7 @@ function EssentialsCMDUnmute(s: sender, p: offline player):
 			unload yaml "who"
 			stop
 		else:
-			send "&4| &8x &cThe player &6%{_p}% &chave not muted." to {_s}
+			send "&4» &cThe player &6%{_p}% &chave not muted." to {_s}
 
 on every 3 tick:
 	load "plugins/Essentials/config.yml"
@@ -1488,7 +1485,7 @@ function EssentialsCMDSethome(s: sender, t: text):
 	{_t} = "Stats":
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe name of home has not use." to {_s}
+			send "&4» &cThe name of home has not use." to {_s}
 	else:
 		load "plugins/Essentials/players/%{_s}%/who.yml"
 		yaml value "homes.%{_t}%" from "who" doesn't exist:
@@ -1504,17 +1501,17 @@ function EssentialsCMDSethome(s: sender, t: text):
 			unload yaml "who"
 			stop
 		else:
-			send "&4| &8x &cThe home &6%{_t}% &chas already created." to {_s}
+			send "&4» &cThe home &6%{_t}% &chas already created." to {_s}
 
 function EssentialsCMDDelhome(s: sender, t: text):
 	{_t} = "Stats":
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe name of home has not use." to {_s}
+			send "&4» &cThe name of home has not use." to {_s}
 	else:
 		load "plugins/Essentials/players/%{_s}%/who.yml"
 		yaml value "homes.%{_t}%" from "who" doesn't exist:
-			send "&4| &8x &cThe home &6%{_t}% &chas not exist." to {_s}
+			send "&4» &cThe home &6%{_t}% &chas not exist." to {_s}
 		else:
 			delete yaml value "homes.%{_t}%" from "who"
 			delete {Essentials::%{_s}'s uuid%::homes::%{_t}%}
@@ -1531,7 +1528,7 @@ function EssentialsCMDHomes(s: sender):
 	{Essentials::%{_s}'s uuid%::homes::*} isn't set:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cYou have not homes" to {_s}
+			send "&4» &cYou have not homes" to {_s}
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
@@ -1541,13 +1538,13 @@ function EssentialsCMDHome(s: sender, t: text):
 	{_t} = "Stats":
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe name of home has not use." to {_s}
+			send "&4» &cThe name of home has not use." to {_s}
 	else:
 		load "plugins/Essentials/players/%{_s}%/who.yml"
 		yaml value "homes.%{_t}%" from "who" doesn't exist:
 			load "plugins/Essentials/config.yml"
 			yaml value "language" from "config" = "English":
-				send "&4| &8x &cThe home &6%{_t}% &chas not exist." to {_s}
+				send "&4» &cThe home &6%{_t}% &chas not exist." to {_s}
 		else:
 			{_s} has permission "essentials.home.bypass" or "essentials.*":
 				teleport {_s} to yaml value "homes.%{_t}%.location" from "who"
@@ -1591,7 +1588,7 @@ function EssentialsCMDSetkit(s: sender, t: text):
 	{_t} = "Stats":
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe name of kit has not use." to {_s}
+			send "&4» &cThe name of kit has not use." to {_s}
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "kits.%{_t}%" from "config" doesn't exist:
@@ -1609,17 +1606,17 @@ function EssentialsCMDSetkit(s: sender, t: text):
 			unload yaml "config"
 			stop
 		else:
-			send "&4| &8x &cThe kit &6%{_t}% &chas already created." to {_s}
+			send "&4» &cThe kit &6%{_t}% &chas already created." to {_s}
 
 function EssentialsCMDDelkit(s: sender, t: text):
 	{_t} = "Stats":
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe name of kit has not use." to {_s}
+			send "&4» &cThe name of kit has not use." to {_s}
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "kits.%{_t}%" from "config" doesn't exist:
-			send "&4| &8x &cThe kit &6%{_t}% &chas not exist." to {_s}
+			send "&4» &cThe kit &6%{_t}% &chas not exist." to {_s}
 		else:
 			delete yaml value "kits.%{_t}%" from "config"
 			delete {Essentials::kits::%{_t}%}
@@ -1635,7 +1632,7 @@ function EssentialsCMDKits(s: sender):
 	{Essentials::kits::*} isn't set:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cYou have not kits" to {_s}
+			send "&4» &cYou have not kits" to {_s}
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
@@ -1645,12 +1642,12 @@ function EssentialsCMDKit(s: sender, t: text):
 	{_t} = "Stats":
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe name of kit has not use." to {_s}
+			send "&4» &cThe name of kit has not use." to {_s}
 	else:
 		yaml value "kits.%{_t}%" from "config" doesn't exist:
 			load "plugins/Essentials/config.yml"
 			yaml value "language" from "config" = "English":
-				send "&4| &8x &cThe kit &6%{_t}% &chas not exist." to {_s}
+				send "&4» &cThe kit &6%{_t}% &chas not exist." to {_s}
 		else:
 			{_s} has permission "essentials.kit.bypass" or "essentials.*":
 				load "plugins/Essentials/config.yml"
@@ -1676,7 +1673,7 @@ function EssentialsCMDSetwarp(s: sender, t: text):
 	{_t} = "Stats":
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe name of warp has not use." to {_s}
+			send "&4» &cThe name of warp has not use." to {_s}
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "warps.%{_t}%" from "config" doesn't exist:
@@ -1691,17 +1688,17 @@ function EssentialsCMDSetwarp(s: sender, t: text):
 			unload yaml "config"
 			stop
 		else:
-			send "&4| &8x &cThe warp &6%{_t}% &chas already created." to {_s}
+			send "&4» &cThe warp &6%{_t}% &chas already created." to {_s}
 
 function EssentialsCMDDelwarp(s: sender, t: text):
 	{_t} = "Stats":
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe name of warp has not use." to {_s}
+			send "&4» &cThe name of warp has not use." to {_s}
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "warps.%{_t}%" from "config" doesn't exist:
-			send "&4| &8x &cThe warp &6%{_t}% &chas not exist." to {_s}
+			send "&4» &cThe warp &6%{_t}% &chas not exist." to {_s}
 		else:
 			delete yaml value "warps.%{_t}%" from "config"
 			delete {Essentials::warps::%{_t}%}
@@ -1717,7 +1714,7 @@ function EssentialsCMDWarps(s: sender):
 	{Essentials::warps::*} isn't set:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cYou have not warps" to {_s}
+			send "&4» &cYou have not warps" to {_s}
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
@@ -1727,12 +1724,12 @@ function EssentialsCMDWarp(s: sender, t: text):
 	{_t} = "Stats":
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cThe name of warp has not use." to {_s}
+			send "&4» &cThe name of warp has not use." to {_s}
 	else:
 		yaml value "warps.%{_t}%" from "config" doesn't exist:
 			load "plugins/Essentials/config.yml"
 			yaml value "language" from "config" = "English":
-				send "&4| &8x &cThe warp &6%{_t}% &chas not exist." to {_s}
+				send "&4» &cThe warp &6%{_t}% &chas not exist." to {_s}
 		else:
 			{_s} has permission "essentials.warp.bypass" or "essentials.*":
 				teleport {_s} to yaml value "warps.%{_t}%.location" from "config"
@@ -1752,7 +1749,7 @@ function EssentialsCMDFreezelist(s: sender):
 	{Essentials::freezelist::*} isn't set:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cYou have not players freezed" to {_s}
+			send "&4» &cYou have not players freezed" to {_s}
 	else:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
@@ -1762,35 +1759,35 @@ function EssentialsCMDSeen(s: sender, p: offline player):
 	load "plugins/Essentials/config.yml"
 	yaml value "language" from "config" = "English":
 		send "" to {_s}
-		send "&8| &8x &6Informations:" to {_s}
+		send "&6» &8» &6Informations:" to {_s}
 		send "" to {_s}
-		send "&8| &fName of player: &c%{_p}%" to {_s}
-		send "&8| &fUUID of player: &c%{_p}'s uuid%" to {_s}
-		send "&8| &fGamemode of player: &c%{_p}'s gamemode%" to {_s}
-		send "&8| &fCoords of player: &7x: &c%x-location of {_p}% &8- &7y: &c%y-location of {_p}% &8- &7z: &c%z-location of {_p}%" to {_s}
-		send "&8| &fWorld of player: &c%{_p}'s world%" to {_s}
-		send "&8| &fPing of player: &c%{_p}'s ping%" to {_s}
+		send "&6» &fName of player: &c%{_p}%" to {_s}
+		send "&6» &fUUID of player: &c%{_p}'s uuid%" to {_s}
+		send "&6» &fGamemode of player: &c%{_p}'s gamemode%" to {_s}
+		send "&6» &fCoords of player: &7x: &c%x-location of {_p}% &8- &7y: &c%y-location of {_p}% &8- &7z: &c%z-location of {_p}%" to {_s}
+		send "&6» &fWorld of player: &c%{_p}'s world%" to {_s}
+		send "&6» &fPing of player: &c%{_p}'s ping%" to {_s}
 		load "plugins/Essentials/players/%{_s}%/who.yml"
 		yaml value "freeze.stats" from "who" = false:
-			send "&8| &fFreeze mode: &cfalse" to {_s}
+			send "&6» &fFreeze mode: &cfalse" to {_s}
 		else:
-			send "&8| &fFreeze mode: &2True" to {_s}
+			send "&6» &fFreeze mode: &2True" to {_s}
 		yaml value "vanish.stats" from "who" = false:
-			send "&8| &fVanish mode: &cfalse" to {_s}
+			send "&6» &fVanish mode: &cfalse" to {_s}
 		else:
-			send "&8| &fVanish mode: &2True" to {_s}
+			send "&6» &fVanish mode: &2True" to {_s}
 		yaml value "afk.stats" from "who" = false:
-			send "&8| &fAFK mode: &cfalse" to {_s}
+			send "&6» &fAFK mode: &cfalse" to {_s}
 		else:
-			send "&8| &fAFK mode: &2True" to {_s}
+			send "&6» &fAFK mode: &2True" to {_s}
 		yaml value "mute.stats" from "who" = false:
-			send "&8| &fMute mode: &cfalse" to {_s}
+			send "&6» &fMute mode: &cfalse" to {_s}
 		else:
-			send "&8| &fMute mode: &2True" to {_s}
+			send "&6» &fMute mode: &2True" to {_s}
 		yaml value "ban.stats" from "who" = false:
-			send "&8| &fBan mode: &cfalse" to {_s}
+			send "&6» &fBan mode: &cfalse" to {_s}
 		else:
-			send "&8| &fBan mode: &2True" to {_s}
+			send "&6» &fBan mode: &2True" to {_s}
 		send "" to {_s}
 
 function EssentialsCMDTpall(s: sender):
@@ -1820,7 +1817,7 @@ function EssentialsCMDTpdeny(s: sender):
 	load "plugins/Essentials/config.yml"
 	{Essentials::%{_s}'s uuid%::tpa} isn't set:
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cYou don't have a teleportation request." to {_s}
+			send "&4» &cYou don't have a teleportation request." to {_s}
 	else:
 		delete {Essentials::%{_s}'s uuid%::tpa}
 		yaml value "language" from "config" = "English":
@@ -1831,7 +1828,7 @@ function EssentialsCMDTpaccept(s: sender):
 	{Essentials::%{_s}'s uuid%::tpa} isn't set:
 		load "plugins/Essentials/config.yml"
 		yaml value "language" from "config" = "English":
-			send "&4| &8x &cYou have not a teleportation request." to {_s}
+			send "&4» &cYou have not a teleportation request." to {_s}
 	else:
 		{_s} has permission "essentials.tpaccept.bypass" or "essentials.*":
 			load "plugins/Essentials/players/%{_s}%/who.yml"
@@ -1890,6 +1887,12 @@ function EssentialsCMDAnvil2(s: sender, p: offline player):
 			send "&7You have opened the anvil to the player &6%{_p}%&7." to {_s}
 	else:
 		EssentialsNoPermission({_s})
+
+function EssentialsCMDSudo(s: sender, cmdtype: text):
+	make {_s} execute command "%{_cmdtype}%"
+	load "plugins/Essentials/config.yml"
+	yaml value "language" from "config" = "English":
+		send "&7You have executed the command &6%{_cmdtype}% &7." to {_s}
 
 on build:
 	load "plugins/Essentials/players/%player%/who.yml"
@@ -1984,7 +1987,7 @@ on build:
 			yaml list "block-place" from "config" contains event-block:
 				cancel event
 				yaml value "language" from "config" = "English":
-					send "&4| &8x &cYou have not a build with this block." to player
+					send "&4» &cYou have not a build with this block." to player
 
 on break:
 	player doesn't have permission "essentials.build" or "essentials.*":
@@ -2089,15 +2092,15 @@ on chat:
 		yaml value "chat.stats" from "config" = false:
 			yaml value "language" from "config" = "English":
 				cancel event
-				send "&4| &8x &cYou not have permission to send message in the chat." to player
+				send "&4» &cYou not have permission to send message in the chat." to player
 		else:
 			cancel event
 			load  "plugins/Essentials/players/%player%/who.yml"
 			yaml value "mute.stats" from "who" = true:
 				yaml value "mute.type-mute" from "who" = "Mute":
-					send "&4| &8x &cYou have been muted because &6%yaml value "mute.reason" from "who"%&c." to player
+					send "&4» &cYou have been muted because &6%yaml value "mute.reason" from "who"%&c." to player
 				yaml value "mute.type-mute" from "who" = "Tempmute":
-					send "&4| &8x &cYou have been muted because &6%yaml value "mute.reason" from "who"% &cduring &6%yaml value "mute.times" from "who"%&c." to player
+					send "&4» &cYou have been muted because &6%yaml value "mute.reason" from "who"% &cduring &6%yaml value "mute.times" from "who"%&c." to player
 			else:
 				player has permission "essentials.chat.color" or "essentials.chat.*" or "essentials.*":
 					broadcast "&7%player%&7: &f%colored message%" to all worlds
@@ -2135,14 +2138,14 @@ command /essentials [<text>] [<text>]:
 				load "plugins/Essentials/config.yml"
 				yaml value "language" from "config" = "English":
 					send "" to sender
-					send "&8| &8x &6Help:" to sender
+					send "&6Help:" to sender
 					send "" to sender
-					send "&8| &fName of skript: &cEssentials (Skript)" to sender
-					send "&8| &fAuthor of skript: &calexisl315 (Alias: Lennord)" to sender
-					send "&8| &fDescription of skript: &cThis skript allows you to redo all or almost all the functionality of the EssentialsX plugin." to sender
-					send "&8| &fVersion of skript: &c2.0.6" to sender
-					send "&8| &fPlugin requirements: &cSkript &7and &cSkript-YAML" to sender
-					send "&8| &fAll languages of skript: &cEnglish" to sender
+					send "&6» &fName of skript: &cEssentials (Skript)" to sender
+					send "&6» &fLink of skript: &chttps://www.spigotmc.org/resources/essentials-skript-1-13-2-1-18-2.39698/" to sender
+					send "&6» &fDescription of skript: &cThis skript allows you to redo all or almost all the functionality of the EssentialsX plugin." to sender
+					send "&6» &fVersion of skript: &c2.0.6" to sender
+					send "&6» &fPlugin requirements: &cSkript &7and &cSkript-YAML" to sender
+					send "&6» &fAll languages of skript: &cEnglish" to sender
 					send "" to sender
 			arg 1 = "reload":
 				make console execute command "/sk reload Essentials"
@@ -2178,7 +2181,7 @@ command /antioch [<offline player>] [<text>]:
 				else:
 					EssentialsCMDAntioch2(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /back [<offline player>] [<text>]:
 	aliases: essentials:back, return, essentials:return
@@ -2250,7 +2253,9 @@ command /bedteleport [<offline player>] [<text>]:
 				else:
 					EssentialsCMDBedteleport2(sender, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
+		sender = console:
+			EssentialsNoPermissionConsole(console)
 
 command /break [<offline player>] [<text>]:
 	aliases: essentials:break
@@ -2260,7 +2265,7 @@ command /break [<offline player>] [<text>]:
 			delete the targeted block of player
 			send "&7You have been broked at location of the target's block." to player
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /broadcast [<text>] [<text>]:
 	aliases: essentials:broadcast, bc, essentials:bc
@@ -2275,7 +2280,7 @@ command /broadcast [<text>] [<text>]:
 				else:
 					EssentialsCMDBroadcastWorldType(player, arg 1, arg 2)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /chat [<text>] [<text>]:
 	aliases: essentials:chat
@@ -2308,7 +2313,7 @@ command /chunkslime [<offline player>] [<text>]:
 				else:
 					EssentialsCMDChunkSlime2(sender, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /clearinventory [<offline player>] [<text>]:
 	aliases: essentials:clearinventory, ci, essentials:ci, clearinv, essentials:clearinv
@@ -2365,7 +2370,7 @@ command /thor [<text>]:
 		sender = player:
 			EssentialsCMDThor(player)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /tps [<text>]:
 	aliases: essentials:tps
@@ -2386,7 +2391,7 @@ command /workbench [<offline player>] [<text>]:
 				else:
 					EssentialsCMDWorkbench2(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /stop [<text>]:
 	aliases: essentials:stop
@@ -2419,7 +2424,7 @@ command /helpop [<text>]:
 			else:
 				EssentialsCMDHelpop(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /give [<text>] [<number>] [<text>]:
 	aliases: essentials:give
@@ -2434,7 +2439,7 @@ command /give [<text>] [<number>] [<text>]:
 				else:
 					EssentialsCMDGive(player, arg 1, arg 2)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /seed [<text>] [<text>]:
 	aliases: essentials:seed
@@ -2446,7 +2451,7 @@ command /seed [<text>] [<text>]:
 			else:
 				EssentialsCMDSeed2(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /skull [<offline player>] [<text>]:
 	aliases: essentials:skull, head, essentials:head, playerhead, essentials:playerhead
@@ -2458,7 +2463,7 @@ command /skull [<offline player>] [<text>]:
 			else:
 				EssentialsCMDSkull(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /enderchest [<offline player>] [<text>]:
 	aliases: essentials:enderchest, ec, essentials:ec
@@ -2473,7 +2478,7 @@ command /enderchest [<offline player>] [<text>]:
 				else:
 					EssentialsCMDEnderchest2(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /slap [<offline player>] [<text>]:
 	aliases: essentials:slap
@@ -2500,7 +2505,7 @@ command /jump [<offline player>] [<text>]:
 				else:
 					EssentialsCMDJump2(sender, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /list [<text>]:
 	aliases: essentials:list
@@ -2521,7 +2526,7 @@ command /fireball [<offline player>] [<text>]:
 				else:
 					EssentialsCMDFireball2(sender, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /me [<text>]:
 	aliases: essentials:me
@@ -2533,7 +2538,7 @@ command /me [<text>]:
 			else:
 				EssentialsCMDMe(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /invsee [<offline player>] [<text>]:
 	aliases: essentials:invsee
@@ -2548,7 +2553,7 @@ command /invsee [<offline player>] [<text>]:
 				else:
 					EssentialsCMDInvsee(sender, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /itemdb [<offline player>] [<text>]:
 	aliases: essentials:itemdb
@@ -2563,7 +2568,7 @@ command /itemdb [<offline player>] [<text>]:
 				else:
 					EssentialsCMDItemdb2(sender, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /randomteleport [<text>]:
 	aliases: essentials:randomteleport, rtp, essentials:rtp
@@ -2572,7 +2577,7 @@ command /randomteleport [<text>]:
 		sender = player:
 			EssentialsCMDRandomTeleport(player)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /repair [<text>] [<text>]:
 	aliases: essentials:repair
@@ -2587,7 +2592,7 @@ command /repair [<text>] [<text>]:
 				arg 1 = "all":
 					EssentialsCMDRepair(player, "ALL")
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /weather [<text>] [<text>]:
 	aliases: essentials:weather
@@ -2608,7 +2613,7 @@ command /weather [<text>] [<text>]:
 				arg 1 = "thunder":
 					EssentialsCMDWeather(player, "THUNDER")
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /depth [<offline player>] [<text>]:
 	aliases: essentials:depth
@@ -2623,7 +2628,7 @@ command /depth [<offline player>] [<text>]:
 				else:
 					EssentialsCMDDepth2(sender, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /extinguish [<offline player>] [<text>]:
 	aliases: essentials:extinguish, ext, essentials:ext
@@ -2638,7 +2643,7 @@ command /extinguish [<offline player>] [<text>]:
 				else:
 					EssentialsCMDExtinguish2(sender, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /unenchant [<offline player>] [<text>]:
 	aliases: essentials:unenchant
@@ -2653,7 +2658,7 @@ command /unenchant [<offline player>] [<text>]:
 				else:
 					EssentialsCMDUnenchant2(sender, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /speed [<text>] [<integer>] [<text>]:
 	aliases: essentials:speed
@@ -2684,7 +2689,7 @@ command /speed [<text>] [<integer>] [<text>]:
 						arg 2 != 0 or 1 or 2 or 3 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10:
 							EssentialsHelp(sender, "SpeedCMD")
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /spawn [<offline player>] [<text>]:
 	aliases: essentials:spawn
@@ -2708,7 +2713,7 @@ command /setspawn [<text>]:
 		sender = player:
 			EssentialsCMDSetspawn(sender)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /delspawn [<text>]:
 	aliases: essentials:delspawn, deletespawn, essentials:deletespawn
@@ -2717,7 +2722,7 @@ command /delspawn [<text>]:
 		sender = player:
 			EssentialsCMDDelspawn(sender)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /vanish [<offline player>] [<text>]:
 	aliases: essentials:vanish
@@ -2732,7 +2737,7 @@ command /vanish [<offline player>] [<text>]:
 				else:
 					EssentialsCMDVanish2(sender, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /msg [<offline player>] [<text>]:
 	aliases: essentials:msg, m, essentials:m, t, essentials:t, whisper, essentials:whisper, message, essentials:message
@@ -2750,7 +2755,7 @@ command /msg [<offline player>] [<text>]:
 					else:
 						EssentialsCMDMsg(player, arg 1, arg 2)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /maintenance [<text>] [<integer>] [<text>]:
 	aliases: essentials:maintenance
@@ -2778,7 +2783,7 @@ command /kickall [<text>]:
 			else:
 				EssentialsCMDKickall(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /kick [<offline player>] [<text>]:
 	aliases: essentials:kick
@@ -2814,7 +2819,7 @@ command /suicide [<offline player>] [<text>]:
 		sender = player:
 			EssentialsCMDSuicide(sender)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /heal [<offline player>] [<text>]:
 	aliases: essentials:heal
@@ -2873,7 +2878,7 @@ command /gamemode [<text>] [<offline player>] [<text>]:
 							arg 1 = "spectator" or "sp" or "3":
 								EssentialsCMDGamemode2(sender, "SPECTATOR", arg 2)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /mute [<offline player>] [<text>]:
 	aliases: essentials:mute
@@ -2930,7 +2935,7 @@ command /fly [<offline player>] [<text>]:
 				else:
 					EssentialsCMDFly2(sender, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /god [<offline player>] [<text>]:
 	aliases: essentials:god
@@ -2945,7 +2950,7 @@ command /god [<offline player>] [<text>]:
 				else:
 					EssentialsCMDGod2(sender, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /time [<text>] [<text>]:
 	aliases: essentials:time
@@ -2968,7 +2973,7 @@ command /time [<text>] [<text>]:
 						arg 2 = "night":
 							EssentialsCMDTime(player, "NIGHT")
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /day [<text>] [<text>]:
 	aliases: essentials:day
@@ -2977,7 +2982,7 @@ command /day [<text>] [<text>]:
 		sender = player:
 			EssentialsCMDTime(player, "DAY")
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /night [<text>] [<text>]:
 	aliases: essentials:night
@@ -2986,7 +2991,7 @@ command /night [<text>] [<text>]:
 		sender = player:
 			EssentialsCMDTime(player, "NIGHT")
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /sethome [<text>] [<text>]:
 	aliases: essentials:sethome, createhome, essentials:createhome
@@ -2998,7 +3003,7 @@ command /sethome [<text>] [<text>]:
 			else:
 				EssentialsCMDSethome(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /delhome [<text>] [<text>]:
 	aliases: essentials:delhome, deletehome, essentials:deletehome
@@ -3010,7 +3015,7 @@ command /delhome [<text>] [<text>]:
 			else:
 				EssentialsCMDDelhome(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /homes [<text>] [<text>]:
 	aliases: essentials:homes
@@ -3019,7 +3024,7 @@ command /homes [<text>] [<text>]:
 		sender = player:
 			EssentialsCMDHomes(player)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /home [<text>] [<text>]:
 	aliases: essentials:home
@@ -3031,7 +3036,7 @@ command /home [<text>] [<text>]:
 			else:
 				EssentialsCMDHome(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /freeze [<offline player>] [<text>]:
 	aliases: essentials:freeze
@@ -3046,7 +3051,7 @@ command /freeze [<offline player>] [<text>]:
 				else:
 					EssentialsCMDFreeze(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /freezelist [<text>]:
 	aliases: essentials:freezelist
@@ -3055,7 +3060,7 @@ command /freezelist [<text>]:
 		sender = player:
 			EssentialsCMDFreezelist(player)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /setkit [<text>] [<text>]:
 	aliases: essentials:setkit
@@ -3067,7 +3072,7 @@ command /setkit [<text>] [<text>]:
 			else:
 				EssentialsCMDSetkit(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /delkit [<text>] [<text>]:
 	aliases: essentials:delkit, deletekit, essentials:deletekit
@@ -3079,7 +3084,7 @@ command /delkit [<text>] [<text>]:
 			else:
 				EssentialsCMDDelkit(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /kits [<text>] [<text>]:
 	aliases: essentials:kits
@@ -3088,7 +3093,7 @@ command /kits [<text>] [<text>]:
 		sender = player:
 			EssentialsCMDKits(player)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /kit [<text>] [<text>]:
 	aliases: essentials:kit
@@ -3100,7 +3105,7 @@ command /kit [<text>] [<text>]:
 			else:
 				EssentialsCMDKit(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /setwarp [<text>] [<text>]:
 	aliases: essentials:setwarp, createwarp, essentials:createwarp
@@ -3112,7 +3117,7 @@ command /setwarp [<text>] [<text>]:
 			else:
 				EssentialsCMDSetwarp(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /delwarp [<text>] [<text>]:
 	aliases: essentials:delwarp, deletewarp, essentials:deletewarp
@@ -3124,7 +3129,7 @@ command /delwarp [<text>] [<text>]:
 			else:
 				EssentialsCMDDelwarp(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /warps [<text>] [<text>]:
 	aliases: essentials:warps
@@ -3133,7 +3138,7 @@ command /warps [<text>] [<text>]:
 		sender = player:
 			EssentialsCMDWarps(player)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /warp [<text>] [<text>]:
 	aliases: essentials:warp
@@ -3145,7 +3150,7 @@ command /warp [<text>] [<text>]:
 			else:
 				EssentialsCMDWarp(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /seen [<offline player>] [<text>]:
 	aliases: essentials:seen
@@ -3166,7 +3171,7 @@ command /tpall [<offline player>] [<text>]:
 		sender = player:
 			EssentialsCMDTpall(sender)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /tpa [<offline player>] [<text>]:
 	aliases: essentials:tpa
@@ -3181,7 +3186,7 @@ command /tpa [<offline player>] [<text>]:
 				else:
 					EssentialsCMDTpa(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /tpaccept [<text>]:
 	aliases: essentials:tpaccept
@@ -3190,7 +3195,7 @@ command /tpaccept [<text>]:
 		sender = player:
 			EssentialsCMDTpaccept(player)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /tpdeny [<text>]:
 	aliases: essentials:tpdeny
@@ -3199,7 +3204,7 @@ command /tpdeny [<text>]:
 		sender = player:
 			EssentialsCMDTpdeny(player)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /tp [<offline player>] [<text>]:
 	aliases: essentials:tp, teleport, essentials:teleport
@@ -3214,7 +3219,7 @@ command /tp [<offline player>] [<text>]:
 				else:
 					EssentialsCMDTp(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /ping [<offline player>] [<text>]:
 	aliases: essentials:ping
@@ -3229,7 +3234,7 @@ command /ping [<offline player>] [<text>]:
 				else:
 					EssentialsCMDPing2(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
 
 command /anvil [<offline player>] [<text>]:
 	aliases: essentials:anvil
@@ -3244,7 +3249,19 @@ command /anvil [<offline player>] [<text>]:
 				else:
 					EssentialsCMDAnvil2(player, arg 1)
 		sender = console:
-			EssentialsNoCommandConsole(console)
+			EssentialsNoPermissionConsole(console)
+
+command /sudo [<text>]:
+	aliases: essentials:sudo
+	description: &fEssentials command /sudo.
+	trigger:
+		sender = player:
+			arg 1 isn't set:
+				EssentialsHelp(player, "SudoCMD")
+			else:
+				EssentialsCMDSudo(player, arg 1)
+		sender = console:
+			EssentialsNoPermissionConsole(console)
 
 on sign change:
 	player has permission "essentials.sign.create.back" or "essentials.sign.use.*" or "essentials.sign.*" or "essentials.*":
@@ -3874,5 +3891,9 @@ on command:
 				EssentialsNoPermission(player)
 		command = "time" or "essentials:time":
 			player doesn't have permission "essentials.time" or "essentials.*":
+				cancel event
+				EssentialsNoPermission(player)
+		command = "sudo" or "essentials:sudo":
+			player doesn't have permission "essentials.sudo" or "essentials.*":
 				cancel event
 				EssentialsNoPermission(player)
